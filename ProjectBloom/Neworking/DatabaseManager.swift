@@ -50,6 +50,39 @@ class DatabaseManager: ObservableObject {
             throw error
         }
     }
+    
+    func deleteProject(projectID: String) async throws {        
+        let projectRef = database.collection(FirebasePaths.projects.rawValue)
+            .document(projectID)
+        
+        
+        do {
+            try await deleteSubCollection(parentRef: projectRef,
+                                          subcollectionNames: [FirebasePaths.projectTasks.rawValue,
+                                                               FirebasePaths.completedTasks.rawValue])
+            try await projectRef.delete()
+            print("Project and its subcollections deleted successfully!")
+        } catch {
+            print("Error deleting project: \(error.localizedDescription)")
+            throw error
+        }
+    }
+    
+    private func deleteSubCollection(parentRef: DocumentReference,
+                                     subcollectionNames: [String]) async throws {
+        for subcollection in subcollectionNames {
+            let subcollectionRef = parentRef.collection(subcollection)
+            let documents = try await subcollectionRef.getDocuments()
+            
+            let batch = database.batch()
+            
+            for document in documents.documents {
+                batch.deleteDocument(document.reference)
+            }
+            
+            try await batch.commit()
+        }
+    }
 
     func updateProjectName(projectDetails: Project, newProjectName: String) async throws {
         let taskRef = database.collection(FirebasePaths.projects.rawValue)
@@ -240,31 +273,31 @@ class DatabaseManager: ObservableObject {
     }
     
     func listenToUserProjects(user: User) {
-    status = .fetching
-    database.collection(FirebasePaths.projects.rawValue)
-        .whereField(FirebasePaths.usersID.rawValue, arrayContains: user.uid)
-        .addSnapshotListener { [weak self] snapshot, error in
-            guard let self = self else { return }
-            
-            if let error = error {
-                self.status = .failed(error: error)
-                print("Error fetching user projects: \(error.localizedDescription)")
-                return
+        status = .fetching
+        database.collection(FirebasePaths.projects.rawValue)
+            .whereField(FirebasePaths.usersID.rawValue, arrayContains: user.uid)
+            .addSnapshotListener { [weak self] snapshot, error in
+                guard let self = self else { return }
+                
+                if let error = error {
+                    self.status = .failed(error: error)
+                    print("Error fetching user projects: \(error.localizedDescription)")
+                    return
+                }
+                
+                guard let documents = snapshot?.documents else {
+                    self.status = .failed(error: NSError(domain: "DatabaseManager", code: 404, userInfo: [NSLocalizedDescriptionKey: "No documents found."]))
+                    print("No documents found.")
+                    return
+                }
+                
+                self.userProjects = documents.compactMap {document in
+                    return try? document.data(as: Project.self)
+                }
+                
+                self.status = .success
+                print("User projects successfully fetched.")
             }
-            
-            guard let documents = snapshot?.documents else {
-                self.status = .failed(error: NSError(domain: "DatabaseManager", code: 404, userInfo: [NSLocalizedDescriptionKey: "No documents found."]))
-                print("No documents found.")
-                return
-            }
-            
-            self.userProjects = documents.compactMap {document in
-                return try? document.data(as: Project.self)
-            }
-            
-            self.status = .success
-            print("User projects successfully fetched.")
-        }
-}
+    }
 }
 

@@ -27,8 +27,15 @@ struct Constants {
     static var completeOnString = "Completed On"
     static var taskNameString = "Task Name"
     static var projectsString = "Projects"
+    static var projectString = "Project"
     static var undoString = "Undo"
     static var taskDeletedString = "Task Deleted"
+    static var commaString = ","
+    static var goodMorningString = "Good Morning"
+    static var goodAfternoonString = "Good Afternoon"
+    static var goodEveningString = "Good Evening"
+    static var helloString = "Hello"
+    static var deleteSting = "Delete"
     
     //MARK: UI Icons
     static var signedInImage = "person.crop.circle.badge.checkmark"
@@ -42,6 +49,10 @@ struct Constants {
     //MARK: UI Unwraps
     static var userName = "User Name"
     static var userEmail = "User Email"
+}
+
+enum AlertString: String {
+    case actionCantBeUndone = "This action can't be undone"
 }
 
 enum DefaultTaskStrings: String {

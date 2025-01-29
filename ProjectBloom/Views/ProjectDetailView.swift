@@ -33,7 +33,6 @@ struct ProjectDetailView: View {
                             }
                             
                             .navigationTitle(project.name)
-//                            .navigationTitle("Project")
                             .navigationBarTitleDisplayMode(.inline)
                             .toolbar {
                                 
@@ -63,6 +62,7 @@ struct ProjectDetailView: View {
                                 ProjectEditorView(updateProject: true, project: project)
                                     .presentationDetents([.fraction(0.25)])
                             }
+                            .tint(.white)
                         }
                     }
                     
