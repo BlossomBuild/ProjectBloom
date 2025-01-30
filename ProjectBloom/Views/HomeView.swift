@@ -58,7 +58,7 @@ struct HomeView: View {
                                 .presentationDetents([.fraction(0.50)])
                         }
                         .sheet(isPresented: $showCreateProjectScreen) {
-                            ProjectEditorView(updateProject: false)
+                            EditProjectView(updateProject: false)
                                 .presentationDetents([.fraction(0.25)])
                         }
                         .navigationTitle(Constants.projectsString)

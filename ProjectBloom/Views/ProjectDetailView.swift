@@ -59,7 +59,7 @@ struct ProjectDetailView: View {
                                 CompletedTasksView(project: project)
                             }
                             .sheet(isPresented: $editProjectName) {
-                                ProjectEditorView(updateProject: true, project: project)
+                                EditProjectView(updateProject: true, project: project)
                                     .presentationDetents([.fraction(0.25)])
                             }
                             .tint(.white)

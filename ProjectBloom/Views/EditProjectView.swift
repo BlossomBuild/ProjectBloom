@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-struct ProjectEditorView: View {
+struct EditProjectView: View {
     @State private var projectName = ""
     @State private var isLoading = false
     @EnvironmentObject var authManager : AuthManager
@@ -97,7 +97,7 @@ struct ProjectEditorView: View {
 
 
 #Preview {
-    ProjectEditorView(updateProject: false)
+    EditProjectView(updateProject: false)
         .environmentObject(AuthManager())
         .environmentObject(DatabaseManager())
 }
