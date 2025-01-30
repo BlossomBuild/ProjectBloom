@@ -59,11 +59,12 @@ struct ProjectsListView: View {
                         showDeleteAlert = false
                     }
                     
+                   
+                    
                     Button(Constants.cancelString, role: .cancel) {
                           showDeleteAlert = false // Dismiss the alert
                           projectToDelete = nil // Reset state
-                      }
-                    
+                      }                    
                 }, message: {
                     Text(AlertString.actionCantBeUndone.rawValue)
                 })

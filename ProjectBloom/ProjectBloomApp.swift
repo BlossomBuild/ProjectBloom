@@ -30,6 +30,16 @@ struct ProjectBloomApp: App {
         let databaseManager = DatabaseManager()
         _authManager = StateObject(wrappedValue: authManager)
         _databaseManager = StateObject(wrappedValue: databaseManager)
+        
+        let appearance = UINavigationBarAppearance()
+        appearance.configureWithOpaqueBackground()
+        appearance.backgroundColor = UIColor.bbGreen
+        appearance.largeTitleTextAttributes = [.foregroundColor: UIColor.bbWhite]
+        appearance.titleTextAttributes = [.foregroundColor: UIColor.bbWhite]
+        
+        UINavigationBar.appearance().scrollEdgeAppearance = appearance
+        UINavigationBar.appearance().standardAppearance = appearance
+        UINavigationBar.appearance().compactAppearance = appearance
     }
     
     var body: some Scene {

@@ -14,7 +14,7 @@ struct ProjectDetailView: View {
     @EnvironmentObject var databaseManager: DatabaseManager
     @State private var showCompletedTasks: Bool = false
     @State private var editProjectName: Bool = false
-
+    
     var project: Project
     
     var body: some View {
@@ -25,36 +25,35 @@ struct ProjectDetailView: View {
             case .fetching:
                 ProgressView()
             case .success:
-                
-                    ScrollView {
-                        LazyVStack {
-                            ForEach(project.usersDetails) { user in
-                                UserTasksView(userDetails: user, projectTasks: databaseManager.getUserTasks(userID: user.id),projectId: project.id.description)
+                ScrollView {
+                    LazyVStack {
+                        ForEach(project.usersDetails) { user in
+                            UserTasksView(userDetails: user, projectTasks: databaseManager.getUserTasks(userID: user.id),projectId: project.id.description)
+                        }
+                        
+                        .navigationTitle(project.name)
+                        .navigationBarTitleDisplayMode(.inline)
+                        .toolbar {
+                            ToolbarItem(placement: .topBarTrailing) {
+                                Button {
+                                    editProjectName.toggle()
+                                } label: {
+                                    Image(systemName: Constants.editIcon)
+                                        .tint(.bbWhite)
+                                }
                             }
                             
-                            .navigationTitle(project.name)
-                            .navigationBarTitleDisplayMode(.inline)
-                            .toolbar {
-                                
-                                ToolbarItem(placement: .topBarTrailing) {
-                                    Button {
-                                        editProjectName.toggle()
-                                    } label: {
-                                        Image(systemName: Constants.editIcon)
-                                            .tint(.bbWhite)
-                                    }
+                            ToolbarItem(placement: .topBarTrailing) {
+                                Button {
+                                    showCompletedTasks.toggle()
+                                } label: {
+                                    Image(systemName: Constants.clipboardIcon)
+                                        .tint(.bbWhite)
                                 }
-                                
-                                ToolbarItem(placement: .topBarTrailing) {
-                                    Button {
-                                        showCompletedTasks.toggle()
-                                    } label: {
-                                        Image(systemName: Constants.clipboardIcon)
-                                            .tint(.bbWhite)
-                                    }
-                                }
-                                
                             }
+                            
+                        }
+                      
                             .sheet(isPresented: $showCompletedTasks) {
                                 CompletedTasksView(project: project)
                             }
@@ -62,12 +61,8 @@ struct ProjectDetailView: View {
                                 EditProjectView(updateProject: true, project: project)
                                     .presentationDetents([.fraction(0.25)])
                             }
-                            .tint(.white)
                         }
                     }
-                    
-                    
-                
                 
             case .failed(let error):
                 Text("Error: \(error)")

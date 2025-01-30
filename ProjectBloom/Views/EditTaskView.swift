@@ -16,16 +16,16 @@ struct EditTaskView: View {
     var editTask: Bool
     
     @Environment(\.dismiss) var dismiss
-
+    
     
     var body: some View {
         ZStack {
-                LinearGradient(
-                    gradient: Gradient(colors: [Color.white, Color.green.opacity(0.1)]),
-                    startPoint: .top,
-                    endPoint: .bottom
-                )
-                .edgesIgnoringSafeArea(.all)
+            LinearGradient(
+                gradient: Gradient(colors: [Color.white, Color.green.opacity(0.1)]),
+                startPoint: .top,
+                endPoint: .bottom
+            )
+            .edgesIgnoringSafeArea(.all)
             VStack {
                 if(!editTask){
                     Text(Constants.taskString)
@@ -67,7 +67,7 @@ struct EditTaskView: View {
             }
             .preferredColorScheme(.light)
         }
-    
+        
     }
     
     func updatedTask () {

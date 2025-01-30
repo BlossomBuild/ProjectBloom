@@ -12,22 +12,8 @@ struct HomeView: View {
     @State var showAccountScreen: Bool = false
     @State var showCreateProjectScreen: Bool = false
     
-    init() {
-        let appearance = UINavigationBarAppearance()
-        appearance.configureWithOpaqueBackground()
-        appearance.backgroundColor = UIColor.bbGreen
-        appearance.largeTitleTextAttributes = [.foregroundColor: UIColor.bbWhite]
-        appearance.titleTextAttributes = [.foregroundColor: UIColor.bbWhite]
-        
-        UINavigationBar.appearance().scrollEdgeAppearance = appearance
-        UINavigationBar.appearance().standardAppearance = appearance
-        UINavigationBar.appearance().compactAppearance = appearance
-
-    }
-    
     var body: some View {
         NavigationStack() {
-           
                 switch authManager.authState {
                 case .signedIn:
                     
@@ -62,8 +48,8 @@ struct HomeView: View {
                                 .presentationDetents([.fraction(0.25)])
                         }
                         .navigationTitle(Constants.projectsString)
+                        
                         .preferredColorScheme(.dark)
-                    
                     
                 case .anonymousAuth:
                     Text("Signed in Anonymous")
@@ -86,7 +72,7 @@ struct HomeView: View {
             
         }
         .colorScheme(.light)
-//        .tint(.bbWhite)
+        .tint(.bbWhite)
     }
 }
 
