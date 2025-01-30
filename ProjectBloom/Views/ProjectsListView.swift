@@ -31,7 +31,7 @@ struct ProjectsListView: View {
                     .font(.title3)
                     .listRowSeparator(.hidden)
                     
-                    ForEach(databaseManager.userProjects) { project in
+                    ForEach(databaseManager.userProjects.sorted(by: { $0.name < $1.name })) { project in
                         NavigationLink {
                             ProjectDetailView(project: project)
                         } label: {
