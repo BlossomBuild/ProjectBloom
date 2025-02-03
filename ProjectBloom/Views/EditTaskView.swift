@@ -13,10 +13,9 @@ struct EditTaskView: View {
     @State var taskName = ""
     var projectId: String
     var projectTask: ProjectTask
-    var editTask: Bool
+    var editTask: Bool // True makes a new task, False completes task
     
     @Environment(\.dismiss) var dismiss
-    
     
     var body: some View {
         ZStack {
@@ -35,8 +34,6 @@ struct EditTaskView: View {
                         .padding(.bottom)
                         .font(.title2)
                     
-                    
-                    
                     Button {
                         completeTask()
                         dismiss()
@@ -48,12 +45,17 @@ struct EditTaskView: View {
                 } else {
                     TextField(projectTask.title, text: $taskName)
                         .textFieldStyle(RoundedBorderTextFieldStyle())
-                        .padding()
+                        .padding(10)
                         .onChange(of: taskName) {oldValue,newValue in
-                            if newValue.count > 45 {
-                                taskName = String(newValue.prefix(45))
+                            
+                            DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
+                                if newValue.count > 45 {
+                                    taskName = String(newValue.prefix(45))
+                                }
                             }
                         }
+                    
+                    CharacterCounterView(currentCount: taskName.count, maxLimit: 45)
                     
                     Button {
                         updatedTask()
@@ -64,6 +66,8 @@ struct EditTaskView: View {
                     }
                     .disabled(taskName.isEmpty)
                 }
+                
+                
             }
             .preferredColorScheme(.light)
         }

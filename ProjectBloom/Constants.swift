@@ -36,6 +36,9 @@ struct Constants {
     static var goodEveningString = "Good Evening"
     static var helloString = "Hello"
     static var deleteSting = "Delete"
+    static var projectLimitString = "/30"
+    static var projectAccessibilityHint = "Limt: 30 characters"
+    static var characterLimitReachedString = "Character Limit Reached"
     
     //MARK: UI Icons
     static var signedInImage = "person.crop.circle.badge.checkmark"
