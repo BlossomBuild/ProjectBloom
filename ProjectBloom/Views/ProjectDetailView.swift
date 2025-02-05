@@ -53,26 +53,29 @@ struct ProjectDetailView: View {
                             }
                             
                         }
-                      
-                            .sheet(isPresented: $showCompletedTasks) {
-                                CompletedTasksView(project: project)
-                            }
-                            .sheet(isPresented: $editProjectName) {
-                                EditProjectView(updateProject: true, project: project)
-                                    .presentationDetents([.fraction(0.25)])
-                            }
+                        
+                        .sheet(isPresented: $showCompletedTasks) {
+                            CompletedTasksView(project: project)
+                        }
+                        .sheet(isPresented: $editProjectName) {
+                            EditProjectView(updateProject: true, project: project)
+                                .presentationDetents([.fraction(0.25)])
                         }
                     }
+                }
                 
             case .failed(let error):
                 Text("Error: \(error)")
             }
         }
-        .task{
+        .task {
             databaseManager.listenToProjectTasks(projectID: project.id.description, taskType: FirebasePaths.projectTasks.rawValue)
-            }
+        }
+        .onDisappear {
+            databaseManager.stopListeningToProjectTasks(taskType: FirebasePaths.projectTasks.rawValue)
         }
     }
+}
 
 
 #Preview {

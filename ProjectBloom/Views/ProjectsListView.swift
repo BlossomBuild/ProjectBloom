@@ -31,7 +31,8 @@ struct ProjectsListView: View {
                     .font(.title3)
                     .listRowSeparator(.hidden)
                     
-                    ForEach(databaseManager.userProjects.sorted(by: { $0.name < $1.name })) { project in
+                    ForEach(databaseManager.userProjects.sorted(
+                        by: { $0.name < $1.name })) { project in
                         NavigationLink {
                             ProjectDetailView(project: project)
                         } label: {
@@ -76,9 +77,12 @@ struct ProjectsListView: View {
                 Text(error.localizedDescription)
             }
         }
-        .task{
+        .task {
             guard let user = authManager.user else { return }
             databaseManager.listenToUserProjects(user: user)
+        }
+        .onDisappear {
+            databaseManager.stopListeningToUserProjects()
         }
         
     }

@@ -46,16 +46,19 @@ struct EditTaskView: View {
                     TextField(projectTask.title, text: $taskName)
                         .textFieldStyle(RoundedBorderTextFieldStyle())
                         .padding(10)
+                        .onAppear {
+                            taskName = projectTask.isActiveTask ? projectTask.title : ""
+                        }
                         .onChange(of: taskName) {oldValue,newValue in
                             
                             DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
-                                if newValue.count > 45 {
-                                    taskName = String(newValue.prefix(45))
+                                if newValue.count > 55 {
+                                    taskName = String(newValue.prefix(55))
                                 }
                             }
                         }
                     
-                    CharacterCounterView(currentCount: taskName.count, maxLimit: 45)
+                    CharacterCounterView(currentCount: taskName.count, maxLimit: 55)
                     
                     Button {
                         updatedTask()
@@ -100,7 +103,7 @@ struct EditTaskView: View {
 }
 
 #Preview {
-    EditTaskView(projectId: ProjectTask.sampleProjectTasks[0].id.description, projectTask: ProjectTask.sampleProjectTasks[1], editTask: false)
+    EditTaskView(projectId: ProjectTask.sampleProjectTasks[0].id.description, projectTask: ProjectTask.sampleProjectTasks[1], editTask: true)
         .environmentObject(AuthManager())
         .environmentObject(DatabaseManager())
 }

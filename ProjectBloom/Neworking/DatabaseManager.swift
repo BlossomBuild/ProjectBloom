@@ -27,6 +27,7 @@ class DatabaseManager: ObservableObject {
     @Published var projectTasks : [ProjectTask] = []
     @Published var completedTasks : [ProjectTask] = []
     
+    private var projectsListener: ListenerRegistration?
     private var projectTasksListener: ListenerRegistration?
     private var completedTasksListener: ListenerRegistration?
     
@@ -51,7 +52,7 @@ class DatabaseManager: ObservableObject {
         }
     }
     
-    func deleteProject(projectID: String) async throws {        
+    func deleteProject(projectID: String) async throws {
         let projectRef = database.collection(FirebasePaths.projects.rawValue)
             .document(projectID)
         
@@ -83,7 +84,7 @@ class DatabaseManager: ObservableObject {
             try await batch.commit()
         }
     }
-
+    
     func updateProjectName(projectDetails: Project, newProjectName: String) async throws {
         let taskRef = database.collection(FirebasePaths.projects.rawValue)
             .document(projectDetails.id.description)
@@ -124,7 +125,7 @@ class DatabaseManager: ObservableObject {
             .document(projectId)
             .collection(FirebasePaths.completedTasks.rawValue)
             .document(projectTask.id.description)
-            
+        
         do {
             try await taskRef.delete()
             print("Task \(projectTask.id.description) successfully deleted")
@@ -192,54 +193,54 @@ class DatabaseManager: ObservableObject {
         }
     }
     
-   
+    
     func listenToProjectTasks(projectID: String, taskType: String) {
-    
-    updateStatus(for: taskType, status: .fetching)
         
-    let listener = database.collection(FirebasePaths.projects.rawValue)
-        .document(projectID)
-        .collection(taskType)
-        .addSnapshotListener { [weak self] snapshot, error in
-            guard let self = self else {return}
-            
-            if let error = error {
-                updateStatus(for: taskType, status: .failed(error: error))
-                print("Error fetching project tasks: \(error.localizedDescription)")
-                return
-            }
-            
-            guard let snapshot = snapshot else {
-                updateStatus(for: taskType, status: .failed(error: NSError(domain: "Database Manager", code: 404, userInfo: [NSLocalizedDescriptionKey: "No Tasks Found"])))
+        updateStatus(for: taskType, status: .fetching)
+        
+        let listener = database.collection(FirebasePaths.projects.rawValue)
+            .document(projectID)
+            .collection(taskType)
+            .addSnapshotListener { [weak self] snapshot, error in
+                guard let self = self else {return}
                 
-                print("No Tasks Found")
-                return
+                if let error = error {
+                    updateStatus(for: taskType, status: .failed(error: error))
+                    print("Error fetching project tasks: \(error.localizedDescription)")
+                    return
+                }
+                
+                guard let snapshot = snapshot else {
+                    updateStatus(for: taskType, status: .failed(error: NSError(domain: "Database Manager", code: 404, userInfo: [NSLocalizedDescriptionKey: "No Tasks Found"])))
+                    
+                    print("No Tasks Found")
+                    return
+                }
+                
+                do {
+                    try mapTasks(from: snapshot, to: taskType)
+                    updateStatus(for: taskType, status: .success)
+                    print("Fetched tasks: \(self.completedTasks)")
+                } catch {
+                    updateStatus(for: taskType, status: .failed(error: error))
+                    print("Error decoding tasks: \(error.localizedDescription)")
+                }
             }
-            
-            do {
-                try mapTasks(from: snapshot, to: taskType)
-                updateStatus(for: taskType, status: .success)
-                print("Fetched tasks: \(self.completedTasks)")
-            } catch {
-                updateStatus(for: taskType, status: .failed(error: error))
-                print("Error decoding tasks: \(error.localizedDescription)")
-            }
+        
+        if taskType == FirebasePaths.projectTasks.rawValue {
+            projectTasksListener = listener
+        } else {
+            completedTasksListener = listener
         }
-    
-    if taskType == FirebasePaths.projectTasks.rawValue {
-        projectTasksListener = listener
-    } else {
-        completedTasksListener = listener
     }
-}
     
     private func updateStatus(for taskType: String, status: FetchStatus) {
-    if taskType == FirebasePaths.projectTasks.rawValue {
-        activeTasksStatus = status
-    } else {
-        completedTasksStatus = status
+        if taskType == FirebasePaths.projectTasks.rawValue {
+            activeTasksStatus = status
+        } else {
+            completedTasksStatus = status
+        }
     }
-}
     
     private func mapTasks(from snapshot: QuerySnapshot, to taskType: String) throws {
         if taskType == FirebasePaths.projectTasks.rawValue {
@@ -274,7 +275,7 @@ class DatabaseManager: ObservableObject {
     
     func listenToUserProjects(user: User) {
         status = .fetching
-        database.collection(FirebasePaths.projects.rawValue)
+        let listener = database.collection(FirebasePaths.projects.rawValue)
             .whereField(FirebasePaths.usersID.rawValue, arrayContains: user.uid)
             .addSnapshotListener { [weak self] snapshot, error in
                 guard let self = self else { return }
@@ -298,6 +299,13 @@ class DatabaseManager: ObservableObject {
                 self.status = .success
                 print("User projects successfully fetched.")
             }
+        
+        projectsListener = listener
+    }
+    
+    func stopListeningToUserProjects() {
+        projectsListener?.remove()
+        projectsListener = nil
     }
 }
 
