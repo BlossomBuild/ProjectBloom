@@ -21,8 +21,8 @@ struct CompletedTasksView: View {
                 .font(.title3)
             
             List(databaseManager.completedTasks.sorted(by: {
-                ($0.completedAt?.dateValue() ?? Date()) > ($1.completedAt?.dateValue() ?? Date())
-            })) {projectTask in
+                ($0.completedAt?.dateValue() ?? Date()) >
+                ($1.completedAt?.dateValue() ?? Date())})) {projectTask in
                 var formattedDate: String {
                     guard let completedAt = projectTask.completedAt?.dateValue() else
                     {return ""}

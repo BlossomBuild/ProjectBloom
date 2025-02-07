@@ -103,8 +103,8 @@ class DatabaseManager: ObservableObject {
     
     func assignDefaultTasks(projectDetails: Project,user: User) async throws {
         let starterprojectTasks = [
-            ProjectTask(title: DefaultTaskStrings.defaultTaskTitle.rawValue, description: DefaultTaskStrings.defaultTaskDescription.rawValue, assignedToID: user.uid,assignedToUserName: user.displayName ?? "", isActiveTask: false),
-            ProjectTask(title: DefaultTaskStrings.defaultTaskTitle.rawValue, description: DefaultTaskStrings.defaultTaskDescription.rawValue, assignedToID: user.uid, assignedToUserName: user.displayName ?? "", isActiveTask: false)
+            ProjectTask(title: DefaultTaskStrings.defaultTaskTitle.rawValue, assignedToID: user.uid,assignedToUserName: user.displayName ?? "", isActiveTask: false),
+            ProjectTask(title: DefaultTaskStrings.defaultTaskTitle.rawValue, assignedToID: user.uid, assignedToUserName: user.displayName ?? "", isActiveTask: false)
         ]
         
         let batch = database.batch()
@@ -168,7 +168,6 @@ class DatabaseManager: ObservableObject {
         var updatedTask = projectTask
         completedTask.id = UUID()
         completedTask.completedAt = Timestamp(date: Date())
-        completedTask.completedByID = userID
         completedTask.isActiveTask = false
         updatedTask.title = "No Task Assigned"
         updatedTask.isActiveTask = false
