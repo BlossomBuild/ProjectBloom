@@ -56,7 +56,6 @@ struct EditProjectView: View {
                 .disabled(projectName.isEmpty || isLoading)
             
         }
-        .preferredColorScheme(.light)
     }
     
     func createNewProject() {

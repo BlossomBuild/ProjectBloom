@@ -48,9 +48,7 @@ struct HomeView: View {
                                 .presentationDetents([.fraction(0.25)])
                         }
                         .navigationTitle(Constants.projectsString)
-                        
-                        .preferredColorScheme(.dark)
-                    
+                                    
                 case .anonymousAuth:
                     Text("Signed in Anonymous")
                         .toolbar {
@@ -71,7 +69,6 @@ struct HomeView: View {
                 }
             
         }
-        .colorScheme(.light)
         .tint(.bbWhite)
     }
 }

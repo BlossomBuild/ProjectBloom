@@ -60,7 +60,6 @@ struct CompletedTasksView: View {
         .onDisappear {
             databaseManager.stopListeningToProjectTasks(taskType: FirebasePaths.completedTasks.rawValue)
         }
-        .preferredColorScheme(.light)
         
         if showUndoBanner {
             HStack {

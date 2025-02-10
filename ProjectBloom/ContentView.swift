@@ -15,10 +15,12 @@ struct ContentView: View {
         VStack {
             if authManager.authState != .signedOut {
                 HomeView()
+           
             } else {
                 LoginView()
             }
         }
+    
     }
 }
 
