@@ -23,7 +23,7 @@ struct HomeView: View {
                                 Button {
                                     showAccountScreen.toggle()
                                 } label: {
-                                    Image(systemName: Constants.signedInImage)
+                                    Image(systemName: Constants.signedInIcon)
                                         .tint(.bbWhite)
                                 }
                             }
@@ -56,7 +56,7 @@ struct HomeView: View {
                                 Button {
                                     showAccountScreen.toggle()
                                 } label: {
-                                    Image(systemName: Constants.signedOutImage)
+                                    Image(systemName: Constants.signedOutIcon)
                                 }
                             }
                         }

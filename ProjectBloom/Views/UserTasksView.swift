@@ -50,6 +50,8 @@ struct UserTasksView: View {
                     }
                 }
             }
+            .padding(.top, -25)
+            
             .clipShape(.rect(cornerRadius: 10))
             .sheet(item: $taskToEdit) { task in
                 EditTaskView(projectId: projectId ,projectTask: task, editTask: true)
@@ -61,6 +63,7 @@ struct UserTasksView: View {
             }
             
         }
+     
         .frame(height: 225)
         .padding()
     }

@@ -21,6 +21,7 @@ struct Constants {
     static var completeString = "Complete"
     static var taskString = "Task"
     static var completedTasksString = "Completed Tasks"
+    static var activeTasksString = "Active Tasks"
     static var spaceString = " "
     static var colonString = ":"
     static var completedByString = "Completed By"
@@ -41,13 +42,15 @@ struct Constants {
     static var characterLimitReachedString = "Character Limit Reached"
     
     //MARK: UI Icons
-    static var signedInImage = "person.crop.circle.badge.checkmark"
-    static var signedOutImage = "person.crop.circle.badge.questionmark"
+    static var signedInIcon = "person.crop.circle.badge.checkmark"
+    static var signedOutIcon = "person.crop.circle.badge.questionmark"
     static var addProjectImage = "document.badge.plus.fill"
     static var editIcon = "pencil"
     static var checkmarkIcon = "checkmark"
-    static var clipboardIcon = "list.bullet.clipboard"
     static var trashIcon = "trash"
+    static var activeTaskIcon = "list.bullet.clipboard"
+    static var completeTaskIcon = "clipboard.fill"
+
     
     //MARK: UI Unwraps
     static var userName = "User Name"

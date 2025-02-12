@@ -16,43 +16,43 @@ struct CompletedTasksView: View {
     
     var body: some View {
         
+        
         VStack(alignment: .leading) {
-            Text(project.name + Constants.spaceString + Constants.completedTasksString)
-                .font(.title3)
-            
+                
             List(databaseManager.completedTasks.sorted(by: {
-                ($0.completedAt?.dateValue() ?? Date()) >
-                ($1.completedAt?.dateValue() ?? Date())})) {projectTask in
-                var formattedDate: String {
-                    guard let completedAt = projectTask.completedAt?.dateValue() else
-                    {return ""}
-                    let formatter = DateFormatter()
-                    formatter.dateFormat = "MMMM d, yyyy"
-                    return formatter.string(from: completedAt)
-                }
-                
-                VStack (alignment: .leading, spacing: 4){
-                    Text(Constants.taskNameString  + Constants.colonString +  Constants.spaceString + projectTask.title)
-                        .font(.system(size: 13))
-                        .bold()
-                    Text(Constants.completedByString + Constants.colonString + Constants.spaceString + projectTask.assignedToUserName)
-                        .font(.system(size: 12))
-                    Text(Constants.completeOnString + Constants.colonString + Constants.spaceString + formattedDate)
-                        .font(.system(size: 12))
-                }
-                .swipeActions(edge: .trailing) {
-                    Button {
-                        deleteCompletedTask(completedTask: projectTask)
-                    } label: {
-                        Image(systemName: Constants.trashIcon)
-                    }
-                }
-                .tint(.red)
-                
-            }
-            .clipShape(.rect(cornerRadius: 10))
-          
+                    ($0.completedAt?.dateValue() ?? Date()) >
+                    ($1.completedAt?.dateValue() ?? Date())})) {projectTask in
+                        var formattedDate: String {
+                            guard let completedAt = projectTask.completedAt?.dateValue() else
+                            {return ""}
+                            let formatter = DateFormatter()
+                            formatter.dateFormat = "MMMM d, yyyy"
+                            return formatter.string(from: completedAt)
+                        }
+                        
+                        VStack (alignment: .leading, spacing: 4){
+                            Text(projectTask.title)
+                                .font(.system(size: 13))
+                                .bold()
+                            Text(Constants.completedByString + Constants.colonString + Constants.spaceString + projectTask.assignedToUserName)
+                                .font(.system(size: 12))
+                            Text(formattedDate)
+                                .font(.system(size: 12))
+                        }
+                        .swipeActions(edge: .trailing) {
+                            Button {
+                                deleteCompletedTask(completedTask: projectTask)
+                            } label: {
+                                Image(systemName: Constants.trashIcon)
+                            }
+                        }
+                        .tint(.red)
+                        }
+                    .padding(.top, -10)
+            
         }
+        
+        
         .padding()
         .task {
             databaseManager.listenToProjectTasks(projectID: project.id.description, taskType: FirebasePaths.completedTasks.rawValue)
@@ -63,7 +63,7 @@ struct CompletedTasksView: View {
         
         if showUndoBanner {
             HStack {
-               
+                
                 Text(Constants.taskDeletedString)
                     .font(.footnote)
                     .foregroundColor(.bbWhite)
@@ -81,7 +81,7 @@ struct CompletedTasksView: View {
                         .background(.bbGreen)
                         .clipShape(.rect(cornerRadius: 4))
                 }
-               
+                
             }
             .padding()
             .background(Color.gray.opacity(0.9))
@@ -95,7 +95,7 @@ struct CompletedTasksView: View {
     
     func undoDelete() {
         guard let task = deletedTask else { return }
-
+        
         databaseManager.completedTasks.append(task)
         deletedTask = nil
         
@@ -107,7 +107,7 @@ struct CompletedTasksView: View {
             do {
                 try await databaseManager.addTaskBackToCompleted(projectId: project.id.description, projectTask: task)
                 
-
+                
             } catch {
                 print("Error undoing the deletion: \(error.localizedDescription)")
             }
