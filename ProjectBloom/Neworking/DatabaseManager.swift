@@ -145,10 +145,11 @@ class DatabaseManager: ObservableObject {
     }
     
     
-    func updateTask(projectId: String, projectTask: ProjectTask, newTaskName: String) async throws {
+    func updateTask(projectId: String, projectTask: ProjectTask,
+                    newTaskName: String, fireBasePath: String) async throws {
         let taskRef = database.collection(FirebasePaths.projects.rawValue)
             .document(projectId)
-            .collection(FirebasePaths.projectTasks.rawValue)
+            .collection(fireBasePath)
             .document(projectTask.id.description)
         
         var updatedTask = projectTask

@@ -11,44 +11,56 @@ struct CompletedTasksView: View {
     @EnvironmentObject var databaseManager: DatabaseManager
     @State private var showUndoBanner = false
     @State private var deletedTask: ProjectTask?
-    
+    @State private var taskToEdit: ProjectTask?
     var project: Project
     
     var body: some View {
         
         
         VStack(alignment: .leading) {
-                
+            
             List(databaseManager.completedTasks.sorted(by: {
-                    ($0.completedAt?.dateValue() ?? Date()) >
-                    ($1.completedAt?.dateValue() ?? Date())})) {projectTask in
-                        var formattedDate: String {
-                            guard let completedAt = projectTask.completedAt?.dateValue() else
-                            {return ""}
-                            let formatter = DateFormatter()
-                            formatter.dateFormat = "MMMM d, yyyy"
-                            return formatter.string(from: completedAt)
+                ($0.completedAt?.dateValue() ?? Date()) >
+                ($1.completedAt?.dateValue() ?? Date())})) {projectTask in
+                    var formattedDate: String {
+                        guard let completedAt = projectTask.completedAt?.dateValue() else
+                        {return ""}
+                        let formatter = DateFormatter()
+                        formatter.dateFormat = "MMMM d, yyyy"
+                        return formatter.string(from: completedAt)
+                    }
+                    
+                    VStack (alignment: .leading, spacing: 4){
+                        Text(projectTask.title)
+                            .font(.system(size: 13))
+                            .bold()
+                        Text(Constants.completedByString + Constants.colonString + Constants.spaceString + projectTask.assignedToUserName)
+                            .font(.system(size: 12))
+                        Text(formattedDate)
+                            .font(.system(size: 12))
+                    }
+                    .onTapGesture(perform: {
+                        taskToEdit = projectTask
+                    })
+                    .swipeActions(edge: .trailing) {
+                        Button {
+                            deleteCompletedTask(completedTask: projectTask)
+                        } label: {
+                            Image(systemName: Constants.trashIcon)
                         }
-                        
-                        VStack (alignment: .leading, spacing: 4){
-                            Text(projectTask.title)
-                                .font(.system(size: 13))
-                                .bold()
-                            Text(Constants.completedByString + Constants.colonString + Constants.spaceString + projectTask.assignedToUserName)
-                                .font(.system(size: 12))
-                            Text(formattedDate)
-                                .font(.system(size: 12))
-                        }
-                        .swipeActions(edge: .trailing) {
-                            Button {
-                                deleteCompletedTask(completedTask: projectTask)
-                            } label: {
-                                Image(systemName: Constants.trashIcon)
-                            }
-                        }
-                        .tint(.red)
-                        }
-                    .padding(.top, -10)
+                    }
+                    
+                    .tint(.red)
+                }
+            
+                .padding(.top, -10)
+                .sheet(item: $taskToEdit) { task in
+                    EditTaskView(
+                        projectId: project.id.description,
+                        projectTask: task,
+                        editTask: true, isCompletedTask: true)
+                        .presentationDetents([.fraction(0.25)])
+                }
             
         }
         

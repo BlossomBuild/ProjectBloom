@@ -14,7 +14,7 @@ struct EditTaskView: View {
     var projectId: String
     var projectTask: ProjectTask
     var editTask: Bool // True makes a new task, False completes task
-    
+    var isCompletedTask: Bool // True means the task is already completed
     @Environment(\.dismiss) var dismiss
     
     var body: some View {
@@ -41,7 +41,12 @@ struct EditTaskView: View {
                         .textFieldStyle(RoundedBorderTextFieldStyle())
                         .padding(10)
                         .onAppear {
-                            taskName = projectTask.isActiveTask ? projectTask.title : ""
+                            if(isCompletedTask) {
+                                taskName = projectTask.title
+                            } else {
+                                taskName = projectTask.isActiveTask ? projectTask.title : ""
+                            }
+                            
                         }
                         .onChange(of: taskName) {oldValue,newValue in
                             
@@ -73,7 +78,11 @@ struct EditTaskView: View {
     func updatedTask () {
         Task {
             do {
-                try await databaseManager.updateTask(projectId: projectId , projectTask: projectTask, newTaskName: taskName)
+                var firebasePath = isCompletedTask ? FirebasePaths.completedTasks.rawValue :
+                FirebasePaths.projectTasks.rawValue
+                
+                try await databaseManager.updateTask(projectId: projectId , projectTask: projectTask, newTaskName: taskName, fireBasePath: firebasePath)
+                
             } catch {
                 print("Error updating project: \(error.localizedDescription)")
             }
@@ -96,7 +105,7 @@ struct EditTaskView: View {
 }
 
 #Preview {
-    EditTaskView(projectId: ProjectTask.sampleProjectTasks[0].id.description, projectTask: ProjectTask.sampleProjectTasks[1], editTask: true)
+    EditTaskView(projectId: ProjectTask.sampleProjectTasks[0].id.description, projectTask: ProjectTask.sampleProjectTasks[1], editTask: true, isCompletedTask: true)
         .environmentObject(AuthManager())
         .environmentObject(DatabaseManager())
 }

@@ -11,7 +11,6 @@ struct UserTasksView: View {
     @EnvironmentObject var databaseManager: DatabaseManager
     @State private var taskToEdit: ProjectTask? = nil
     @State private var tasktoComplete: ProjectTask? = nil
-    @State var editProjectTask: Bool =  false
     
     var userDetails: UserDetails
     var projectTasks: [ProjectTask]
@@ -54,11 +53,11 @@ struct UserTasksView: View {
             
             .clipShape(.rect(cornerRadius: 10))
             .sheet(item: $taskToEdit) { task in
-                EditTaskView(projectId: projectId ,projectTask: task, editTask: true)
+                EditTaskView(projectId: projectId ,projectTask: task, editTask: true, isCompletedTask: false)
                     .presentationDetents([.fraction(0.25)])
             }
             .sheet(item: $tasktoComplete) { task in
-                EditTaskView(projectId: projectId, projectTask: task, editTask: false)
+                EditTaskView(projectId: projectId, projectTask: task, editTask: false, isCompletedTask: false)
                     .presentationDetents([.fraction(0.25)])
             }
             
