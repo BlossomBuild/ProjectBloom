@@ -9,7 +9,7 @@ import SwiftUI
 
 struct ProjectsListView: View {
     @EnvironmentObject var databaseManager: DatabaseManager
-    @EnvironmentObject var authManager: AuthManager
+    @Environment(AuthViewModel.self) var authViewModel
     
     @State private var greeting: String = ""
     @State private var showDeleteAlert: Bool = false
@@ -27,7 +27,7 @@ struct ProjectsListView: View {
             case .success:
                 List {
                     Text("\(greeting)" + Constants.commaString + Constants.spaceString
-                         +  getFirstName(fullName: authManager.user?.displayName))
+                         +  getFirstName(fullName: authViewModel.user?.displayName))
                     .font(.title3)
                     .listRowSeparator(.hidden)
                     
@@ -78,7 +78,7 @@ struct ProjectsListView: View {
             }
         }
         .task {
-            guard let user = authManager.user else { return }
+            guard let user = authViewModel.user else { return }
             databaseManager.listenToUserProjects(user: user)
         }
         .onDisappear {
@@ -126,6 +126,6 @@ struct ProjectsListView: View {
 
 #Preview {
     ProjectsListView()
-        .environmentObject(AuthManager())
+        .environment(AuthViewModel())
         .environmentObject(DatabaseManager())
 }

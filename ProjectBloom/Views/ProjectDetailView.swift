@@ -10,7 +10,6 @@ import SwiftUI
 
 struct ProjectDetailView: View {
     
-    @EnvironmentObject var authManager: AuthManager
     @EnvironmentObject var databaseManager: DatabaseManager
     @State private var editProjectName: Bool = false
     
@@ -81,6 +80,5 @@ struct ProjectDetailView: View {
 
 #Preview {
     ProjectDetailView(project: Project.sampleProjects[0])
-        .environmentObject(AuthManager())
         .environmentObject(DatabaseManager())
 }

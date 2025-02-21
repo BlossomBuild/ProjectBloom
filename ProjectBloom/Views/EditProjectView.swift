@@ -10,7 +10,7 @@ import SwiftUI
 struct EditProjectView: View {
     @State private var projectName = ""
     @State private var isLoading = false // helps reduce multiple submissions
-    @EnvironmentObject var authManager : AuthManager
+    @Environment(AuthViewModel.self) var authViewModel
     @EnvironmentObject var databaseManager : DatabaseManager
     @Environment(\.dismiss) var dismiss
     var updateProject: Bool
@@ -61,7 +61,7 @@ struct EditProjectView: View {
     func createNewProject() {
         Task {
             do {
-                guard let user = authManager.user else {
+                guard let user = authViewModel.user else {
                     isLoading = false
                     return
                 }
@@ -110,6 +110,6 @@ struct EditProjectView: View {
 
 #Preview {
     EditProjectView(updateProject: false)
-        .environmentObject(AuthManager())
+        .environment(AuthViewModel())
         .environmentObject(DatabaseManager())
 }

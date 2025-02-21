@@ -12,23 +12,25 @@ import GoogleSignIn
 
 
 class AppDelegate: NSObject, UIApplicationDelegate {
-  func application(_ application: UIApplication,
-                   didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey : Any]? = nil) -> Bool {
-      return true
-  }
+    func application(_ application: UIApplication,
+                     didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey : Any]? = nil) -> Bool {
+        return true
+    }
 }
 
 @main
 struct ProjectBloomApp: App {
     @UIApplicationDelegateAdaptor(AppDelegate.self) var delegate
-    @StateObject var authManager: AuthManager
+    @State var authViewModel: AuthViewModel
     @StateObject var databaseManager: DatabaseManager
     
     init() {
+        
         FirebaseApp.configure()
-        let authManager = AuthManager()
+        self.authViewModel = AuthViewModel()
+        
+        
         let databaseManager = DatabaseManager()
-        _authManager = StateObject(wrappedValue: authManager)
         _databaseManager = StateObject(wrappedValue: databaseManager)
         
         let appearance = UINavigationBarAppearance()
@@ -45,7 +47,7 @@ struct ProjectBloomApp: App {
     var body: some Scene {
         WindowGroup {
             ContentView()
-                .environmentObject(authManager)
+                .environment(authViewModel)
                 .environmentObject(databaseManager)
                 .preferredColorScheme(.dark)
         }

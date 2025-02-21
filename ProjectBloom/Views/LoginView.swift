@@ -11,7 +11,7 @@ import GoogleSignInSwift
 import GoogleSignIn
 
 struct LoginView: View {
-    @EnvironmentObject var authManager: AuthManager
+    @Environment(AuthViewModel.self) var authViewModel
     @Environment(\.dismiss) var dismiss
     
    
@@ -29,16 +29,20 @@ struct LoginView: View {
                 // MARK: GOOGLE SIGN IN
                 GoogleSignInButton {
                     Task {
-                        await signInWithGoogle()
+                        await authViewModel
+                            .signInWithGoogle()
                     }
                     
                 }
                 .frame(width: 280, height: 45, alignment: .center)
+                .disabled(authViewModel.isLoading)
 
                 // MARK: Anonymous
-                if(authManager.authState == .signedOut){
+                if(authViewModel.authState == .signedOut){
                     Button {
-                        signAnonymously()
+                        Task {
+                            await authViewModel.signInAnonymously()
+                        }
                     } label: {
                         Text(Constants.skipString)
                             .font(.body.bold())
@@ -46,7 +50,18 @@ struct LoginView: View {
                             .foregroundStyle(.bbWhite)
                             .font(.poppinsFontRegular)
                     }
+                    .disabled(authViewModel.isLoading)
                 }
+                
+                // MARK: Error Message
+                if let errorMessage = authViewModel.errorMessage {
+                    Text(errorMessage)
+                        .foregroundStyle(.red)
+                        .font(.caption)
+                        .padding()
+                }
+                
+                Spacer()
                
             }
             .padding()
@@ -54,41 +69,9 @@ struct LoginView: View {
             .background(Color(.bbGreenDark))
         }
     }
-    
-    func signAnonymously() {
-        Task {
-            do {
-                try await authManager.signInAnonymously()
-            } catch {
-                print("SignInAnonymouslyError: \(error)")
-            }
-        }
-    }
-    
-    
-    func signInWithGoogle() async {
-        do {
-            guard let user = try await GoogleSignInManager.shared.signInWithGoogle() else {return}
-            
-            let result = try await authManager.googleAuth(user)
-            
-            
-            if let result = result {
-                let userDetails = UserDetails(id: result.user.uid, userName: result.user.displayName ?? "", userEmail: result.user.email ?? "")
-                
-                authManager.writeUserDetails(userDetails, userId: result.user.uid)
-                
-                print("Google Sign In Success: \(result.user.uid)")
-                dismiss()
-            }
-            
-        } catch {
-            print("Google Sign In Error: Failed to Sign in with Google, \(error)")
-        }
-    }
 }
 
 #Preview {
     LoginView()
-        .environmentObject(AuthManager())
+        .environment(AuthViewModel())
 }

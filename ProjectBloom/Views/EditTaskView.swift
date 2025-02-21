@@ -8,7 +8,6 @@
 import SwiftUI
 
 struct EditTaskView: View {
-    @EnvironmentObject var authManager: AuthManager
     @EnvironmentObject var databaseManager: DatabaseManager
     @State var taskName = ""
     var projectId: String
@@ -106,6 +105,5 @@ struct EditTaskView: View {
 
 #Preview {
     EditTaskView(projectId: ProjectTask.sampleProjectTasks[0].id.description, projectTask: ProjectTask.sampleProjectTasks[1], editTask: true, isCompletedTask: true)
-        .environmentObject(AuthManager())
         .environmentObject(DatabaseManager())
 }

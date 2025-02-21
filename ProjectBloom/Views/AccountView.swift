@@ -8,16 +8,17 @@
 import SwiftUI
 
 struct AccountView: View {
-    @EnvironmentObject var authManager: AuthManager
+    @Environment(AuthViewModel.self) var authViewModel
+
     
     var body: some View {
         VStack {
             Spacer()
             
-            Text(authManager.user?.displayName ?? Constants.userName)
+            Text(authViewModel.user?.displayName ?? Constants.userName)
                 .font(.title2)
             
-            Text(authManager.user?.email ?? Constants.userEmail)
+            Text(authViewModel.user?.email ?? Constants.userEmail)
                 .font(.title2)
             
             Spacer()
@@ -33,7 +34,7 @@ struct AccountView: View {
     func signOut() {
         Task {
             do {
-                try await authManager.signOut()
+                try await authViewModel.signOut()
             }
         }
     }
@@ -41,5 +42,5 @@ struct AccountView: View {
 
 #Preview {
     AccountView()
-        .environmentObject(AuthManager())
+        .environment(AuthViewModel())
 }

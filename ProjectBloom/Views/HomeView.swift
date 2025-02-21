@@ -6,19 +6,18 @@
 //
 
 import SwiftUI
-
+ 
 struct HomeView: View {
-    @EnvironmentObject var authManager: AuthManager
+    @State var authViewModel = AuthViewModel()
     @State var showAccountScreen: Bool = false
     @State var showCreateProjectScreen: Bool = false
     
     var body: some View {
         NavigationStack() {
-                switch authManager.authState {
-                case .signedIn:
-                    
-                    ProjectsListView()
-                        .toolbar {
+            switch authViewModel.authState {
+            case .signedIn:
+                ProjectsListView()
+                    .toolbar {
                             ToolbarItem(placement: .topBarLeading) {
                                 Button {
                                     showAccountScreen.toggle()
@@ -48,25 +47,25 @@ struct HomeView: View {
                                 .presentationDetents([.fraction(0.25)])
                         }
                         .navigationTitle(Constants.projectsString)
-                                    
-                case .anonymousAuth:
-                    Text("Signed in Anonymous")
-                        .toolbar {
-                            ToolbarItem(placement: .topBarLeading) {
-                                Button {
-                                    showAccountScreen.toggle()
-                                } label: {
-                                    Image(systemName: Constants.signedOutIcon)
-                                }
-                            }
-                        }
-                        .sheet(isPresented: $showAccountScreen) {
-                            LoginView()
-                        }
-                    
-                case.signedOut:
-                    LoginView()
-                }
+                
+            case .anonymous:
+                Text("Signed in Anonymous")
+//                    .toolbar {
+//                        ToolbarItem(placement: .topBarLeading) {
+//                            Button {
+//                                showAccountScreen.toggle()
+//                            } label: {
+//                                Image(systemName: Constants.signedOutIcon)
+//                            }
+//                        }
+//                    }
+//                    .sheet(isPresented: $showAccountScreen) {
+//                        LoginView()
+//                    }
+                
+            case.signedOut:
+                LoginView()
+            }
             
         }
         .tint(.bbWhite)
@@ -75,7 +74,7 @@ struct HomeView: View {
 
 #Preview {
     HomeView()
-        .environmentObject(AuthManager())
+        .environment(AuthViewModel())
 }
 
 

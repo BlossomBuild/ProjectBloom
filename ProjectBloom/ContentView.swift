@@ -9,11 +9,11 @@ import SwiftUI
 import FirebaseAuth
 
 struct ContentView: View {
-    @EnvironmentObject var authManager: AuthManager
+    @Environment(AuthViewModel.self) var authViewModel
     
     var body: some View {
         VStack {
-            if authManager.authState != .signedOut {
+            if authViewModel.authState != .signedOut {
                 HomeView()
            
             } else {
@@ -26,5 +26,5 @@ struct ContentView: View {
 
 #Preview {
     ContentView()
-        .environmentObject(AuthManager())
+        .environment(AuthViewModel())
 }
