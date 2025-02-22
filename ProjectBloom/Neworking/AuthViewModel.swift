@@ -92,14 +92,12 @@ class AuthViewModel {
         errorMessage = nil
         
         do {
-            guard let windowScene = await UIApplication.shared.connectedScenes.first as? UIWindowScene,
-                  let rootViewController = await windowScene.windows.first?.rootViewController else {
-                errorMessage = "Could not get root view controller"
-                isLoading = false
-                return
-            }
             
-            let googleUser = try await GIDSignIn.sharedInstance.signIn(withPresenting: rootViewController).user
+            guard let googleUser = try await GoogleSignInManager.shared.signInWithGoogle() else {
+                     errorMessage = "Google sign-in failed"
+                     isLoading = false
+                     return
+                 }
             
             let result = try await AuthManager.shared.signInWithGoogle(user: googleUser)
             

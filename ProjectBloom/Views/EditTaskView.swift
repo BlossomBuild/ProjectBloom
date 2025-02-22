@@ -77,7 +77,7 @@ struct EditTaskView: View {
     func updatedTask () {
         Task {
             do {
-                var firebasePath = isCompletedTask ? FirebasePaths.completedTasks.rawValue :
+                let firebasePath = isCompletedTask ? FirebasePaths.completedTasks.rawValue :
                 FirebasePaths.projectTasks.rawValue
                 
                 try await databaseManager.updateTask(projectId: projectId , projectTask: projectTask, newTaskName: taskName, fireBasePath: firebasePath)
