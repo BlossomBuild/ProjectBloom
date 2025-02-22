@@ -40,6 +40,7 @@ struct Constants {
     static var projectLimitString = "/30"
     static var projectAccessibilityHint = "Limt: 30 characters"
     static var characterLimitReachedString = "Character Limit Reached"
+    static var signingOutString = "Signing Out..."
     
     //MARK: UI Icons
     static var signedInIcon = "person.crop.circle.badge.checkmark"

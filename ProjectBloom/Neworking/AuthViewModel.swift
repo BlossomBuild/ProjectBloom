@@ -21,9 +21,26 @@ class AuthViewModel {
     var user: User? = nil
     var isLoading: Bool = false
     var errorMessage: String? = nil
+    private var authStateListener: AuthStateDidChangeListenerHandle?
     
     init(){
+        configureAuthStateListener()
         checkAuthState()
+    }
+    
+    private func configureAuthStateListener() {
+        authStateListener = Auth.auth().addStateDidChangeListener { [weak self] _, user in
+            guard let self = self else { return }
+            
+            if let user = user {
+                self.user = user
+                self.authState = user.isAnonymous ? .anonymous : .signedIn
+            } else {
+                self.authState = .signedOut
+            }
+            
+            print("Auth State changed: \(self.authState)")
+        }
     }
     
     func checkAuthState() {
@@ -36,7 +53,13 @@ class AuthViewModel {
         }
     }
     
-    func signOut() {
+    deinit{
+        if let authStateListener = authStateListener {
+            Auth.auth().removeStateDidChangeListener(authStateListener)
+        }
+    }
+    
+    func signOut() async {
         do {
             try AuthManager.shared.signOut()
             self.user = nil
@@ -46,6 +69,8 @@ class AuthViewModel {
             self.errorMessage = "Failed to sign out"
         }
     }
+    
+    
     
     func signInAnonymously() async {
         isLoading = true

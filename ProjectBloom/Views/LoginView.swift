@@ -13,35 +13,51 @@ import GoogleSignIn
 struct LoginView: View {
     @Environment(AuthViewModel.self) var authViewModel
     @Environment(\.dismiss) var dismiss
+    @State private var isSigningIn: Bool = false
     
-   
     var body: some View {
         NavigationStack {
             VStack(spacing: 16) {
                 Spacer()
+                
                 Text(Constants.appName)
                     .foregroundStyle(Color(.bbWhite))
-                    .padding()
                     .font(.poppinsFontBold)
+                    .padding()
                 
                 Spacer()
                 
-                // MARK: GOOGLE SIGN IN
-                GoogleSignInButton {
-                    Task {
-                        await authViewModel
-                            .signInWithGoogle()
+                
+                //MARK: GOOGLE SIGN IN
+                if isSigningIn {
+                    ProgressView()
+                        .progressViewStyle(CircularProgressViewStyle(tint: .white))
+                        .padding().background(Color(.bbGreenDark))
+                } else {
+                    
+                    GoogleSignInButton {
+                        Task {
+                            isSigningIn = true
+                            await authViewModel
+                                .signInWithGoogle()
+                            dismiss()
+                            isSigningIn = false
+                        }
+                        
                     }
+                    .frame(width: 280, height: 45, alignment: .center)
+                    .disabled(authViewModel.isLoading)
                     
                 }
-                .frame(width: 280, height: 45, alignment: .center)
-                .disabled(authViewModel.isLoading)
-
+                
                 // MARK: Anonymous
                 if(authViewModel.authState == .signedOut){
                     Button {
                         Task {
+                            isSigningIn = true
                             await authViewModel.signInAnonymously()
+                            dismiss()
+                            isSigningIn = false
                         }
                     } label: {
                         Text(Constants.skipString)
@@ -53,20 +69,13 @@ struct LoginView: View {
                     .disabled(authViewModel.isLoading)
                 }
                 
-                // MARK: Error Message
-                if let errorMessage = authViewModel.errorMessage {
-                    Text(errorMessage)
-                        .foregroundStyle(.red)
-                        .font(.caption)
-                        .padding()
-                }
                 
-                Spacer()
-               
+                
             }
             .padding()
             .frame(maxWidth: .infinity, maxHeight: .infinity)
             .background(Color(.bbGreenDark))
+            
         }
     }
 }
