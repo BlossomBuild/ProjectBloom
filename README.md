@@ -4,11 +4,19 @@ Firebase Setup Guide
 Download the GoogleService-Info.plist file from the Firebase Console.
 Add it to your Xcode project.
 Install the Firebase SDK using Swift Package Manager (SPM) or CocoaPods.
+Packages Used:
+  FirebaseAnalytics
+  FirebaseAuth
+  FirebaseCore
+  FirebaseDatabase
+  FirebaseFirestore
+  GoogleSignin
+  GoogleSignInSwift
 
-2. Enable Authentication
+3. Enable Authentication
 In the Firebase Console, enable Google Sign-In and Anonymous Sign-In under Authentication > Sign-in method.
 
-3. Configure Firestore Security Rules
+4. Configure Firestore Security Rules
 Update your Firestore security rules to restrict access to authenticated users:
 
 rules_version = '2';
