@@ -27,7 +27,7 @@ struct ProjectsListView: View {
             case .success:
                 List {
                     Text("\(greeting)" + Constants.commaString + Constants.spaceString
-                         +  getFirstName(fullName: authViewModel.user?.displayName))
+                         +  getFirstName(fullName: authViewModel.userDetails?.userName ?? authViewModel.user?.displayName))
                     .font(.title3)
                     .listRowSeparator(.hidden)
                     

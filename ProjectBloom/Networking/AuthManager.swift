@@ -29,6 +29,26 @@ class AuthManager {
     
     private init() {}
     
+    // MARK: Fetch User Details from Firestore
+    func fetchUserDetails(userID: String) async throws -> UserDetails? {
+        let userRef = database.collection(FirebasePaths.userDetails.rawValue).document(userID)
+        
+        do {
+            let document = try await userRef.getDocument()
+            if let data = document.data() {
+                let userDetails = try Firestore.Decoder().decode(UserDetails.self, from: data)
+                print("Fetched user details: \(userDetails)")
+                return userDetails
+            } else {
+                print("No user details found for ID: \(userID)")
+                return nil
+            }
+        } catch {
+            print("Error fetching user details: \(error)")
+            throw error
+        }
+    }
+    
     
     
     // MARK: Sign in Anonymously

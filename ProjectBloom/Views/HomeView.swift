@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct HomeView: View {
-    @State var authViewModel = AuthViewModel()
+    @Environment(AuthViewModel.self) var authViewModel
     @State var showAccountScreen: Bool = false
     @State var showCreateProjectScreen: Bool = false
     

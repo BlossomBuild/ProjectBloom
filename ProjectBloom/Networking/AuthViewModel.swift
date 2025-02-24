@@ -19,6 +19,7 @@ class AuthViewModel {
     
     var authState: AuthState = .signedOut
     var user: User? = nil
+    var userDetails: UserDetails? = nil
     var isLoading: Bool = false
     var errorMessage: String? = nil
     private var authStateListener: AuthStateDidChangeListenerHandle?
@@ -35,11 +36,29 @@ class AuthViewModel {
             if let user = user {
                 self.user = user
                 self.authState = user.isAnonymous ? .anonymous : .signedIn
+                self.loadUserDetails(userID: user.uid)
             } else {
                 self.authState = .signedOut
             }
             
             print("Auth State changed: \(self.authState)")
+        }
+    }
+    
+    private func loadUserDetails(userID: String){
+        Task { [weak self] in
+            guard let self = self else { return }
+            do {
+                let details = try await AuthManager.shared.fetchUserDetails(userID: userID)
+                await MainActor.run {
+                    self.userDetails = details
+                }
+            } catch {
+                print("Failed to fetch user details: \(error)")
+                await MainActor.run {
+                    self.errorMessage = "Failed to fetch user details"
+                }
+            }
         }
     }
     
