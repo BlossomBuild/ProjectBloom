@@ -35,6 +35,7 @@ struct Constants {
     static var goodMorningString = "Good Morning"
     static var goodAfternoonString = "Good Afternoon"
     static var goodEveningString = "Good Evening"
+    static var guestUnknownString = "Guest Unknown"
     static var helloString = "Hello"
     static var deleteSting = "Delete"
     static var projectLimitString = "/30"

@@ -57,6 +57,12 @@ class AuthManager {
             let result = try await auth.signInAnonymously()
             print("Signed in anonymously:\(result.user.uid)")
             
+            let guestUserName = "Guest-\(Int.random(in: 1000...9999))"
+            
+            let changeRequest = result.user.createProfileChangeRequest()
+            changeRequest.displayName = guestUserName
+            try await changeRequest.commitChanges()
+            
             try await saveUserToFireStore(user: result.user)
             return result
         } catch {
@@ -158,7 +164,7 @@ class AuthManager {
         
         let userDetails = UserDetails(
             id: user.uid,
-            userName: user.displayName ?? "Anonymous",
+            userName: user.displayName ?? Constants.guestUnknownString,
             userEmail: user.email ?? ""
         )
         
