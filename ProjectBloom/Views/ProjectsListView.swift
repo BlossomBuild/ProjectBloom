@@ -11,7 +11,7 @@ struct ProjectsListView: View {
     @EnvironmentObject var databaseManager: DatabaseManager
     @Environment(AuthViewModel.self) var authViewModel
     
-    @State private var greeting: String = ""
+    @State private var greeting: String = Constants.getGreeting()
     @State private var showDeleteAlert: Bool = false
     @State private var projectToDelete: Project?
     
@@ -25,54 +25,72 @@ struct ProjectsListView: View {
                 ProgressView()
                 
             case .success:
-                List {
-                    Text("\(greeting)" + Constants.commaString + Constants.spaceString
-                         +  getFirstName(fullName: authViewModel.userDetails?.userName ?? authViewModel.user?.displayName))
-                    .font(.title3)
-                    .listRowSeparator(.hidden)
+                if(databaseManager.userProjects.isEmpty) {
+                    VStack(alignment: .leading) {
+                        Text("\(greeting), \(Constants.getFirstName(from: authViewModel.userDetails?.userName ?? authViewModel.user?.displayName))")
+                            .font(.title3)
+                            .padding(25)
+                            .frame(maxWidth: .infinity, alignment: .leading)
+                        
+                        
+                        Spacer()
+                        Text(Constants.noActiveProjectsString)
+                            .font(.title3)
+                            .foregroundColor(.gray)
+                            .frame(maxWidth: .infinity, alignment: .center)
+                          
+                        Spacer()
+                        
+                        
+                    }
                     
-                    ForEach(databaseManager.userProjects.sorted(
-                        by: { $0.name < $1.name })) { project in
-                        NavigationLink {
-                            ProjectDetailView(project: project)
-                        } label: {
-                            Text(project.name)
-                        }
-                        .swipeActions(edge: .trailing) {
-                            Button {
-                                projectToDelete = project
-                                showDeleteAlert = true
-                            } label: {
-                                Image(systemName: Constants.trashIcon)
+                } else {
+                    List {
+                        Text("\(greeting)" + Constants.commaString + Constants.spaceString
+                             +  Constants.getFirstName(from: authViewModel.userDetails?.userName ?? authViewModel.user?.displayName))
+                        .font(.title3)
+                        .listRowSeparator(.hidden)
+                        
+                        ForEach(databaseManager.userProjects.sorted(
+                            by: { $0.name < $1.name })) { project in
+                                NavigationLink {
+                                    ProjectDetailView(project: project)
+                                } label: {
+                                    Text(project.name)
+                                }
+                                .swipeActions(edge: .trailing) {
+                                    Button {
+                                        projectToDelete = project
+                                        showDeleteAlert = true
+                                    } label: {
+                                        Image(systemName: Constants.trashIcon)
+                                    }
+                                }
+                                .tint(.red)
                             }
-                        }
-                        .tint(.red)
+                        
                     }
+                    .listStyle(.plain)
+                    .padding()
+                    .alert("\(Constants.deleteSting + Constants.spaceString)\(projectToDelete?.name ?? "\(Constants.projectString)")",isPresented: $showDeleteAlert, actions: {
+                        Button(Constants.deleteSting, role:.destructive){
+                            if let project = projectToDelete {
+                                deleteProject(project: project)
+                            }
+                            showDeleteAlert = false
+                        }
+                        
+                        
+                        
+                        Button(Constants.cancelString, role: .cancel) {
+                            showDeleteAlert = false // Dismiss the alert
+                            projectToDelete = nil // Reset state
+                        }
+                    }, message: {
+                        Text(AlertString.actionCantBeUndone.rawValue)
+                    })
                     
                 }
-                .listStyle(.plain)
-                .padding()
-                .alert("\(Constants.deleteSting + Constants.spaceString)\(projectToDelete?.name ?? "\(Constants.projectString)")",isPresented: $showDeleteAlert, actions: {
-                    Button(Constants.deleteSting, role:.destructive){
-                        if let project = projectToDelete {
-                            deleteProject(project: project)
-                        }
-                        showDeleteAlert = false
-                    }
-                    
-                   
-                    
-                    Button(Constants.cancelString, role: .cancel) {
-                          showDeleteAlert = false // Dismiss the alert
-                          projectToDelete = nil // Reset state
-                      }                    
-                }, message: {
-                    Text(AlertString.actionCantBeUndone.rawValue)
-                })
-                .onAppear {
-                    updateGreeting()
-                }
-                
             case .failed(let error):
                 Text(error.localizedDescription)
             }
@@ -85,31 +103,6 @@ struct ProjectsListView: View {
             databaseManager.stopListeningToUserProjects()
         }
         
-    }
-    
-    private func updateGreeting(){
-        let hour = Calendar.current.component(.hour, from: Date())
-        
-        switch hour {
-        case 6..<12:
-            greeting = Constants.goodMorningString
-            
-        case 12..<18:
-            greeting = Constants.goodAfternoonString
-            
-        case 18..<24:
-            greeting = Constants.goodEveningString
-        default:
-            greeting = Constants.helloString
-        }
-    }
-    
-    private func getFirstName(fullName: String?) -> String {
-        guard let fullName = fullName else {
-            return ""
-        }
-        
-        return fullName.components(separatedBy: " ").first ?? ""
     }
     
     private func deleteProject(project: Project) {

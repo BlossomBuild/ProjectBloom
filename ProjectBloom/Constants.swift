@@ -11,6 +11,7 @@ import SwiftUI
 struct Constants {
     //MARK: UI Strings
     static var appName = "Project Bloom"
+    static var noActiveProjectsString = "No Active Projects"
     static var skipString = "Skip"
     static var signOutString = "Sign Out"
     static var projectNameString = "Project Name"
@@ -42,6 +43,7 @@ struct Constants {
     static var projectAccessibilityHint = "Limt: 30 characters"
     static var characterLimitReachedString = "Character Limit Reached"
     static var signingOutString = "Signing Out..."
+    static var naString = "N/A"
     
     //MARK: UI Icons
     static var signedInIcon = "person.crop.circle.badge.checkmark"
@@ -52,11 +54,26 @@ struct Constants {
     static var trashIcon = "trash"
     static var activeTaskIcon = "list.bullet.clipboard"
     static var completeTaskIcon = "clipboard.fill"
-
+    
     
     //MARK: UI Unwraps
     static var userName = "User Name"
     static var userEmail = "User Email"
+    
+    //MARK: Constant Functions
+    static func getGreeting() -> String {
+        let hour = Calendar.current.component(.hour, from: Date())
+        return switch hour {
+        case 6..<12: goodMorningString
+        case 12..<18: goodAfternoonString
+        case 18..<24: goodEveningString
+        default: helloString
+        }
+    }
+    
+    static func getFirstName(from fullName: String?) -> String {
+        fullName?.components(separatedBy: " ").first ?? ""
+    }
 }
 
 enum AlertString: String {
@@ -95,7 +112,7 @@ enum FirebasePaths: String {
     case usersID = "usersID"
     case projectTasks = "projectTasks"
     case completedTasks = "completedTasks"
- }
+}
 
 extension Text {
     func ghostButton(borderColor: Color) -> some View {
@@ -114,6 +131,8 @@ extension Font {
     static let poppinsFontBold = Font.custom("Poppins-Bold", size: 30)
     static let poppinsFontRegular = Font.custom("Poppins-Regular", size: 25)
 }
+
+
 
 
 

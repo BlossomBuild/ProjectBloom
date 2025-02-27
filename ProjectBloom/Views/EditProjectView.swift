@@ -70,9 +70,8 @@ struct EditProjectView: View {
                     isLoading = false
                     return
                 }
-                guard let userEmail = user.email else { isLoading = false
-                    return
-                }
+                
+                let userEmail = user.email ?? Constants.naString
                 
                 let newproject = Project(name: projectName, projectLeaderID: user.uid, usersID: [user.uid], usersDetails: [UserDetails(id: user.uid, userName: userName, userEmail: userEmail)])
                 
