@@ -12,6 +12,7 @@ struct ProjectDetailView: View {
     
     @EnvironmentObject var databaseManager: DatabaseManager
     @State private var editProjectName: Bool = false
+    @Environment(AuthViewModel.self) var authViewModel
     
     var project: Project
     
@@ -81,4 +82,5 @@ struct ProjectDetailView: View {
 #Preview {
     ProjectDetailView(project: Project.sampleProjects[0])
         .environmentObject(DatabaseManager())
+        .environment(AuthViewModel())
 }

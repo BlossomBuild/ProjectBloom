@@ -9,6 +9,7 @@ import SwiftUI
 
 struct UserTasksView: View {
     @EnvironmentObject var databaseManager: DatabaseManager
+    @Environment(AuthViewModel.self) var authViewModel
     @State private var taskToEdit: ProjectTask? = nil
     @State private var tasktoComplete: ProjectTask? = nil
     
@@ -18,7 +19,7 @@ struct UserTasksView: View {
     
     var body: some View {
         VStack(alignment: .leading) {
-            Text(userDetails.userName)
+            Text(authViewModel.userDetails?.userName ?? "")
                 .font(.title3)
             
             List(projectTasks){projectTask in
@@ -72,4 +73,5 @@ struct UserTasksView: View {
 #Preview {
     UserTasksView(userDetails: UserDetails.userSample4, projectTasks: ProjectTask.sampleProjectTasks, projectId: Project.sampleProjects[0].id.description)
         .environmentObject(DatabaseManager())
+        .environment(AuthViewModel())
 }
