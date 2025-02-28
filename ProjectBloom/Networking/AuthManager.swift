@@ -59,6 +59,7 @@ class AuthManager {
             
             let guestUserName = "Guest-\(Int.random(in: 1000...9999))"
             
+            
             let changeRequest = result.user.createProfileChangeRequest()
             changeRequest.displayName = guestUserName
             try await changeRequest.commitChanges()
@@ -71,15 +72,24 @@ class AuthManager {
         }
     }
     
+    
+    private func authenticateUser(credentials: AuthCredential) async throws -> AuthDataResult? {
+        if auth.currentUser != nil {
+            return try await authLink(credentials: credentials)
+        } else {
+            return try await authSignIn(credentials: credentials)
+        }
+    }
+    
     private func authLink(credentials: AuthCredential) async throws -> AuthDataResult? {
         do {
             guard let user = auth.currentUser else {
                 return nil
             }
             
-            
             let result = try await user.link(with: credentials)
             await updateDisplayName(for: result.user)
+            try await saveUserToFireStore(user: user,shouldUpdate: true)
             return result
         } catch {
             if let error = error as NSError? {
@@ -106,7 +116,9 @@ class AuthManager {
     }
     
     private func updateDisplayName(for user: User) async {
-        if let currentDisplayName = user.displayName, !currentDisplayName.isEmpty {
+        
+        if let currentDisplayName = user.displayName, !currentDisplayName.isEmpty,
+           currentDisplayName.starts(with: "Guest-") == false{
             return // The user already has a name, so no need to override.
         }
         
@@ -134,14 +146,30 @@ class AuthManager {
                 userInfo: [NSLocalizedDescriptionKey: "Failed to retrieve Google ID Token"])
         }
         
-        let credential = GoogleAuthProvider.credential(withIDToken: idToken, accessToken: user.accessToken.tokenString)
+        let credential = GoogleAuthProvider.credential(
+            withIDToken: idToken,
+            accessToken: user.accessToken.tokenString
+        )
         
         do {
-            let result = try await auth.signIn(with: credential)
-            print("Signed in with Google: \(result.user.uid)")
+            let result = try await authenticateUser(credentials: credential)
             
-            try await saveUserToFireStore(user: result.user)
+            print("Signed in with Google: \(result?.user.uid ?? "Unkown User")")
+            
+            if let user = result?.user {
+                try await saveUserToFireStore(user: user)
+            }
+            
+            guard let result = result else {
+                throw NSError(
+                    domain: "AuthManager",
+                    code: 1,
+                    userInfo: [NSLocalizedDescriptionKey: "Failed to authenticate user"]
+                )
+            }
+            
             return result
+            
         } catch {
             print("Google sign-in error: \(error)")
             throw error
@@ -149,7 +177,7 @@ class AuthManager {
     }
     
     // MARK: -Save User to Firestore
-    private func saveUserToFireStore(user: User) async throws {
+    private func saveUserToFireStore(user: User, shouldUpdate: Bool = false) async throws {
         let userRef = database
             .collection(FirebasePaths.userDetails.rawValue)
             .document(user.uid)
@@ -157,14 +185,14 @@ class AuthManager {
         
         let document = try await userRef.getDocument()
         
-        if document.exists {
+        if document.exists && !shouldUpdate {
             print("User already exists in Firestore: \(user.uid)")
             return
         }
         
         let userDetails = UserDetails(
             id: user.uid,
-            userName: user.displayName ?? Constants.guestUnknownString,
+            userName: user.displayName ?? "",
             userEmail: user.email ?? ""
         )
         
@@ -193,14 +221,12 @@ class AuthManager {
     }
     
     private func signOUtFromProviders( _ user: User) {
-        let providers = user.providerData.map { $0.providerID }
+        let providers = user.providerData.map { $0.providerID }.joined(separator: ", ")
         
         if providers.contains("google.com") {
-            GIDSignIn.sharedInstance.signOut()
+            GoogleSignInManager.shared.signOutFromGoogle()
             print("Signed out from Google")
         }
     }
-    
-    
 }
 

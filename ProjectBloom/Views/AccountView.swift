@@ -37,7 +37,7 @@ struct AccountView: View {
             Button {
                 Task {
                     isSigningOut = true
-                    await authViewModel.signOut()
+                    authViewModel.signOut()
                     dismiss()
                 }
             } label: {

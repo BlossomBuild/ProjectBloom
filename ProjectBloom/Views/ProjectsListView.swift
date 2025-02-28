@@ -15,8 +15,27 @@ struct ProjectsListView: View {
     @State private var showDeleteAlert: Bool = false
     @State private var projectToDelete: Project?
     
+    private var isUserNameLoaded: Bool {
+        guard let userName = authViewModel.userDetails?.userName ?? authViewModel.user?.displayName else {
+            return false
+        }
+        return !userName.isEmpty
+    }
+    
     var body: some View {
         NavigationStack {
+            if !isUserNameLoaded{
+                VStack {
+                    ProgressView()
+                        .progressViewStyle(.circular)
+                        .padding()
+                    Text("Loading user info...")
+                        .font(.headline)
+                        .foregroundColor(.gray)
+                }
+                .frame(maxWidth: .infinity, maxHeight: .infinity)
+            } else {
+            
             switch(databaseManager.status) {
             case .notStarted:
                 EmptyView()
@@ -38,7 +57,7 @@ struct ProjectsListView: View {
                             .font(.title3)
                             .foregroundColor(.gray)
                             .frame(maxWidth: .infinity, alignment: .center)
-                          
+                        
                         Spacer()
                         
                         
@@ -94,6 +113,7 @@ struct ProjectsListView: View {
             case .failed(let error):
                 Text(error.localizedDescription)
             }
+        }
         }
         .task {
             guard let user = authViewModel.user else { return }

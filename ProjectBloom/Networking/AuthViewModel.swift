@@ -78,7 +78,7 @@ class AuthViewModel {
         }
     }
     
-    func signOut() async {
+    func signOut() {
         do {
             try AuthManager.shared.signOut()
             self.user = nil
