@@ -50,14 +50,8 @@ class AuthViewModel {
             guard let self = self else { return }
             do {
                 let details = try await AuthManager.shared.fetchUserDetails(userID: userID)
-                await MainActor.run {
-                    self.userDetails = details
-                }
             } catch {
                 print("Failed to fetch user details: \(error)")
-                await MainActor.run {
-                    self.errorMessage = "Failed to fetch user details"
-                }
             }
         }
     }
