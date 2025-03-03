@@ -29,6 +29,7 @@ class AuthViewModel {
         checkAuthState()
     }
     
+    // MARK: - Firebase Auth State Listener
     private func configureAuthStateListener() {
         authStateListener = Auth.auth().addStateDidChangeListener { [weak self] _, user in
             guard let self = self else { return }
@@ -42,17 +43,6 @@ class AuthViewModel {
             }
             
             print("Auth State changed: \(self.authState)")
-        }
-    }
-    
-    private func loadUserDetails(userID: String){
-        Task { [weak self] in
-            guard let self = self else { return }
-            do {
-                let details = try await AuthManager.shared.fetchUserDetails(userID: userID)
-            } catch {
-                print("Failed to fetch user details: \(error)")
-            }
         }
     }
     
@@ -72,6 +62,21 @@ class AuthViewModel {
         }
     }
     
+    
+    //MARK: Load User Details
+    private func loadUserDetails(userID: String){
+        Task { [weak self] in
+            guard let self = self else { return }
+            do {
+                let details = try await AuthManager.shared.fetchUserDetails(userID: userID)
+            } catch {
+                print("Failed to fetch user details: \(error)")
+            }
+        }
+    }
+    
+   
+    // MARK: Signout
     func signOut() {
         do {
             try AuthManager.shared.signOut()
@@ -84,7 +89,7 @@ class AuthViewModel {
     }
     
     
-    
+    // MARK: Anon Sign In
     func signInAnonymously() async {
         isLoading = true
         errorMessage = nil
@@ -100,6 +105,7 @@ class AuthViewModel {
         isLoading = false
     }
     
+    //MARK: Google Sign In
     func signInWithGoogle() async {
         isLoading = true
         errorMessage = nil
