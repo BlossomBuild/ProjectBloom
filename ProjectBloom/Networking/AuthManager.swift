@@ -23,10 +23,6 @@ class AuthManager {
         .providerAlreadyLinked,
     ]
     
-    private var authStateListener: AuthStateDidChangeListenerHandle!
-    
-    
-    
     private init() {}
     
     // MARK: Fetch User Details from Firestore

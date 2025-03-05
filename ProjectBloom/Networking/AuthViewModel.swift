@@ -29,7 +29,7 @@ class AuthViewModel {
         checkAuthState()
     }
     
-    // MARK: - Firebase Auth State Listener
+    // MARK: Firebase Auth State Listener
     private func configureAuthStateListener() {
         authStateListener = Auth.auth().addStateDidChangeListener { [weak self] _, user in
             guard let self = self else { return }
@@ -68,7 +68,7 @@ class AuthViewModel {
         Task { [weak self] in
             guard let self = self else { return }
             do {
-                let details = try await AuthManager.shared.fetchUserDetails(userID: userID)
+                self.userDetails  = try await AuthManager.shared.fetchUserDetails(userID: userID)
             } catch {
                 print("Failed to fetch user details: \(error)")
             }
