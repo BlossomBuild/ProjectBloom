@@ -122,7 +122,7 @@ class DatabaseManager {
             .collection(FirebasePaths.projects.rawValue)
             .whereField(FirebasePaths.usersID.rawValue, arrayContains: user.uid)
             .addSnapshotListener { snapshot, error in
-                
+                print("HERE")
                 if let error = error {
                     print("Error fetching user projects: \(error.localizedDescription)")
                     return

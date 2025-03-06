@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct ProjectsListView: View {
-    @EnvironmentObject var databaseManager: DatabaseManager
+    @Environment(DatabaseViewModel.self) var databaseViewModel
     @Environment(AuthViewModel.self) var authViewModel
     
     @State private var greeting: String = Constants.getGreeting()
@@ -35,8 +35,7 @@ struct ProjectsListView: View {
                 }
                 .frame(maxWidth: .infinity, maxHeight: .infinity)
             } else {
-            
-            switch(databaseManager.status) {
+                switch(databaseViewModel.userProjectsStatus) {
             case .notStarted:
                 EmptyView()
                 
@@ -44,7 +43,7 @@ struct ProjectsListView: View {
                 ProgressView()
                 
             case .success:
-                if(databaseManager.userProjects.isEmpty) {
+                    if(databaseViewModel.userProjects.isEmpty) {
                     VStack(alignment: .leading) {
                         Text("\(greeting), \(Constants.getFirstName(from: authViewModel.userDetails?.userName ?? authViewModel.user?.displayName))")
                             .font(.title3)
@@ -70,7 +69,7 @@ struct ProjectsListView: View {
                         .font(.title3)
                         .listRowSeparator(.hidden)
                         
-                        ForEach(databaseManager.userProjects.sorted(
+                        ForEach(databaseViewModel.userProjects.sorted(
                             by: { $0.name < $1.name })) { project in
                                 NavigationLink {
                                     ProjectDetailView(project: project)
@@ -115,12 +114,12 @@ struct ProjectsListView: View {
             }
         }
         }
-        .task {
+        .onAppear {
             guard let user = authViewModel.user else { return }
-            databaseManager.listenToUserProjects(user: user)
+            databaseViewModel.listenToUserProjects(user: user)
         }
         .onDisappear {
-            databaseManager.stopListeningToUserProjects()
+            databaseViewModel.stopListeningToUserProjects()
         }
         
     }
@@ -128,7 +127,7 @@ struct ProjectsListView: View {
     private func deleteProject(project: Project) {
         Task {
             do {
-                try await databaseManager.deleteProject(projectID: project.id.description)
+                try await databaseViewModel.deleteProject(projectID: project.id.description)
             } catch {
                 print("Error deleting project: \(error.localizedDescription)")
             }
@@ -140,5 +139,5 @@ struct ProjectsListView: View {
 #Preview {
     ProjectsListView()
         .environment(AuthViewModel())
-        .environmentObject(DatabaseManager())
+        .environment(DatabaseViewModel())
 }

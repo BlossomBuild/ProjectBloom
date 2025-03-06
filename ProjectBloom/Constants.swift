@@ -12,6 +12,7 @@ struct Constants {
     //MARK: UI Strings
     static var appName = "Project Bloom"
     static var noActiveProjectsString = "No Active Projects"
+    static var noProjectsFoundString = "No Projects Found"
     static var skipString = "Skip"
     static var signOutString = "Sign Out"
     static var projectNameString = "Project Name"

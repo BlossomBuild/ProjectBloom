@@ -42,7 +42,7 @@ class DatabaseViewModel {
     var completedTasks : [ProjectTask] = []
     
     // MARK: Project Functions
-    func createNewProject(projectDetails: Project, user: User) async {
+    func createNewProject(projectDetails: Project, user: User) async throws {
         projectUpdateStatus = .inProgress
         do {
             try await DatabaseManager.shared.createNewProject(projectDetails: projectDetails, user: user)
@@ -52,7 +52,7 @@ class DatabaseViewModel {
         }
     }
     
-    func deleteProject(projectID: String) async {
+    func deleteProject(projectID: String) async throws {
         projectUpdateStatus = .inProgress
         do {
             try await DatabaseManager.shared.deleteProject(projectID: projectID)
@@ -62,7 +62,7 @@ class DatabaseViewModel {
         }
     }
     
-    func updateProject(project: Project, newProjectName: String) async {
+    func updateProjectName(project: Project, newProjectName: String) async throws {
         projectUpdateStatus = .inProgress
         do {
             try await DatabaseManager.shared.updateProjectName(
@@ -78,10 +78,10 @@ class DatabaseViewModel {
     func listenToUserProjects(user: User) {
         userProjectsStatus = .fetching
         
-        let(listener,projects) = DatabaseManager.shared.listenToUserProjects(user: user)
+        let(listener,fetchedProjects) = DatabaseManager.shared.listenToUserProjects(user: user)
         
         self.projectsListener = listener
-        if let projects = projects {
+        if let projects = fetchedProjects {
             self.userProjects = projects
             self.userProjectsStatus = .success
         } else {
@@ -89,7 +89,7 @@ class DatabaseViewModel {
                 underlyingError: NSError(
                     domain: "DatabaseViewModel",
                     code: 404,
-                    userInfo: [NSLocalizedDescriptionKey: "No projects found."]
+                    userInfo: [NSLocalizedDescriptionKey: Constants.noProjectsFoundString]
                 ))
         }
     }

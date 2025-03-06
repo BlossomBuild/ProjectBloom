@@ -10,6 +10,7 @@ import SwiftUI
 struct HomeView: View {
     @Environment(AuthViewModel.self) var authViewModel
     
+    
     var body: some View {
         NavigationStack() {
             switch authViewModel.authState {

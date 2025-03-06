@@ -11,7 +11,7 @@ struct EditProjectView: View {
     @State private var projectName = ""
     @State private var isLoading = false // helps reduce multiple submissions
     @Environment(AuthViewModel.self) var authViewModel
-    @EnvironmentObject var databaseManager : DatabaseManager
+    @Environment(DatabaseViewModel.self) var databaseViewModel
     @Environment(\.dismiss) var dismiss
     var updateProject: Bool
     var project: Project?
@@ -75,7 +75,7 @@ struct EditProjectView: View {
                 
                 let newproject = Project(name: projectName, projectLeaderID: user.uid, usersID: [user.uid], usersDetails: [UserDetails(id: user.uid, userName: userName, userEmail: userEmail)])
                 
-                try await databaseManager.createNewProject(projectDetails: newproject, user: user)
+                try await databaseViewModel.createNewProject(projectDetails: newproject, user: user)
                
                 dismiss()
                 isLoading = false
@@ -94,7 +94,7 @@ struct EditProjectView: View {
                     isLoading = false
                     return
                 }
-                try await databaseManager.updateProjectName(projectDetails: project, newProjectName: projectName)
+                try await databaseViewModel.updateProjectName(project: project, newProjectName: projectName)
                 
                 dismiss()
                 isLoading = false
@@ -110,5 +110,5 @@ struct EditProjectView: View {
 #Preview {
     EditProjectView(updateProject: false)
         .environment(AuthViewModel())
-        .environmentObject(DatabaseManager())
+        .environment(DatabaseViewModel())
 }
