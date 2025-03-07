@@ -77,21 +77,38 @@ class DatabaseViewModel {
     
     func listenToUserProjects(user: User) {
         userProjectsStatus = .fetching
+        let listener = Firestore.firestore()
+            .collection(FirebasePaths.projects.rawValue)
+            .whereField(FirebasePaths.usersID.rawValue, arrayContains: user.uid)
+            .addSnapshotListener { [weak self] snapshot, error in
+                guard let self = self else { return }
+                
+                if let error = error {
+                    self.userProjectsStatus = .failed(underlyingError: error)
+                    print("Error fetching user projects: \(error.localizedDescription)")
+                    return
+                }
+                
+                guard let documents = snapshot?.documents else {
+                    self.userProjectsStatus = .failed(underlyingError: NSError(
+                        domain: "DatabaseManager",
+                        code: 404,
+                        userInfo: [NSLocalizedDescriptionKey: "No documents found."]
+                    ))
+                    
+                    print("No documents found.")
+                    return
+                }
+                
+                self.userProjects = documents.compactMap {document in
+                    return try? document.data(as: Project.self)
+                }
+                
+                self.userProjectsStatus = .success
+                print("User projects successfully fetched.")
+            }
         
-        let(listener,fetchedProjects) = DatabaseManager.shared.listenToUserProjects(user: user)
-        
-        self.projectsListener = listener
-        if let projects = fetchedProjects {
-            self.userProjects = projects
-            self.userProjectsStatus = .success
-        } else {
-            self.userProjectsStatus = .failed(
-                underlyingError: NSError(
-                    domain: "DatabaseViewModel",
-                    code: 404,
-                    userInfo: [NSLocalizedDescriptionKey: Constants.noProjectsFoundString]
-                ))
-        }
+        projectsListener = listener
     }
     
     func stopListeningToUserProjects() {

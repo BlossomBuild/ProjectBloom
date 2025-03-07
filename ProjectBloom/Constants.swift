@@ -45,6 +45,7 @@ struct Constants {
     static var characterLimitReachedString = "Character Limit Reached"
     static var signingOutString = "Signing Out..."
     static var naString = "N/A"
+    static var loadingUserInfoString = "Loading User Info"
     
     //MARK: UI Icons
     static var signedInIcon = "person.crop.circle.badge.checkmark"

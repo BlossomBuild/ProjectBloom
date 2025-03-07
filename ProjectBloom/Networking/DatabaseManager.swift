@@ -114,33 +114,33 @@ class DatabaseManager {
     }
     
     
-    func listenToUserProjects(user: User) -> (ListenerRegistration? , [Project]?) {
-        var fetchedProjects: [Project]? = nil
-        var projectsListener: ListenerRegistration? = nil
-        
-        let listener = database
-            .collection(FirebasePaths.projects.rawValue)
-            .whereField(FirebasePaths.usersID.rawValue, arrayContains: user.uid)
-            .addSnapshotListener { snapshot, error in
-                print("HERE")
-                if let error = error {
-                    print("Error fetching user projects: \(error.localizedDescription)")
-                    return
-                }
-                
-                guard let documents = snapshot?.documents else {
-                    print("No documents found.")
-                    return
-                }
-                
-                fetchedProjects = documents.compactMap { document in
-                    return try? document.data(as: Project.self)
-                }
-                print("User projects successfully fetched.")
-            }
-        projectsListener = listener
-        return (projectsListener,fetchedProjects)
-    }
+//    func listenToUserProjects(userID: String) -> (ListenerRegistration? , [Project]?) {
+//        var fetchedProjects: [Project]? = nil
+//        var projectsListener: ListenerRegistration? = nil
+//        
+//        let listener = database
+//            .collection(FirebasePaths.projects.rawValue)
+//            .whereField(FirebasePaths.usersID.rawValue, arrayContains: userID)
+//            .addSnapshotListener { snapshot, error in
+//                print("HERE")
+//                if let error = error {
+//                    print("Error fetching user projects: \(error.localizedDescription)")
+//                    return
+//                }
+//                
+//                guard let documents = snapshot?.documents else {
+//                    print("No documents found.")
+//                    return
+//                }
+//                
+//                fetchedProjects = documents.compactMap { document in
+//                    return try? document.data(as: Project.self)
+//                }
+//                print("User projects successfully fetched.")
+//            }
+//        projectsListener = listener
+//        return (projectsListener,fetchedProjects)
+//    }
 }
 
 
