@@ -32,6 +32,7 @@ class DatabaseViewModel {
     private(set) var completedTasksStatus: FetchStatus = .notStarted
     
     private(set) var projectUpdateStatus: OperationStatus = .notStarted
+    private(set) var projectDeletedStatus: OperationStatus = .notStarted
     
     private var projectsListener: ListenerRegistration?
     private var projectTasksListener: ListenerRegistration?
@@ -53,12 +54,15 @@ class DatabaseViewModel {
     }
     
     func deleteProject(projectID: String) async throws {
-        projectUpdateStatus = .inProgress
+        projectDeletedStatus = .inProgress
         do {
             try await DatabaseManager.shared.deleteProject(projectID: projectID)
-            projectUpdateStatus = .success
+            projectDeletedStatus = .success
+            
+            try await Task.sleep(nanoseconds: 2_000_000_000)
+            projectDeletedStatus = .notStarted
         } catch {
-            projectUpdateStatus = .failed(underlyingError: error)
+            projectDeletedStatus = .failed(underlyingError: error)
         }
     }
     

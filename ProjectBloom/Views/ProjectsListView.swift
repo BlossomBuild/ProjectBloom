@@ -58,8 +58,6 @@ struct ProjectsListView: View {
                                 .frame(maxWidth: .infinity, alignment: .center)
                             
                             Spacer()
-                            
-                            
                         }
                         
                     } else {
@@ -90,24 +88,10 @@ struct ProjectsListView: View {
                         }
                         .listStyle(.plain)
                         .padding()
-                        .alert("\(Constants.deleteSting + Constants.spaceString)\(projectToDelete?.name ?? "\(Constants.projectString)")",isPresented: $showDeleteAlert, actions: {
-                            Button(Constants.deleteSting, role:.destructive){
-                                if let project = projectToDelete {
-                                    deleteProject(project: project)
-                                }
-                                showDeleteAlert = false
-                            }
-                            
-                            
-                            
-                            Button(Constants.cancelString, role: .cancel) {
-                                showDeleteAlert = false // Dismiss the alert
-                                projectToDelete = nil // Reset state
-                            }
-                        }, message: {
-                            Text(AlertString.actionCantBeUndone.rawValue)
-                        })
                         
+                        if let project = projectToDelete {
+                            DeleteProjectAlertView(isPresented: $showDeleteAlert, projectToDelete: project)
+                        }
                     }
                 case .failed(let error):
                     Text(error.localizedDescription)
@@ -124,16 +108,6 @@ struct ProjectsListView: View {
             databaseViewModel.stopListeningToUserProjects()
         }
         
-    }
-    
-    private func deleteProject(project: Project) {
-        Task {
-            do {
-                try await databaseViewModel.deleteProject(projectID: project.id.description)
-            } catch {
-                print("Error deleting project: \(error.localizedDescription)")
-            }
-        }
     }
     
 }
