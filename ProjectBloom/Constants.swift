@@ -47,7 +47,6 @@ struct Constants {
     static var naString = "N/A"
     static var loadingUserInfoString = "Loading User Info"
     static var inProgressString = "In Progress"
-    static var projectDeleted = "Project Deleted"
     
     //MARK: UI Icons
     static var signedInIcon = "person.crop.circle.badge.checkmark"

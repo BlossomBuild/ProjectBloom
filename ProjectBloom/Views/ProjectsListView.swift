@@ -13,7 +13,9 @@ struct ProjectsListView: View {
     
     @State private var greeting: String = Constants.getGreeting()
     @State private var showDeleteAlert: Bool = false
+    @State private var showProjectEdit: Bool = false
     @State private var projectToDelete: Project?
+    @State private var projectToEdit: Project?
     
     private var isUserNameLoaded: Bool {
         guard let userName = authViewModel.userDetails?.userName ?? authViewModel.user?.displayName else {
@@ -83,11 +85,22 @@ struct ProjectsListView: View {
                                         }
                                     }
                                     .tint(.red)
+                                    .swipeActions(edge: .trailing) {
+                                        Button {
+                                            projectToEdit = project
+                                            showProjectEdit = true
+                                        } label : {
+                                            Image(systemName: Constants.editIcon)
+                                                
+                                        }
+                                    }
+                                    .tint(.yellow)
                                 }
                             
                         }
                         .listStyle(.plain)
                         .padding()
+                        
                         
                         if let project = projectToDelete {
                             DeleteProjectAlertView(isPresented: $showDeleteAlert, projectToDelete: project)

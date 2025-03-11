@@ -29,16 +29,11 @@ struct DeleteProjectAlertView: View {
             })
         
         switch databaseViewModel.projectDeletedStatus {
-        case .notStarted:
-            ToastView(message: "")
-            case .inProgress:
-            ToastView(message: Constants.inProgressString)
-        case .success:
-            ToastView(message: Constants.projectDeleted)
         case .failed(underlyingError: let error):
             ToastView(message: "Error deleting project please try again")
+        default:
+            ToastView(message: "")
         }
-
     }
     
     private func deleteProject(project: Project) {

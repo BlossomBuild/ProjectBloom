@@ -22,7 +22,6 @@ class DatabaseViewModel {
     
     enum OperationStatus {
         case notStarted
-        case inProgress
         case success
         case failed (underlyingError: Error)
     }
@@ -44,7 +43,6 @@ class DatabaseViewModel {
     
     // MARK: Project Functions
     func createNewProject(projectDetails: Project, user: User) async throws {
-        projectUpdateStatus = .inProgress
         do {
             try await DatabaseManager.shared.createNewProject(projectDetails: projectDetails, user: user)
             projectUpdateStatus = .success
@@ -54,20 +52,17 @@ class DatabaseViewModel {
     }
     
     func deleteProject(projectID: String) async throws {
-        projectDeletedStatus = .inProgress
         do {
             try await DatabaseManager.shared.deleteProject(projectID: projectID)
             projectDeletedStatus = .success
-            
-            try await Task.sleep(nanoseconds: 2_000_000_000)
-            projectDeletedStatus = .notStarted
         } catch {
             projectDeletedStatus = .failed(underlyingError: error)
+            try await Task.sleep(nanoseconds: 2_000_000_000)
+            projectDeletedStatus = .notStarted
         }
     }
     
     func updateProjectName(project: Project, newProjectName: String) async throws {
-        projectUpdateStatus = .inProgress
         do {
             try await DatabaseManager.shared.updateProjectName(
                 projectDetails: project,
