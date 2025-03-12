@@ -106,7 +106,7 @@ class DatabaseManager {
                 "name": newProjectName
             ],merge: true)
             
-            print("Project name updated successfully to \(projectDetails.name)")
+            print("Project name updated successfully to \(newProjectName)")
         } catch {
             print("Error updating project name: \(error.localizedDescription)")
             throw error

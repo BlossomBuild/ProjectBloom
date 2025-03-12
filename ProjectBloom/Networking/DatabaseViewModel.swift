@@ -17,13 +17,13 @@ class DatabaseViewModel {
         case notStarted
         case fetching
         case success
-        case failed (underlyingError: Error)
+        case failed(underlyingError: Error)
     }
     
     enum OperationStatus {
         case notStarted
         case success
-        case failed (underlyingError: Error)
+        case failed
     }
     
     private(set) var userProjectsStatus: FetchStatus = .notStarted
@@ -47,7 +47,7 @@ class DatabaseViewModel {
             try await DatabaseManager.shared.createNewProject(projectDetails: projectDetails, user: user)
             projectUpdateStatus = .success
         } catch {
-            projectUpdateStatus = .failed(underlyingError: error)
+            projectUpdateStatus = .failed
         }
     }
     
@@ -56,7 +56,7 @@ class DatabaseViewModel {
             try await DatabaseManager.shared.deleteProject(projectID: projectID)
             projectDeletedStatus = .success
         } catch {
-            projectDeletedStatus = .failed(underlyingError: error)
+            projectDeletedStatus = .failed
             try await Task.sleep(nanoseconds: 2_000_000_000)
             projectDeletedStatus = .notStarted
         }
@@ -70,7 +70,7 @@ class DatabaseViewModel {
             )
             projectUpdateStatus = .success
         } catch {
-            projectUpdateStatus = .failed(underlyingError: error)
+            projectUpdateStatus = .failed
         }
     }
     
@@ -113,5 +113,6 @@ class DatabaseViewModel {
     func stopListeningToUserProjects() {
         projectsListener?.remove()
         projectsListener = nil
+        print("Stopped listening to user projects")
      }
 }

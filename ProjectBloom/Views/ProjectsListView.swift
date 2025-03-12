@@ -13,7 +13,6 @@ struct ProjectsListView: View {
     
     @State private var greeting: String = Constants.getGreeting()
     @State private var showDeleteAlert: Bool = false
-    @State private var showProjectEdit: Bool = false
     @State private var projectToDelete: Project?
     @State private var projectToEdit: Project?
     
@@ -88,7 +87,6 @@ struct ProjectsListView: View {
                                     .swipeActions(edge: .trailing) {
                                         Button {
                                             projectToEdit = project
-                                            showProjectEdit = true
                                         } label : {
                                             Image(systemName: Constants.editIcon)
                                                 
@@ -96,10 +94,16 @@ struct ProjectsListView: View {
                                     }
                                     .tint(.yellow)
                                 }
+                             
                             
                         }
                         .listStyle(.plain)
                         .padding()
+                        .sheet(item: $projectToEdit) { project in
+                            EditProjectView(updateProject: true,
+                                            project: project)
+                                .presentationDetents([.fraction(0.25)])
+                        }
                         
                         
                         if let project = projectToDelete {

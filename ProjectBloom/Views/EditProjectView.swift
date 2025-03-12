@@ -9,7 +9,7 @@ import SwiftUI
 
 struct EditProjectView: View {
     @State private var projectName = ""
-    @State private var isLoading = false // helps reduce multiple submissions
+    @State private var isLoading = false
     @Environment(AuthViewModel.self) var authViewModel
     @Environment(DatabaseViewModel.self) var databaseViewModel
     @Environment(\.dismiss) var dismiss

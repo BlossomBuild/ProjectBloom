@@ -29,7 +29,7 @@ struct DeleteProjectAlertView: View {
             })
         
         switch databaseViewModel.projectDeletedStatus {
-        case .failed(underlyingError: let error):
+        case .failed:
             ToastView(message: "Error deleting project please try again")
         default:
             ToastView(message: "")
