@@ -51,7 +51,7 @@ struct EditProjectView: View {
                     
                 } label: {
                     Text(updateProject ? Constants.renameString : Constants.createString)
-                        .ghostButton(borderColor: projectName.isEmpty ? .gray : .bbGreen)
+                        .ghostButton(borderColor: projectName.isEmpty ? .gray : .bbGreenDark)
                 }
                 .disabled(projectName.isEmpty || isLoading)
             
