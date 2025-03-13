@@ -22,20 +22,16 @@ class DatabaseViewModel {
     
     enum OperationStatus {
         case notStarted
+        case inProgress
         case success
         case failed
     }
     
     private(set) var userProjectsStatus: FetchStatus = .notStarted
-    private(set) var activeTasksStatus: FetchStatus = .notStarted
-    private(set) var completedTasksStatus: FetchStatus = .notStarted
     
-    private(set) var projectUpdateStatus: OperationStatus = .notStarted
     private(set) var projectDeletedStatus: OperationStatus = .notStarted
     
     private var projectsListener: ListenerRegistration?
-    private var projectTasksListener: ListenerRegistration?
-    private var completedTasksListener: ListenerRegistration?
     
     var userProjects : [Project] = []
     var projectTasks : [ProjectTask] = []
@@ -43,15 +39,11 @@ class DatabaseViewModel {
     
     // MARK: Project Functions
     func createNewProject(projectDetails: Project, user: User) async throws {
-        do {
-            try await DatabaseManager.shared.createNewProject(projectDetails: projectDetails, user: user)
-            projectUpdateStatus = .success
-        } catch {
-            projectUpdateStatus = .failed
-        }
+        try await DatabaseManager.shared.createNewProject(projectDetails: projectDetails, user: user)
     }
     
     func deleteProject(projectID: String) async throws {
+        projectDeletedStatus = .inProgress
         do {
             try await DatabaseManager.shared.deleteProject(projectID: projectID)
             projectDeletedStatus = .success
@@ -63,16 +55,12 @@ class DatabaseViewModel {
     }
     
     func updateProjectName(project: Project, newProjectName: String) async throws {
-        do {
-            try await DatabaseManager.shared.updateProjectName(
-                projectDetails: project,
-                newProjectName: newProjectName
-            )
-            projectUpdateStatus = .success
-        } catch {
-            projectUpdateStatus = .failed
-        }
-    }
+        try await DatabaseManager.shared.updateProjectName(
+            projectDetails: project,
+            newProjectName: newProjectName
+            
+        )}
+            
     
     func listenToUserProjects(user: User) {
         userProjectsStatus = .fetching
@@ -94,8 +82,6 @@ class DatabaseViewModel {
                         code: 404,
                         userInfo: [NSLocalizedDescriptionKey: "No documents found."]
                     ))
-                    
-                    print("No documents found.")
                     return
                 }
                 

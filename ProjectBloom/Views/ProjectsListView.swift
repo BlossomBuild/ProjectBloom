@@ -89,12 +89,12 @@ struct ProjectsListView: View {
                                             projectToEdit = project
                                         } label : {
                                             Image(systemName: Constants.editIcon)
-                                                
+                                            
                                         }
                                     }
                                     .tint(.yellow)
                                 }
-                             
+                            
                             
                         }
                         .listStyle(.plain)
@@ -102,7 +102,7 @@ struct ProjectsListView: View {
                         .sheet(item: $projectToEdit) { project in
                             EditProjectView(updateProject: true,
                                             project: project)
-                                .presentationDetents([.fraction(0.25)])
+                            .presentationDetents([.fraction(0.25)])
                         }
                         
                         

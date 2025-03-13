@@ -29,37 +29,20 @@ struct DeleteProjectAlertView: View {
             })
         
         switch databaseViewModel.projectDeletedStatus {
+        case .inProgress:
+            ProgressView()
         case .failed:
-            ToastView(message: "Error deleting project please try again")
+            Text(UserErrorMessages.deletingProjectError.rawValue)
         default:
-            ToastView(message: "")
+            EmptyView()
         }
     }
     
     private func deleteProject(project: Project) {
         Task {
-            do {
-                try await databaseViewModel.deleteProject(projectID: project.id.description)
-            } catch {
-                print("Error deleting project: \(error.localizedDescription)")
-            }
+            try await databaseViewModel
+                .deleteProject(projectID: project.id.description)
         }
-    }
-}
-
-
-struct ToastView: View {
-    let message: String
-    
-    var body: some View {
-        Text(message)
-            .foregroundColor(.white)
-            .padding()
-            .background(Color.black.opacity(0.8))
-            .cornerRadius(10)
-            .shadow(radius: 10)
-            .transition(.opacity)
-            .animation(.easeInOut(duration: 0.5), value: message)
     }
 }
 

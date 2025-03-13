@@ -14,8 +14,6 @@ class DatabaseManager {
     static let shared = DatabaseManager()
     var database = Firestore.firestore()
     
-    
-    
     //MARK: Project Functions
     func createNewProject(projectDetails: Project, user: User) async throws {
         do {
@@ -112,35 +110,6 @@ class DatabaseManager {
             throw error
         }
     }
-    
-    
-//    func listenToUserProjects(userID: String) -> (ListenerRegistration? , [Project]?) {
-//        var fetchedProjects: [Project]? = nil
-//        var projectsListener: ListenerRegistration? = nil
-//        
-//        let listener = database
-//            .collection(FirebasePaths.projects.rawValue)
-//            .whereField(FirebasePaths.usersID.rawValue, arrayContains: userID)
-//            .addSnapshotListener { snapshot, error in
-//                print("HERE")
-//                if let error = error {
-//                    print("Error fetching user projects: \(error.localizedDescription)")
-//                    return
-//                }
-//                
-//                guard let documents = snapshot?.documents else {
-//                    print("No documents found.")
-//                    return
-//                }
-//                
-//                fetchedProjects = documents.compactMap { document in
-//                    return try? document.data(as: Project.self)
-//                }
-//                print("User projects successfully fetched.")
-//            }
-//        projectsListener = listener
-//        return (projectsListener,fetchedProjects)
-//    }
 }
 
 
@@ -148,6 +117,66 @@ class DatabaseManager {
 
 
 
+
+
+
+
+
+
+
+
+//MARK: Task Functions
+//    func updateTask(projectId: String, projectTask: inout ProjectTask,
+//                    newTaskName: String, fireBasePath: String) async throws {
+//        let taskRef = database.collection(FirebasePaths.projects.rawValue)
+//            .document(projectId)
+//            .collection(fireBasePath)
+//            .document(projectTask.id.description)
+//
+//
+//        if !projectTask.isActiveTask {
+//            projectTask.isActiveTask = true
+//        }
+//
+//        projectTask.title = newTaskName
+//
+//        do {
+//            try taskRef.setData(from: projectTask)
+//            print("Task successfully updated")
+//        } catch {
+//            print("Task not updated: \(error.localizedDescription)")
+//            throw error
+//        }
+//    }
+
+//    func completeTask(projectId: String, projectTask: ProjectTask, userID: String) async throws {
+//        var completedTask = projectTask
+//        var defaultTask = projectTask
+//        completedTask.id = UUID()
+//        completedTask.completedAt = Timestamp(date: Date())
+//        completedTask.isActiveTask = false
+//        defaultTask.title = "No Task Assigned"
+//        defaultTask.isActiveTask = false
+//        do {
+//            try database.collection(FirebasePaths.projects.rawValue)
+//                .document(projectId)
+//                .collection(FirebasePaths.completedTasks.rawValue)
+//                .document(completedTask.id.description)
+//                .setData(from: completedTask)
+//
+//            try database.collection(FirebasePaths.projects.rawValue)
+//                .document(projectId)
+//                .collection(FirebasePaths.projectTasks.rawValue)
+//                .document(defaultTask.id.description)
+//                .setData(from: defaultTask)
+//
+//            print("Completed task added for project ID: \(projectId), task ID: \(projectTask.id), completedAt: \(String(describing: completedTask.completedAt))")
+//
+//        } catch {
+//            print("Error adding completed task: \(error.localizedDescription)")
+//            throw error
+//        }
+//    }
 
 //
 //    func deleteCompletedTask(projectId: String, projectTask: ProjectTask) async throws {
@@ -175,53 +204,9 @@ class DatabaseManager {
 //    }
 //
 //
-//    func updateTask(projectId: String, projectTask: ProjectTask,
-//                    newTaskName: String, fireBasePath: String) async throws {
-//        let taskRef = database.collection(FirebasePaths.projects.rawValue)
-//            .document(projectId)
-//            .collection(fireBasePath)
-//            .document(projectTask.id.description)
+
 //
-//        var updatedTask = projectTask
-//
-//        if(!projectTask.isActiveTask){
-//            updatedTask.isActiveTask = true
-//        }
-//
-//        updatedTask.title = newTaskName
-//
-//        try taskRef.setData(from: updatedTask)
-//        print("Task successfully updated")
-//    }
-//
-//    func completeTask(projectId: String, projectTask: ProjectTask, userID: String) async throws {
-//        var completedTask = projectTask
-//        var updatedTask = projectTask
-//        completedTask.id = UUID()
-//        completedTask.completedAt = Timestamp(date: Date())
-//        completedTask.isActiveTask = false
-//        updatedTask.title = "No Task Assigned"
-//        updatedTask.isActiveTask = false
-//        do {
-//            try database.collection(FirebasePaths.projects.rawValue)
-//                .document(projectId)
-//                .collection(FirebasePaths.completedTasks.rawValue)
-//                .document(completedTask.id.description)
-//                .setData(from: completedTask)
-//
-//            try database.collection(FirebasePaths.projects.rawValue)
-//                .document(projectId)
-//                .collection(FirebasePaths.projectTasks.rawValue)
-//                .document(updatedTask.id.description)
-//                .setData(from: updatedTask)
-//
-//            print("Completed task added for project ID: \(projectId), task ID: \(projectTask.id), completedAt: \(String(describing: completedTask.completedAt))")
-//
-//        } catch {
-//            print("Error adding completed task: \(error.localizedDescription)")
-//            throw error
-//        }
-//    }
+
 //
 //
 //    func listenToProjectTasks(projectID: String, taskType: String) {

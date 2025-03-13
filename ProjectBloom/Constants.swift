@@ -89,6 +89,10 @@ enum DefaultTaskStrings: String {
     
 }
 
+enum UserErrorMessages: String {
+    case deletingProjectError = "Error deleting project please try again"
+}
+
 enum SampleData: String {
     case sampleUser1ID = "sampleUser1ID"
     case sampleUser1Name = "Sample User 1"
