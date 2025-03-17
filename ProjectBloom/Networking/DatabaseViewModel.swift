@@ -182,5 +182,11 @@ class DatabaseViewModel {
             }
         }
     }
+
+    func getUserTasks (userID: String) -> [ProjectTask] {
+        return projectTasks.filter {
+            $0.assignedToID == userID
+        }
+    }
     
 }
