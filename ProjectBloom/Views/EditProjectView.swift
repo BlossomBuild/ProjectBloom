@@ -24,6 +24,8 @@ struct EditProjectView: View {
     
     var body: some View {
         VStack{
+            
+          
             TextField(Constants.projectNameString, text: $projectName)
                 .textFieldStyle(RoundedBorderTextFieldStyle())
                 .accessibilityLabel(Constants.projectNameString)

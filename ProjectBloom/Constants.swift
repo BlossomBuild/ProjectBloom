@@ -19,8 +19,6 @@ struct Constants {
     static var cancelString = "Cancel"
     static var createString = "Create"
     static var renameString = "Rename"
-    static var updateString = "Update"
-    static var completeString = "Complete"
     static var taskString = "Task"
     static var completedTasksString = "Completed Tasks"
     static var activeTasksString = "Active Tasks"
@@ -57,6 +55,8 @@ struct Constants {
     static var trashIcon = "trash"
     static var activeTaskIcon = "list.bullet.clipboard"
     static var completeTaskIcon = "clipboard.fill"
+    static var arrowUpIcon = "arrow.up.circle.fill"
+    static var checkMarkIcon = "checkmark.circle.fill"
     
     //MARK: UI Unwraps
     static var userName = "User Name"
