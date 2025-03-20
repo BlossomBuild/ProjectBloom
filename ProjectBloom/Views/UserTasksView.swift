@@ -8,75 +8,53 @@
 import SwiftUI
 
 struct UserTasksView: View {
-//    @EnvironmentObject var databaseManager: DatabaseManager
+
+    
     @Environment(AuthViewModel.self) var authViewModel
     @Environment(DatabaseViewModel.self) var databaseViewModel
     
-    @State private var taskToEdit: ProjectTask? = nil
-    @State private var tasktoComplete: ProjectTask? = nil
+    @State private var showEditTaskSheet: Bool = false
+    @State private var taskToEdit: ProjectTask?
+
     
     var userDetails: UserDetails
     var projectTasks: [ProjectTask]
     var projectId: String
     
     var body: some View {
-        
-        VStack(alignment: .leading) {
-            Text(authViewModel.userDetails?.userName ?? "")
+        NavigationStack {
+            VStack(alignment: .leading) {
+                Text(authViewModel.userDetails?.userName
+                     ?? authViewModel.user?.displayName ?? "")
                 .font(.title3)
-            
-            List(projectTasks){ projectTask in
-                HStack {
-                    Text(projectTask.title)
-                   
-                                      
-                    Spacer()
-                    
+                
+                List(projectTasks){ projectTask in
                     Button {
+                        showEditTaskSheet.toggle()
                         taskToEdit = projectTask
                     } label: {
-                        Image(systemName: Constants.editIcon)
-                            .foregroundStyle(.buttonText)
-                            .padding(.trailing, 8)
-                    }
-                    .buttonStyle(.plain)
-                    
-                    if(projectTask.isActiveTask) {
-                        Button {
-                            tasktoComplete = projectTask
-                        } label: {
-                            Image(systemName: Constants.checkmarkIcon)
-                                .foregroundStyle(.buttonText)
-                                .padding(.trailing, 8)
-                        }
-                        .buttonStyle(.plain)
+                        Text(projectTask.title)
                     }
                 }
+                .padding(.top, -25)
+                .clipShape(.rect(cornerRadius: 10))
+                .sheet(item: $taskToEdit) { task in
+                    EditTaskView(projectTask: task)
+                }
+                
             }
-            .padding(.top, -25)
-            
-            .clipShape(.rect(cornerRadius: 10))
-//            .sheet(item: $taskToEdit) { task in
-//                EditTaskView(projectId: projectId ,projectTask: task, editTask: true, isCompletedTask: false)
-//                    .presentationDetents([.fraction(0.25)])
-//            }
-//            .sheet(item: $tasktoComplete) { task in
-//                EditTaskView(projectId: projectId, projectTask: task, editTask: false, isCompletedTask: false)
-//                    .presentationDetents([.fraction(0.25)])
-//            }
-            
+            .frame(height: 225)
+            .padding()
         }
-     
-        .frame(height: 225)
-        .padding()
     }
 }
+
 
 
 #Preview {
     UserTasksView(userDetails: UserDetails.userSample1,
                   projectTasks: ProjectTask.sampleProjectTasks,
                   projectId: Project.sampleProjects[0].id.description)
-        .environment(DatabaseViewModel())
-        .environment(AuthViewModel())
+    .environment(DatabaseViewModel())
+    .environment(AuthViewModel())
 }

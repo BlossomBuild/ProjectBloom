@@ -11,13 +11,35 @@ struct EditTaskView: View {
 //    @EnvironmentObject var databaseManager: DatabaseManager
 //    @State var taskName = ""
 //    var projectId: String
-//    var projectTask: ProjectTask
 //    var editTask: Bool // True makes a new task, False completes task
 //    var isCompletedTask: Bool // True means the task is already completed
 //    @Environment(\.dismiss) var dismiss
-//    
+    var projectTask: ProjectTask
+    @State var taskName: String = ""
+    @State var taskDescription: String = ""
+    
     var body: some View {
-        Text("Edit Task")
+        
+        GeometryReader { geo in
+            VStack (alignment: .leading) {
+                Text("Task Editor")
+                    .font(.largeTitle)
+                    .padding()
+                TextField(projectTask.title, text: $taskName)
+                    .textFieldStyle(RoundedBorderTextFieldStyle())
+            
+                    .padding()
+                TextField(projectTask.description ?? "Description Optional", text: $taskDescription)
+                    .textFieldStyle(PlainTextFieldStyle())
+                    .clipShape(.rect(cornerRadius: 10))
+                    .padding([.horizontal], 4)
+                    .frame(minHeight: 150)
+                    .overlay(RoundedRectangle(cornerRadius: 16).stroke(Color.gray))
+                    .padding([.horizontal], 24)
+                    .lineLimit(nil)
+            }
+        }
+        
 //        ZStack {
 //            VStack {
 //                if(!editTask){
@@ -105,5 +127,5 @@ struct EditTaskView: View {
 }
 
 #Preview {
-    EditTaskView()
+    EditTaskView(projectTask: ProjectTask.sampleProjectTasks[0])
 }

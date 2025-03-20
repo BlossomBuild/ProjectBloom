@@ -7,7 +7,6 @@
 
 import SwiftUI
 
-
 struct ProjectDetailView: View {
     
     @Environment(DatabaseViewModel.self) var databaseViewModel
@@ -25,7 +24,9 @@ struct ProjectDetailView: View {
                     Tab(Constants.activeTasksString, systemImage: Constants.activeTaskIcon) {
                         ScrollView {
                             ForEach(project.usersDetails) { user in
-                                UserTasksView(userDetails: user, projectTasks: databaseViewModel.getUserTasks(userID: user.id), projectId: project.id.description)
+                                UserTasksView(userDetails: user,
+                                              projectTasks: databaseViewModel.getUserTasks(userID: user.id),
+                                              projectId: project.id.description)
                             }
                         }
                         
