@@ -37,7 +37,6 @@ struct EditProjectView: View {
                             projectName = String(newValue.prefix(30))
                         }
                     }
-                   
                 }
             
             CharacterCounterView(currentCount: projectName.count, maxLimit: 30)

@@ -8,39 +8,29 @@
 import SwiftUI
 
 struct EditTaskView: View {
-    //    @EnvironmentObject var databaseManager: DatabaseManager
-    //    @State var taskName = ""
-    //    var projectId: String
-    //    var editTask: Bool // True makes a new task, False completes task
-    //    var isCompletedTask: Bool // True means the task is already completed
-    //    @Environment(\.dismiss) var dismiss
+    @Environment(\.dismiss) var dismiss
     var projectTask: ProjectTask
     @State var taskName: String = ""
     @State var taskDescription: String = ""
     
     var body: some View {
-        
-        
         VStack (alignment: .leading) {
             
-            
-            TextField(projectTask.title, text: $taskName)
+            TextField(projectTask.title, text: $taskName, axis: .vertical)
                 .textFieldStyle(PlainTextFieldStyle())
-                .clipShape(.rect(cornerRadius: 10))
-                .padding([.horizontal], 4)
+                .padding()
+                .frame(minHeight: 25)
+            
+            Rectangle()
+                .foregroundStyle(.bbGreenDark)
+                .frame(height: 2)
+            
+            TextField(projectTask.description
+                      ?? Constants.descriptionOptionalString,
+                      text: $taskDescription , axis: .vertical)
+                .textFieldStyle(PlainTextFieldStyle())
+                .padding()
                 .frame(minHeight: 50)
-                
-                .padding([.horizontal], 24)
-            
-            
-            TextField(projectTask.description ?? "Description Optional", text: $taskDescription , axis: .vertical)
-                .textFieldStyle(PlainTextFieldStyle())
-                .clipShape(.rect(cornerRadius: 10))
-                .padding([.horizontal], 4)
-                .frame(minHeight: 100)
-                .overlay(RoundedRectangle(cornerRadius: 16).stroke(Color.gray))
-                .padding([.horizontal], 24)
-            
             Spacer()
             HStack {
                 Spacer()
@@ -67,8 +57,14 @@ struct EditTaskView: View {
             .padding()
             
         }
-        .frame(height: 150)
     }
+    
+    
+    //    @EnvironmentObject var databaseManager: DatabaseManager
+    //    @State var taskName = ""
+    //    var projectId: String
+    //    var editTask: Bool // True makes a new task, False completes task
+    //    var isCompletedTask: Bool // True means the task is already completed
     
     //        ZStack {
     //            VStack {
