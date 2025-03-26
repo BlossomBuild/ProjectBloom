@@ -39,7 +39,7 @@ struct UserTasksView: View {
                 .padding(.top, -25)
                 .clipShape(.rect(cornerRadius: 10))
                 .sheet(item: $taskToEdit) { task in
-                    EditTaskView(projectTask: task)
+                    EditTaskView(projectId: projectId, projectTask: task)
                         .presentationDetents([.fraction(0.30)])
 
                 }

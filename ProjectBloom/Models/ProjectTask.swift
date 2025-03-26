@@ -16,6 +16,7 @@ struct ProjectTask: Codable, Identifiable, Equatable {
     var isActiveTask: Bool
     var description: String?
     var completedAt: Timestamp?
+    var isCompleted: Bool?
     
     static let sampleProjectTasks: [ProjectTask] = [
         ProjectTask(title: "Project Task 1", assignedToID: SampleData.sampleUser1ID.rawValue, assignedToUserName: SampleData.sampleUser1Name.rawValue, isActiveTask: false),

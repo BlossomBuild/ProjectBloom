@@ -35,12 +35,14 @@ class DatabaseManager {
             ProjectTask(
                 title: DefaultTaskStrings.defaultTaskTitle.rawValue,
                 assignedToID: user.uid,assignedToUserName: user.displayName ?? "",
-                isActiveTask: false
+                isActiveTask: false,
+                isCompleted: false
             ),
             ProjectTask(
                 title: DefaultTaskStrings.defaultTaskTitle.rawValue,
                 assignedToID: user.uid, assignedToUserName: user.displayName ?? "",
-                isActiveTask: false
+                isActiveTask: false,
+                isCompleted: false
             )
         ]
         
@@ -110,6 +112,32 @@ class DatabaseManager {
             throw error
         }
     }
+    
+    //MARK: Task Functions
+        func assignTask(projectId: String, projectTask:ProjectTask,
+                        newTaskName: String, fireBasePath: String) async throws {
+           
+            let taskRef = database.collection(FirebasePaths.projects.rawValue)
+                .document(projectId)
+                .collection(fireBasePath)
+                .document(projectTask.id.description)
+    
+            var assignedTask = projectTask
+    
+            if !projectTask.isActiveTask {
+                assignedTask.isActiveTask = true
+            }
+    
+            assignedTask.title = newTaskName
+            
+            do {
+                try taskRef.setData(from: assignedTask)
+                print("Task successfully updated")
+            } catch {
+                print("Task not updated: \(error.localizedDescription)")
+                throw error
+            }
+        }
 }
 
 

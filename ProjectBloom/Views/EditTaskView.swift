@@ -9,6 +9,9 @@ import SwiftUI
 
 struct EditTaskView: View {
     @Environment(\.dismiss) var dismiss
+    @Environment(DatabaseViewModel.self) var databaseViewModel
+    
+    var projectId: String
     var projectTask: ProjectTask
     @State var taskName: String = ""
     @State var taskDescription: String = ""
@@ -28,14 +31,15 @@ struct EditTaskView: View {
             TextField(projectTask.description
                       ?? Constants.descriptionOptionalString,
                       text: $taskDescription , axis: .vertical)
-                .textFieldStyle(PlainTextFieldStyle())
-                .padding()
-                .frame(minHeight: 50)
+            .textFieldStyle(PlainTextFieldStyle())
+            .padding()
+            .frame(minHeight: 50)
             Spacer()
             HStack {
                 Spacer()
                 Button {
-                    
+                    assignTask()
+                    dismiss()
                 } label: {
                     Image(systemName: Constants.arrowUpIcon)
                         .font(.system(size: 35))
@@ -59,7 +63,21 @@ struct EditTaskView: View {
         }
     }
     
+    func assignTask () {
+            Task {
+                do {
+                    try await databaseViewModel.assignTask(
+                        projectId: projectId,
+                        projectTask: projectTask,
+                        newTaskName: taskName
+                    )
     
+                } catch {
+                    print("Error updating project: \(error.localizedDescription)")
+                }
+            }
+        }
+}
     //    @EnvironmentObject var databaseManager: DatabaseManager
     //    @State var taskName = ""
     //    var projectId: String
@@ -150,8 +168,5 @@ struct EditTaskView: View {
     //            }
     //        }
     //    }
-}
 
-#Preview {
-    EditTaskView(projectTask: ProjectTask.sampleProjectTasks[0])
-}
+
