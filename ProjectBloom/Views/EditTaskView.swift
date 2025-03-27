@@ -17,12 +17,21 @@ struct EditTaskView: View {
     @State var taskDescription: String = ""
     
     var body: some View {
-        VStack (alignment: .leading) {
+        VStack {
             
             TextField(projectTask.title, text: $taskName, axis: .vertical)
                 .textFieldStyle(PlainTextFieldStyle())
-                .padding()
-                .frame(minHeight: 25)
+                .padding(10)
+                .frame(minHeight: 30)
+                .onChange(of: taskName) { oldValue, newValue in
+                    if newValue.count > 70 {
+                        taskName = String(newValue.prefix(70))
+                    }
+                }
+            
+            CharacterCounterView(currentCount: taskName.count, maxLimit: 70)
+         
+
             
             Rectangle()
                 .foregroundStyle(.bbGreenDark)
@@ -31,20 +40,40 @@ struct EditTaskView: View {
             TextField(projectTask.description
                       ?? Constants.descriptionOptionalString,
                       text: $taskDescription , axis: .vertical)
+            .padding(10)
+            .onChange(of: taskDescription) { oldValue, newValue in
+                if newValue.count > 230 {
+                    taskDescription = String(newValue.prefix(230))
+                }
+            }
+            
+
+            
             .textFieldStyle(PlainTextFieldStyle())
             .padding()
             .frame(minHeight: 50)
             Spacer()
             HStack {
-                Spacer()
+               
                 Button {
-                    assignTask()
-                    dismiss()
+                    if !taskName.isEmpty{
+                        assignTask()
+                        dismiss()
+                    }
                 } label: {
                     Image(systemName: Constants.arrowUpIcon)
                         .font(.system(size: 35))
-                        .foregroundStyle(.bbGreenDark)
+                        .foregroundStyle(taskName.isEmpty ? .gray : .bbGreenDark)
                 }
+                
+                
+                
+                Spacer()
+                CharacterCounterView(currentCount: taskDescription.count, maxLimit: 230)
+                
+                Spacer()
+                
+                
                 
                 if projectTask.isActiveTask {
                     Button {
@@ -52,29 +81,27 @@ struct EditTaskView: View {
                     } label: {
                         Image(systemName: Constants.checkMarkIcon)
                             .font(.system(size: 35))
-                            .foregroundStyle(.bbGreenDark)
+                            .foregroundStyle(taskName.isEmpty ? .gray : .bbGreenDark)
                         
                     }
                 }
                 
+              
+                
             }
             .padding()
-            
         }
     }
     
     func assignTask () {
             Task {
-                do {
-                    try await databaseViewModel.assignTask(
-                        projectId: projectId,
-                        projectTask: projectTask,
-                        newTaskName: taskName
-                    )
-    
-                } catch {
-                    print("Error updating project: \(error.localizedDescription)")
-                }
+                //TODO: Add a catch block for feedback if the operation fails
+                try await DatabaseManager.shared.assignTask(
+                    projectId: projectId,
+                    projectTask: projectTask,
+                    newTaskName: taskName,
+                    newTaskDescription: taskDescription
+                )
             }
         }
 }

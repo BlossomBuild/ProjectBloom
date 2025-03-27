@@ -25,18 +25,16 @@ struct EditProjectView: View {
     var body: some View {
         VStack{
             
-          
             TextField(Constants.projectNameString, text: $projectName)
                 .textFieldStyle(RoundedBorderTextFieldStyle())
                 .accessibilityLabel(Constants.projectNameString)
                 .accessibilityHint(Constants.projectAccessibilityHint)
                 .padding(10)
                 .onChange(of: projectName) { oldValue, newValue in
-                    DispatchQueue.main.asyncAfter(deadline: .now() + 0.1){
                         if newValue.count > 30 {
                             projectName = String(newValue.prefix(30))
                         }
-                    }
+                    
                 }
             
             CharacterCounterView(currentCount: projectName.count, maxLimit: 30)
@@ -104,12 +102,4 @@ struct EditProjectView: View {
             }
         }
     }
-}
-
-
-
-#Preview {
-    EditProjectView(updateProject: false)
-        .environment(AuthViewModel())
-        .environment(DatabaseViewModel())
 }

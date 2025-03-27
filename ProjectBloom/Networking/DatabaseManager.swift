@@ -113,13 +113,18 @@ class DatabaseManager {
         }
     }
     
+    
     //MARK: Task Functions
         func assignTask(projectId: String, projectTask:ProjectTask,
-                        newTaskName: String, fireBasePath: String) async throws {
-           
+                        newTaskName: String, newTaskDescription: String) async throws {
+            
+            let firebasePath = projectTask.isCompleted ?? false ? FirebasePaths.completedTasks.rawValue :
+            FirebasePaths.projectTasks.rawValue
+            
+            
             let taskRef = database.collection(FirebasePaths.projects.rawValue)
                 .document(projectId)
-                .collection(fireBasePath)
+                .collection(firebasePath)
                 .document(projectTask.id.description)
     
             var assignedTask = projectTask
@@ -129,6 +134,12 @@ class DatabaseManager {
             }
     
             assignedTask.title = newTaskName
+           
+            if(newTaskDescription.isEmpty){
+                assignedTask.description = nil
+            } else {
+                assignedTask.description = newTaskDescription
+            }
             
             do {
                 try taskRef.setData(from: assignedTask)

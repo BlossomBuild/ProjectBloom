@@ -32,7 +32,6 @@ class DatabaseViewModel {
     private(set) var userCompletedTasksStatus: FetchStatus = .notStarted
     
     private(set) var projectDeletedStatus: OperationStatus = .notStarted
-    private(set) var assignTaskStatus: OperationStatus = .notStarted
     
     private var projectsListener: ListenerRegistration?
     private var activeTasksListener: ListenerRegistration?
@@ -65,6 +64,10 @@ class DatabaseViewModel {
             newProjectName: newProjectName
             
         )}
+    
+    
+    
+    
     
     
     func listenToUserProjects(user: User) {
@@ -183,30 +186,10 @@ class DatabaseViewModel {
             }
         }
     }
-
+    
     func getUserTasks (userID: String) -> [ProjectTask] {
         return projectTasks.filter {
             $0.assignedToID == userID
         }
-    }
-    
-    //MARK: Task Functions
-    func assignTask(projectId: String, projectTask:ProjectTask,
-                    newTaskName: String) async throws {
-        assignTaskStatus = .inProgress
-        
-        let firebasePath = projectTask.isCompleted ?? false ? FirebasePaths.completedTasks.rawValue :
-        FirebasePaths.projectTasks.rawValue
-        print(firebasePath)
-        
-        do {
-            try await DatabaseManager.shared.assignTask(projectId: projectId, projectTask: projectTask, newTaskName: newTaskName, fireBasePath: firebasePath)
-            
-            assignTaskStatus = .success
-            
-        } catch {
-            assignTaskStatus = .failed
-        }
-        
     }
 }
