@@ -18,9 +18,8 @@ struct EditTaskView: View {
     init(projectID: String,projectTask: ProjectTask){
         self.projectTask = projectTask
         self.projectId = projectID
-        if projectTask.isActiveTask{
-            _taskName = State(initialValue: projectTask.title)
-        }
+       
+        _taskName = State(initialValue: projectTask.isActiveTask ? projectTask.title : "")
         _taskDescription = State(initialValue: projectTask.description ?? "")
     }
     
