@@ -65,11 +65,6 @@ class DatabaseViewModel {
             
         )}
     
-    
-    
-    
-    
-    
     func listenToUserProjects(user: User) {
         guard projectsListener == nil else { return}
         
