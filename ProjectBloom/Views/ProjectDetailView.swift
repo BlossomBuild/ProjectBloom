@@ -33,7 +33,7 @@ struct ProjectDetailView: View {
                     }
                     
                     Tab(Constants.completedTasksString, systemImage: Constants.completeTaskIcon) {
-                        
+                        UserCompletedTaskView(project: project)
                     }
                 }
                 
@@ -52,12 +52,4 @@ struct ProjectDetailView: View {
         }
     }
     
-}
-
-
-
-
-#Preview {
-    ProjectDetailView(project: Project.sampleProjects[0])
-        .environment(DatabaseViewModel())
 }

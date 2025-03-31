@@ -57,6 +57,7 @@ struct EditProjectView: View {
         }
     }
     
+    //TODO: Add Feedback in the catch Block
     func createNewProject() {
         Task {
             do {
@@ -74,14 +75,10 @@ struct EditProjectView: View {
                 
                 let newproject = Project(name: projectName, projectLeaderID: user.uid, usersID: [user.uid], usersDetails: [UserDetails(id: user.uid, userName: userName, userEmail: userEmail)])
                 
-                try await databaseViewModel.createNewProject(projectDetails: newproject, user: user)
+                try await DatabaseManager.shared.createNewProject(projectDetails: newproject, user: user)
                
                 dismiss()
                 isLoading = false
-                
-            } catch {
-                print("Error creating the project: \(error)")
-                
             }
         }
     }
@@ -93,7 +90,7 @@ struct EditProjectView: View {
                     isLoading = false
                     return
                 }
-                try await databaseViewModel.updateProjectName(project: project, newProjectName: projectName)
+                try await DatabaseManager.shared.updateProjectName(project: project, newProjectName: projectName)
                 
                 dismiss()
                 isLoading = false

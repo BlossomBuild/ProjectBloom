@@ -42,10 +42,6 @@ class DatabaseViewModel {
     var completedTasks : [ProjectTask] = []
     
     // MARK: Project Functions
-    func createNewProject(projectDetails: Project, user: User) async throws {
-        try await DatabaseManager.shared.createNewProject(projectDetails: projectDetails, user: user)
-    }
-    
     func deleteProject(projectID: String) async throws {
         projectDeletedStatus = .inProgress
         do {
@@ -57,13 +53,6 @@ class DatabaseViewModel {
             projectDeletedStatus = .notStarted
         }
     }
-    
-    func updateProjectName(project: Project, newProjectName: String) async throws {
-        try await DatabaseManager.shared.updateProjectName(
-            projectDetails: project,
-            newProjectName: newProjectName
-            
-        )}
     
     func listenToUserProjects(user: User) {
         guard projectsListener == nil else { return}
@@ -151,7 +140,7 @@ class DatabaseViewModel {
     }
     
     func stopListeningToProjectTasks(taskType: String) {
-        if taskType == FirebasePaths.projects.rawValue {
+        if taskType == FirebasePaths.projectTasks.rawValue {
             activeTasksListener?.remove()
             activeTasksListener = nil
             print("Stopped listening to active tasks")

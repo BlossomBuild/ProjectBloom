@@ -97,9 +97,9 @@ class DatabaseManager {
             }
         }
     
-    func updateProjectName(projectDetails: Project, newProjectName: String) async throws {
+    func updateProjectName(project: Project, newProjectName: String) async throws {
         let taskRef = database.collection(FirebasePaths.projects.rawValue)
-            .document(projectDetails.id.description)
+            .document(project.id.description)
         
         do {
             try await taskRef.setData([
@@ -149,6 +149,41 @@ class DatabaseManager {
                 throw error
             }
         }
+    
+        func completeTask(projectId: String, projectTask: ProjectTask) async throws {
+            var completedTask = projectTask
+            var defaultTask = projectTask
+            
+            completedTask.id = UUID()
+            completedTask.completedAt = Timestamp(date: Date())
+            completedTask.isActiveTask = false
+            completedTask.isCompleted = true
+            
+            
+            defaultTask.title = DefaultTaskStrings.defaultTaskTitle.rawValue
+            defaultTask.isActiveTask = false
+            defaultTask.description = nil
+            
+            do {
+                try database.collection(FirebasePaths.projects.rawValue)
+                    .document(projectId)
+                    .collection(FirebasePaths.completedTasks.rawValue)
+                    .document(completedTask.id.description)
+                    .setData(from: completedTask)
+    
+                try database.collection(FirebasePaths.projects.rawValue)
+                    .document(projectId)
+                    .collection(FirebasePaths.projectTasks.rawValue)
+                    .document(defaultTask.id.description)
+                    .setData(from: defaultTask)
+    
+                print("Completed task added for project ID: \(projectId), task ID: \(projectTask.id)")
+    
+            } catch {
+                print("Error adding completed task: \(error.localizedDescription)")
+                throw error
+            }
+        }
 }
 
 
@@ -165,60 +200,7 @@ class DatabaseManager {
 
 
 //MARK: Task Functions
-//    func updateTask(projectId: String, projectTask: inout ProjectTask,
-//                    newTaskName: String, fireBasePath: String) async throws {
-//        let taskRef = database.collection(FirebasePaths.projects.rawValue)
-//            .document(projectId)
-//            .collection(fireBasePath)
-//            .document(projectTask.id.description)
-//
-//
-//        if !projectTask.isActiveTask {
-//            projectTask.isActiveTask = true
-//        }
-//
-//        projectTask.title = newTaskName
-//
-//        do {
-//            try taskRef.setData(from: projectTask)
-//            print("Task successfully updated")
-//        } catch {
-//            print("Task not updated: \(error.localizedDescription)")
-//            throw error
-//        }
-//    }
-
-//    func completeTask(projectId: String, projectTask: ProjectTask, userID: String) async throws {
-//        var completedTask = projectTask
-//        var defaultTask = projectTask
-//        completedTask.id = UUID()
-//        completedTask.completedAt = Timestamp(date: Date())
-//        completedTask.isActiveTask = false
-//        defaultTask.title = "No Task Assigned"
-//        defaultTask.isActiveTask = false
-//        do {
-//            try database.collection(FirebasePaths.projects.rawValue)
-//                .document(projectId)
-//                .collection(FirebasePaths.completedTasks.rawValue)
-//                .document(completedTask.id.description)
-//                .setData(from: completedTask)
-//
-//            try database.collection(FirebasePaths.projects.rawValue)
-//                .document(projectId)
-//                .collection(FirebasePaths.projectTasks.rawValue)
-//                .document(defaultTask.id.description)
-//                .setData(from: defaultTask)
-//
-//            print("Completed task added for project ID: \(projectId), task ID: \(projectTask.id), completedAt: \(String(describing: completedTask.completedAt))")
-//
-//        } catch {
-//            print("Error adding completed task: \(error.localizedDescription)")
-//            throw error
-//        }
-//    }
-
-//
-//    func deleteCompletedTask(projectId: String, projectTask: ProjectTask) async throws {
+// func deleteCompletedTask(projectId: String, projectTask: ProjectTask) async throws {
 //        let taskRef = database.collection(FirebasePaths.projects.rawValue)
 //            .document(projectId)
 //            .collection(FirebasePaths.completedTasks.rawValue)

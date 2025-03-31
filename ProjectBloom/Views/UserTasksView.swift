@@ -8,7 +8,6 @@
 import SwiftUI
 
 struct UserTasksView: View {
-
     
     @Environment(AuthViewModel.self) var authViewModel
     @Environment(DatabaseViewModel.self) var databaseViewModel
