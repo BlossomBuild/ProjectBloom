@@ -40,6 +40,12 @@ class DatabaseViewModel {
     var userProjects : [Project] = []
     var projectTasks : [ProjectTask] = []
     var completedTasks : [ProjectTask] = []
+    var sortedCompletedTasks: [ProjectTask] {
+        completedTasks.sorted {
+            $0.completedAt?.dateValue() ?? Date() >
+            $1.completedAt?.dateValue() ?? Date()
+        }
+    }
     
     // MARK: Project Functions
     func deleteProject(projectID: String) async throws {
@@ -176,4 +182,12 @@ class DatabaseViewModel {
             $0.assignedToID == userID
         }
     }
+    
+    func sortCompletedTasks() {
+        completedTasks.sort(by: {
+            $0.completedAt?.dateValue() ?? Date()
+            > $1.completedAt?.dateValue() ?? Date()
+        })
+    }
+    
 }

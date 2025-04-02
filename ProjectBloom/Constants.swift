@@ -46,6 +46,7 @@ struct Constants {
     static var loadingUserInfoString = "Loading User Info"
     static var inProgressString = "In Progress"
     static var descriptionOptionalString = "Description (Optional)"
+    static var noCompletedTasks = "No Completed Tasks"
     
     //MARK: UI Icons
     static var signedInIcon = "person.crop.circle.badge.checkmark"
@@ -72,6 +73,13 @@ struct Constants {
         case 18..<24: goodEveningString
         default: helloString
         }
+    }
+    
+    static func getFormattedDate(projectTask: ProjectTask) -> String {
+        guard let completedAt = projectTask.completedAt?.dateValue() else {return ""}
+        let formatter = DateFormatter()
+        formatter.dateFormat = "MMM d, yyyy"
+        return formatter.string(from: completedAt)
     }
     
     static func getFirstName(from fullName: String?) -> String {
