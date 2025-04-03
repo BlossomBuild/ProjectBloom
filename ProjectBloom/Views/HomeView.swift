@@ -28,10 +28,4 @@ struct HomeView: View {
     }
 }
 
-#Preview {
-    HomeView()
-        .environment(AuthViewModel())
-}
-
-
 

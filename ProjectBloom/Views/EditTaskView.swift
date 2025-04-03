@@ -18,8 +18,9 @@ struct EditTaskView: View {
     init(projectID: String,projectTask: ProjectTask){
         self.projectTask = projectTask
         self.projectId = projectID
-       
-        _taskName = State(initialValue: projectTask.isActiveTask ? projectTask.title : "")
+        
+        _taskName = State(initialValue: projectTask.isActiveTask ||
+                          (projectTask.isCompleted != nil) ? projectTask.title : "")
         _taskDescription = State(initialValue: projectTask.description ?? "")
     }
     
@@ -68,6 +69,7 @@ struct EditTaskView: View {
                         
                     }
                 }
+                
             }
             .padding()
         }

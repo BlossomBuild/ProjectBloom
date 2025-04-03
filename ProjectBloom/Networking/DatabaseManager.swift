@@ -35,14 +35,12 @@ class DatabaseManager {
             ProjectTask(
                 title: DefaultTaskStrings.defaultTaskTitle.rawValue,
                 assignedToID: user.uid,assignedToUserName: user.displayName ?? "",
-                isActiveTask: false,
-                isCompleted: false
+                isActiveTask: false
             ),
             ProjectTask(
                 title: DefaultTaskStrings.defaultTaskTitle.rawValue,
                 assignedToID: user.uid, assignedToUserName: user.displayName ?? "",
-                isActiveTask: false,
-                isCompleted: false
+                isActiveTask: false
             )
         ]
         
@@ -115,42 +113,55 @@ class DatabaseManager {
     
     
     //MARK: Task Functions
-        func assignTask(projectId: String, projectTask:ProjectTask,
-                        newTaskName: String, newTaskDescription: String) async throws {
-            
-            let firebasePath = projectTask.isCompleted ?? false ? FirebasePaths.completedTasks.rawValue :
-            FirebasePaths.projectTasks.rawValue
-            
-            
+    func assignTask(projectId: String, projectTask:ProjectTask,
+                    newTaskName: String, newTaskDescription: String) async throws {
+        
+        let firebasePath = projectTask.isCompleted ?? false ? FirebasePaths.completedTasks.rawValue :
+        FirebasePaths.projectTasks.rawValue
+        
+        
+        let taskRef = database.collection(FirebasePaths.projects.rawValue)
+            .document(projectId)
+            .collection(firebasePath)
+            .document(projectTask.id.description)
+        
+        var assignedTask = projectTask
+        
+        if !projectTask.isActiveTask {
+            assignedTask.isActiveTask = true
+        }
+        
+        assignedTask.title = newTaskName
+        
+        if(newTaskDescription.isEmpty){
+            assignedTask.description = nil
+        } else {
+            assignedTask.description = newTaskDescription
+        }
+        
+        do {
+            try taskRef.setData(from: assignedTask)
+            print("Task successfully updated")
+        } catch {
+            print("Task not updated: \(error.localizedDescription)")
+            throw error
+        }
+    }
+    
+    func completeTask(projectId: String, projectTask: ProjectTask) async throws {
+        
+        if(projectTask.isCompleted != nil) {
             let taskRef = database.collection(FirebasePaths.projects.rawValue)
                 .document(projectId)
-                .collection(firebasePath)
+                .collection(FirebasePaths.completedTasks.rawValue)
                 .document(projectTask.id.description)
-    
-            var assignedTask = projectTask
-    
-            if !projectTask.isActiveTask {
-                assignedTask.isActiveTask = true
-            }
-    
-            assignedTask.title = newTaskName
-           
-            if(newTaskDescription.isEmpty){
-                assignedTask.description = nil
-            } else {
-                assignedTask.description = newTaskDescription
-            }
             
             do {
-                try taskRef.setData(from: assignedTask)
-                print("Task successfully updated")
+                try taskRef.setData(from: projectTask)
             } catch {
                 print("Task not updated: \(error.localizedDescription)")
-                throw error
             }
-        }
-    
-        func completeTask(projectId: String, projectTask: ProjectTask) async throws {
+        } else {
             var completedTask = projectTask
             var defaultTask = projectTask
             
@@ -170,20 +181,21 @@ class DatabaseManager {
                     .collection(FirebasePaths.completedTasks.rawValue)
                     .document(completedTask.id.description)
                     .setData(from: completedTask)
-    
+                
                 try database.collection(FirebasePaths.projects.rawValue)
                     .document(projectId)
                     .collection(FirebasePaths.projectTasks.rawValue)
                     .document(defaultTask.id.description)
                     .setData(from: defaultTask)
-    
+                
                 print("Completed task added for project ID: \(projectId), task ID: \(projectTask.id)")
-    
+                
             } catch {
                 print("Error adding completed task: \(error.localizedDescription)")
                 throw error
             }
         }
+    }
 }
 
 

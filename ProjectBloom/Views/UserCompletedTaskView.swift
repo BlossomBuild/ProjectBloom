@@ -29,7 +29,6 @@ struct UserCompletedTaskView: View {
                         .frame(width: geo.size.width, height: geo.size.height)
                 } else {
                     List(databaseViewModel.sortedCompletedTasks) {projectTask in
-                        
                         VStack(alignment: .leading, spacing: 4) {
                             Text(projectTask.title)
                                 .font(.system(size: 13))
@@ -44,6 +43,13 @@ struct UserCompletedTaskView: View {
                                 .font(.system(size: 12))
                             
                         }
+                        .onTapGesture {
+                            taskToEdit = projectTask
+                        }
+                    }
+                    .sheet(item: $taskToEdit) {task in
+                        EditTaskView(projectID: project.id.description, projectTask: task)
+                            .presentationDetents([.fraction(0.30)])
                     }
                 }
                 
