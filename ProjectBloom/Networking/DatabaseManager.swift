@@ -127,7 +127,7 @@ class DatabaseManager {
         
         var assignedTask = projectTask
         
-        if !projectTask.isActiveTask {
+        if !projectTask.isActiveTask && projectTask.isCompleted == nil {
             assignedTask.isActiveTask = true
         }
         
@@ -147,7 +147,6 @@ class DatabaseManager {
             throw error
         }
     }
-    
     func completeTask(projectId: String, projectTask: ProjectTask) async throws {
         
         if(projectTask.isCompleted != nil) {

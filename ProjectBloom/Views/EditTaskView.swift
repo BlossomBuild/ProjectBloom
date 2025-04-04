@@ -51,7 +51,7 @@ struct EditTaskView: View {
                         dismiss()
                     }
                 } label: {
-                    Image(systemName: Constants.arrowUpIcon)
+                    Image(systemName: projectTask.isActiveTask || (projectTask.isCompleted != nil) ? Constants.pencilIcon : Constants.arrowUpIcon)
                         .font(.system(size: 35))
                         .foregroundStyle(taskName.isEmpty ? .gray : .bbGreenDark)
                 }

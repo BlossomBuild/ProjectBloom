@@ -53,6 +53,7 @@ struct Constants {
     static var signedOutIcon = "person.crop.circle.badge.questionmark"
     static var addProjectImage = "document.badge.plus.fill"
     static var editIcon = "pencil"
+    static var pencilIcon = "pencil.circle.fill"
     static var trashIcon = "trash"
     static var activeTaskIcon = "list.bullet.clipboard"
     static var completeTaskIcon = "clipboard.fill"
