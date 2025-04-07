@@ -10,6 +10,9 @@ import SwiftUI
 struct UserCompletedTaskView: View {
     @Environment(DatabaseViewModel.self) var databaseViewModel
     @State private var taskToEdit: ProjectTask?
+    @State private var taskToDelete: ProjectTask?
+    @State private var showDeleteAlert: Bool = false
+    
     var project: Project
     
     
@@ -46,11 +49,27 @@ struct UserCompletedTaskView: View {
                         .onTapGesture {
                             taskToEdit = projectTask
                         }
+                        .swipeActions(edge: .trailing) {
+                            Button {
+                                taskToDelete = projectTask
+                                showDeleteAlert = true
+                            } label: {
+                                Image(systemName: Constants.trashIcon)
+                            }
+                        }
+                        .tint(.red)
                     }
                     .sheet(item: $taskToEdit) {task in
                         EditTaskView(projectID: project.id.description, projectTask: task)
                             .presentationDetents([.fraction(0.30)])
                     }
+                    
+                    if let projectTask = taskToDelete {
+                        DeleteCompletedTaskAlertView(isPresented: $showDeleteAlert,
+                                                     completedTaskToDelete: projectTask,
+                                                     projectId: project.id.description)
+                    }
+                   
                 }
                 
             case .failed(let error):

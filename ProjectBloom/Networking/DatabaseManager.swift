@@ -195,6 +195,21 @@ class DatabaseManager {
             }
         }
     }
+    
+    func deleteCompletedTask(projectId:String, projectTask: ProjectTask) async throws {
+        let taskRef = database.collection(FirebasePaths.projects.rawValue)
+            .document(projectId)
+            .collection(FirebasePaths.completedTasks.rawValue)
+            .document(projectTask.id.description)
+        
+        do {
+            try await taskRef.delete()
+            print("Completed Task \(projectTask.id.description) successfully deleted")
+        } catch {
+            print("Error deleting task: \(error.localizedDescription)")
+            throw error
+        }
+    }
 }
 
 

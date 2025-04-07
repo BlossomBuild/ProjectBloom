@@ -49,13 +49,3 @@ struct UserTasksView: View {
         }
     }
 }
-
-
-
-#Preview {
-    UserTasksView(userDetails: UserDetails.userSample1,
-                  projectTasks: ProjectTask.sampleProjectTasks,
-                  projectId: Project.sampleProjects[0].id.description)
-    .environment(DatabaseViewModel())
-    .environment(AuthViewModel())
-}

@@ -45,8 +45,3 @@ struct DeleteProjectAlertView: View {
         }
     }
 }
-
-#Preview {
-    DeleteProjectAlertView(isPresented: .constant(true), projectToDelete: Project.sampleProjects[0])
-    .environment(DatabaseViewModel())
-}

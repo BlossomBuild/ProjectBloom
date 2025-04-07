@@ -89,7 +89,7 @@ struct ProjectsListView: View {
                                             projectToEdit = project
                                         } label : {
                                             Image(systemName: Constants.editIcon)
-                                            
+
                                         }
                                     }
                                     .tint(.yellow)
@@ -127,10 +127,4 @@ struct ProjectsListView: View {
         
     }
     
-}
-
-#Preview {
-    ProjectsListView()
-        .environment(AuthViewModel())
-        .environment(DatabaseViewModel())
 }

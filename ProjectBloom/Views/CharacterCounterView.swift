@@ -30,7 +30,3 @@ struct CharacterCounterView: View {
         }
     }
 }
-
-#Preview {
-    CharacterCounterView(currentCount: 0, maxLimit: 30)
-}
