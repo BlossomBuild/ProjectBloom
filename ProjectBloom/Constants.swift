@@ -47,6 +47,7 @@ struct Constants {
     static var inProgressString = "In Progress"
     static var descriptionOptionalString = "Description (Optional)"
     static var noCompletedTasks = "No Completed Tasks"
+    static var searchByEmail = "Search By Email"
     
     //MARK: UI Icons
     static var signedInIcon = "person.crop.circle.badge.checkmark"
@@ -59,6 +60,8 @@ struct Constants {
     static var completeTaskIcon = "clipboard.fill"
     static var arrowUpIcon = "arrow.up.circle.fill"
     static var checkMarkIcon = "checkmark.circle.fill"
+    static var addUser = "person.badge.plus"
+    static var magnifyingGlassIcon = "magnifyingglass"
     
     //MARK: UI Unwraps
     static var userName = "User Name"

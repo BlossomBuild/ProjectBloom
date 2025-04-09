@@ -89,6 +89,7 @@ struct ProjectsListView: View {
                                             projectToEdit = project
                                         } label : {
                                             Image(systemName: Constants.editIcon)
+                                                
 
                                         }
                                     }
