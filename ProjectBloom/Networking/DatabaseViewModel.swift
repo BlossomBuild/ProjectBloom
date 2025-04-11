@@ -30,6 +30,7 @@ class DatabaseViewModel {
     private(set) var userProjectsStatus: FetchStatus = .notStarted
     private(set) var userActiveTasksStatus: FetchStatus = .notStarted
     private(set) var userCompletedTasksStatus: FetchStatus = .notStarted
+    private(set) var userSearchStatus: FetchStatus = .notStarted
     
     private(set) var projectDeletedStatus: OperationStatus = .notStarted
     
@@ -46,6 +47,8 @@ class DatabaseViewModel {
             $1.completedAt?.dateValue() ?? Date()
         }
     }
+    var userDetailsSearch : [UserDetails] = []
+    
     
     // MARK: Project Functions
     func deleteProject(projectID: String) async throws {
@@ -188,6 +191,17 @@ class DatabaseViewModel {
             $0.completedAt?.dateValue() ?? Date()
             > $1.completedAt?.dateValue() ?? Date()
         })
+    }
+    
+    // MARK: Search Functions
+    func searchUsersByEmail(userEmail: String) async {
+        userSearchStatus = .fetching
+        do {
+            userDetailsSearch = try await DatabaseManager.shared.searchUsersByEmail(with: userEmail)
+            userSearchStatus = .success
+        } catch {
+            userSearchStatus = .failed(underlyingError: error)
+        }
     }
     
 }

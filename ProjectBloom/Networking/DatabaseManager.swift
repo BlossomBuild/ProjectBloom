@@ -210,6 +210,37 @@ class DatabaseManager {
             throw error
         }
     }
+    
+    //MARK: Sharing Functions
+    func searchUsersByEmail(with email: String) async throws -> [UserDetails] {
+        var matchedUsers: [UserDetails] = []
+        
+        let trimmedEmail = email
+            .trimmingCharacters(in: .whitespacesAndNewlines)
+            .lowercased()
+        
+        guard !trimmedEmail.isEmpty else { return [] }
+        
+        let query = database
+            .collection(FirebasePaths.userDetails.rawValue)
+            .order(by: "userEmail")
+            .start(at: [trimmedEmail])
+            .end(at: [trimmedEmail + "\u{f8ff}"])
+        
+        let snapshot = try await query.getDocuments()
+        
+        for document in snapshot.documents {
+            do {
+                let userDetails = try document.data(as: UserDetails.self)
+                matchedUsers.append(userDetails)
+            } catch {
+                print("Failed to decode user: \(error)")
+                throw error
+            }
+        }
+        return matchedUsers
+    }
+
 }
 
 

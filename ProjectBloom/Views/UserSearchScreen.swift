@@ -8,30 +8,42 @@
 import SwiftUI
 
 struct UserSearchScreen: View {
-    @State private var searchText: String = ""
+    @Environment(DatabaseViewModel.self) var databaseViewModel
+    @State var searchText: String = ""
     
     
     var body: some View {
-        VStack(alignment: .leading) {
-            HStack {
-                Image(systemName: Constants.magnifyingGlassIcon)
-                    .foregroundStyle(.gray)
-                    .font(.system(size: 20))
+        ScrollView {
+            LazyVStack(alignment: .leading) {
+                HStack {
+                    Image(systemName: Constants.magnifyingGlassIcon)
+                        .foregroundStyle(.gray)
+                        .font(.system(size: 20))
+                    
+                    TextField(Constants.searchByEmail, text: $searchText)
+                        .textInputAutocapitalization(.never)
+                        .autocorrectionDisabled(true)
+                }
+                .padding()
+                .background(Color(.secondarySystemBackground))
+                .clipShape(.rect(cornerRadius: 10))
+                .padding(.horizontal)
+                .padding(.top, 20)
                 
-                TextField(Constants.searchByEmail, text: $searchText)
-                    .textInputAutocapitalization(.never)
-                    .autocorrectionDisabled(true)
+                ForEach(databaseViewModel.userDetailsSearch) { userDetails in
+                    UserSearchItem(userDetails: userDetails)
+                }
+                .padding(10)
             }
-            .padding()
-            .background(Color(.secondarySystemBackground))
-            .clipShape(.rect(cornerRadius: 10))
-            .padding(.horizontal)
+        }
+        .task(id: searchText) {
+            try? await Task.sleep(for: .seconds(0.5))
+            if Task.isCancelled {
+                return
+            }
+            await databaseViewModel.searchUsersByEmail(userEmail: searchText)
         }
     }
-}
-
-#Preview {
-    UserSearchScreen()
 }
 
 
