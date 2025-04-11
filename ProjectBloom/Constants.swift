@@ -48,6 +48,7 @@ struct Constants {
     static var descriptionOptionalString = "Description (Optional)"
     static var noCompletedTasks = "No Completed Tasks"
     static var searchByEmail = "Search By Email"
+    static var noResultsFoundString = "No Results Found"
     
     //MARK: UI Icons
     static var signedInIcon = "person.crop.circle.badge.checkmark"
