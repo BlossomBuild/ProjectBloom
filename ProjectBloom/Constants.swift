@@ -50,6 +50,7 @@ struct Constants {
     static var searchByEmail = "Search By Email"
     static var noResultsFoundString = "No Results Found"
     
+    
     //MARK: UI Icons
     static var signedInIcon = "person.crop.circle.badge.checkmark"
     static var signedOutIcon = "person.crop.circle.badge.questionmark"
@@ -104,6 +105,7 @@ enum DefaultTaskStrings: String {
 
 enum UserErrorMessages: String {
     case deletingProjectError = "Error deleting project please try again"
+    case genericErrorMessage = "Something went wrong please try again"
 }
 
 enum SampleData: String {

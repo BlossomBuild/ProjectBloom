@@ -30,7 +30,7 @@ class DatabaseViewModel {
     private(set) var userProjectsStatus: FetchStatus = .notStarted
     private(set) var userActiveTasksStatus: FetchStatus = .notStarted
     private(set) var userCompletedTasksStatus: FetchStatus = .notStarted
-    private(set) var userSearchStatus: FetchStatus = .notStarted
+    private(set) var userSearchStatus: OperationStatus = .notStarted
     
     private(set) var projectDeletedStatus: OperationStatus = .notStarted
     
@@ -195,12 +195,12 @@ class DatabaseViewModel {
     
     // MARK: Search Functions
     func searchUsersByEmail(userEmail: String) async {
-        userSearchStatus = .fetching
+        userSearchStatus = .inProgress
         do {
             userDetailsSearch = try await DatabaseManager.shared.searchUsersByEmail(with: userEmail)
             userSearchStatus = .success
         } catch {
-            userSearchStatus = .failed(underlyingError: error)
+            userSearchStatus = .failed
         }
     }
     

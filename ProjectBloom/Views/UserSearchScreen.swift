@@ -30,14 +30,26 @@ struct UserSearchScreen: View {
                     .padding(.horizontal)
                     .padding(.top, 20)
                     
-                    if databaseViewModel.userDetailsSearch.isEmpty {
-                        Text(Constants.noResultsFoundString)
-                            .frame(width: geo.size.width, height: geo.size.height)
-                    } else {
-                        ForEach(databaseViewModel.userDetailsSearch) { userDetails in
-                            UserSearchItem(userDetails: userDetails)
+                    switch databaseViewModel.userSearchStatus {
+                    case .success:
+                        if databaseViewModel.userDetailsSearch.isEmpty {
+                            Text(Constants.noResultsFoundString)
+                                .frame(width: geo.size.width, height: geo.size.height)
+                        } else {
+                            ForEach(databaseViewModel.userDetailsSearch) { userDetails in
+                                UserSearchItem(userDetails: userDetails)
+                            }
+                            .padding(.leading, 10)
+                            .padding(.top, 10)
                         }
-                        .padding(10)
+                    case .failed:
+                        Text(UserErrorMessages.genericErrorMessage.rawValue)
+                            .frame(width: geo.size.width, height: geo.size.height)
+                    case .notStarted:
+                        EmptyView()
+                    case .inProgress:
+                        ProgressView()
+                            .frame(width: geo.size.width, height: geo.size.height)
                     }
                 }
             }

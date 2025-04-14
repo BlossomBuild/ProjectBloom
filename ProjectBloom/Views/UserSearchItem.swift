@@ -19,7 +19,6 @@ struct UserSearchItem: View {
                 .foregroundStyle(.gray)
             
             Divider()
-            
         }
     }
 }

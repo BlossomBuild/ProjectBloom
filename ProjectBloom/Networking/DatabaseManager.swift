@@ -221,6 +221,8 @@ class DatabaseManager {
         
         guard !trimmedEmail.isEmpty else { return [] }
         
+        let currentUserEmail = Auth.auth().currentUser?.email?.lowercased() ?? ""
+        
         let query = database
             .collection(FirebasePaths.userDetails.rawValue)
             .order(by: "userEmail")
@@ -232,6 +234,11 @@ class DatabaseManager {
         for document in snapshot.documents {
             do {
                 let userDetails = try document.data(as: UserDetails.self)
+                
+                if userDetails.userEmail.lowercased() == currentUserEmail {
+                    continue
+                }
+                
                 matchedUsers.append(userDetails)
             } catch {
                 print("Failed to decode user: \(error)")
@@ -240,7 +247,6 @@ class DatabaseManager {
         }
         return matchedUsers
     }
-
 }
 
 
