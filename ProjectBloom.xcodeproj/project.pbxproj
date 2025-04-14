@@ -111,6 +111,7 @@
 				8397EFE82CE4224E005F9F2E /* Frameworks */,
 				831B82CE2CDD37C7000A48AF /* Products */,
 				83B3468F2DA9696400DEC239 /* ProjectBloom */,
+				83B3468E2DA9696400DEC239 /* ProjectBloomApp.swift */,
 			);
 			sourceTree = "<group>";
 		};
@@ -193,7 +194,6 @@
 				83B346702DA9696400DEC239 /* Models */,
 				83B346762DA9696400DEC239 /* Networking */,
 				83B346782DA9696400DEC239 /* Preview Content */,
-				83B3468E2DA9696400DEC239 /* ProjectBloomApp.swift */,
 				83B346872DA9696400DEC239 /* Views */,
 			);
 			path = ProjectBloom;

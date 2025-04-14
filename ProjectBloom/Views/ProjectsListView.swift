@@ -111,8 +111,8 @@ struct ProjectsListView: View {
                             DeleteProjectAlertView(isPresented: $showDeleteAlert, projectToDelete: project)
                         }
                     }
-                case .failed(let error):
-                    Text(error.localizedDescription)
+                case .failed:
+                    Text(UserErrorMessages.genericErrorMessage.rawValue)
                 }
             }
         }

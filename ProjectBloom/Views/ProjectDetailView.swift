@@ -39,8 +39,8 @@ struct ProjectDetailView: View {
                     }
                 }
                 
-            case .failed(let error):
-                Text("Error: \(error.localizedDescription)")
+            case .failed:
+                Text(UserErrorMessages.genericErrorMessage.rawValue)
             }
             
         }

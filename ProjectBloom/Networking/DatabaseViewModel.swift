@@ -13,23 +13,17 @@ import FirebaseAuth
 
 @Observable
 class DatabaseViewModel {
-    enum FetchStatus {
-        case notStarted
-        case fetching
-        case success
-        case failed(underlyingError: Error)
-    }
     
     enum OperationStatus {
         case notStarted
-        case inProgress
+        case fetching
         case success
         case failed
     }
     
-    private(set) var userProjectsStatus: FetchStatus = .notStarted
-    private(set) var userActiveTasksStatus: FetchStatus = .notStarted
-    private(set) var userCompletedTasksStatus: FetchStatus = .notStarted
+    private(set) var userProjectsStatus: OperationStatus = .notStarted
+    private(set) var userActiveTasksStatus: OperationStatus = .notStarted
+    private(set) var userCompletedTasksStatus: OperationStatus = .notStarted
     private(set) var userSearchStatus: OperationStatus = .notStarted
     
     private(set) var projectDeletedStatus: OperationStatus = .notStarted
@@ -52,7 +46,7 @@ class DatabaseViewModel {
     
     // MARK: Project Functions
     func deleteProject(projectID: String) async throws {
-        projectDeletedStatus = .inProgress
+        projectDeletedStatus = .fetching
         do {
             try await DatabaseManager.shared.deleteProject(projectID: projectID)
             projectDeletedStatus = .success
@@ -74,17 +68,14 @@ class DatabaseViewModel {
                 guard let self = self else { return }
                 
                 if let error = error {
-                    self.userProjectsStatus = .failed(underlyingError: error)
+                    self.userProjectsStatus = .failed
                     print("Error fetching user projects: \(error.localizedDescription)")
                     return
                 }
                 
                 guard let documents = snapshot?.documents else {
-                    self.userProjectsStatus = .failed(underlyingError: NSError(
-                        domain: "DatabaseManager",
-                        code: 404,
-                        userInfo: [NSLocalizedDescriptionKey: "No documents found."]
-                    ))
+                    self.userProjectsStatus = .failed
+                    print("Error fetching user projects: No documents found.")
                     return
                 }
                 
@@ -115,18 +106,13 @@ class DatabaseViewModel {
                 guard let self = self else {return}
                 
                 if let error = error {
-                    updateTaskStatus(for: taskType,
-                                     status: .failed(underlyingError: error))
+                    updateTaskStatus(for: taskType,status: .failed)
                     print("Error fetching project tasks: \(error.localizedDescription)")
                     return
                 }
                 
                 guard let snapshot = snapshot else {
-                    updateTaskStatus(for: taskType, status: .failed(underlyingError: NSError(
-                        domain: "DatabaseViewModel",
-                        code: 404,
-                        userInfo: [NSLocalizedDescriptionKey: "No Tasks Found"]
-                    )))
+                    updateTaskStatus(for: taskType, status: .failed)
                     print("No Tasks Found")
                     return
                 }
@@ -136,7 +122,7 @@ class DatabaseViewModel {
                     updateTaskStatus(for: taskType, status: .success)
                     print("Fetched Tasks: \(self.projectTasks)")
                 } catch {
-                    updateTaskStatus(for: taskType, status: .failed(underlyingError: error))
+                    updateTaskStatus(for: taskType, status: .failed)
                     print("Error decoding tasks: \(error.localizedDescription)")
                 }
             }
@@ -160,7 +146,7 @@ class DatabaseViewModel {
         }
     }
     
-    private func updateTaskStatus(for taskType: String, status: FetchStatus) {
+    private func updateTaskStatus(for taskType: String, status: OperationStatus) {
         if taskType == FirebasePaths.projectTasks.rawValue {
             userActiveTasksStatus = status
         } else {
@@ -195,7 +181,7 @@ class DatabaseViewModel {
     
     // MARK: Search Functions
     func searchUsersByEmail(userEmail: String) async {
-        userSearchStatus = .inProgress
+        userSearchStatus = .fetching
         do {
             userDetailsSearch = try await DatabaseManager.shared.searchUsersByEmail(with: userEmail)
             userSearchStatus = .success

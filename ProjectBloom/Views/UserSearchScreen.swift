@@ -47,7 +47,7 @@ struct UserSearchScreen: View {
                             .frame(width: geo.size.width, height: geo.size.height)
                     case .notStarted:
                         EmptyView()
-                    case .inProgress:
+                    case .fetching:
                         ProgressView()
                             .frame(width: geo.size.width, height: geo.size.height)
                     }

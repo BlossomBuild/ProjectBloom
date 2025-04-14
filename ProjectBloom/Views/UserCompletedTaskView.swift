@@ -72,8 +72,8 @@ struct UserCompletedTaskView: View {
                    
                 }
                 
-            case .failed(let error):
-                Text(error.localizedDescription)
+            case .failed:
+                Text(UserErrorMessages.genericErrorMessage.rawValue)
             }
         }
         .task {

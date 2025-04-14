@@ -29,7 +29,7 @@ struct DeleteProjectAlertView: View {
             })
         
         switch databaseViewModel.projectDeletedStatus {
-        case .inProgress:
+        case .fetching:
             ProgressView()
         case .failed:
             Text(UserErrorMessages.deletingProjectError.rawValue)
