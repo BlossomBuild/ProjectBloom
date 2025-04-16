@@ -10,6 +10,7 @@ import SwiftUI
 struct UserSearchScreen: View {
     @Environment(DatabaseViewModel.self) var databaseViewModel
     @State var searchText: String = ""
+    let projectID: String
     
     var body: some View {
         GeometryReader { geo in
@@ -38,8 +39,11 @@ struct UserSearchScreen: View {
                         } else {
                             ForEach(databaseViewModel.userDetailsSearch) { userDetails in
                                 UserSearchItem(userDetails: userDetails)
+                                    .onTapGesture {
+                                        addUser(userDetails: userDetails)
+                                    }
                             }
-                            .padding(.leading, 10)
+                            .padding(.leading, 20)
                             .padding(.top, 10)
                         }
                     case .failed:
@@ -60,6 +64,17 @@ struct UserSearchScreen: View {
                 return
             }
             await databaseViewModel.searchUsersByEmail(userEmail: searchText)
+        }
+    }
+    
+    func addUser(userDetails: UserDetails){
+        Task {
+            do {
+                try await DatabaseManager.shared.addUserToProject(
+                    projectId: projectID,
+                    userDetails: userDetails
+                )
+            }
         }
     }
 }

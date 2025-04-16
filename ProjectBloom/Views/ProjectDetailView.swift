@@ -57,7 +57,7 @@ struct ProjectDetailView: View {
         .navigationTitle(project.name)
         .navigationBarTitleDisplayMode(.inline)
         .sheet(isPresented: $showUserSearchScreen, content: {
-            UserSearchScreen()
+            UserSearchScreen(projectID: project.id.description)
         })
         .task {
             databaseViewModel.listenToProjectTasks(projectID: project.id.description, taskType: FirebasePaths.projectTasks.rawValue)

@@ -11,7 +11,6 @@ struct EditProjectView: View {
     @State private var projectName = ""
     @State private var isLoading = false
     @Environment(AuthViewModel.self) var authViewModel
-    @Environment(DatabaseViewModel.self) var databaseViewModel
     @Environment(\.dismiss) var dismiss
     var updateProject: Bool
     var project: Project?
@@ -24,35 +23,33 @@ struct EditProjectView: View {
     
     var body: some View {
         VStack{
-            
             TextField(Constants.projectNameString, text: $projectName)
                 .textFieldStyle(RoundedBorderTextFieldStyle())
                 .accessibilityLabel(Constants.projectNameString)
                 .accessibilityHint(Constants.projectAccessibilityHint)
                 .padding(10)
                 .onChange(of: projectName) { oldValue, newValue in
-                        if newValue.count > 30 {
-                            projectName = String(newValue.prefix(30))
-                        }
-                    
+                    if newValue.count > 30 {
+                        projectName = String(newValue.prefix(30))
+                    }
                 }
             
             CharacterCounterView(currentCount: projectName.count, maxLimit: 30)
             
             
-                Button {
-                    isLoading = true
-                    if(updateProject) {
-                        updateProjectName()
-                    } else {
-                        createNewProject()
-                    }
-                    
-                } label: {
-                    Text(updateProject ? Constants.renameString : Constants.createString)
-                        .ghostButton(borderColor: projectName.isEmpty ? .gray : .bbGreenDark)
+            Button {
+                isLoading = true
+                if(updateProject) {
+                    updateProjectName()
+                } else {
+                    createNewProject()
                 }
-                .disabled(projectName.isEmpty || isLoading)
+                
+            } label: {
+                Text(updateProject ? Constants.renameString : Constants.createString)
+                    .ghostButton(borderColor: projectName.isEmpty ? .gray : .bbGreenDark)
+            }
+            .disabled(projectName.isEmpty || isLoading)
             
         }
     }
@@ -61,22 +58,22 @@ struct EditProjectView: View {
     func createNewProject() {
         Task {
             do {
-                guard let user = authViewModel.user else {
-                    isLoading = false
-                    return
-                }
-               
-                guard let userName = user.displayName else {
+                guard let userDetails = authViewModel.userDetails else {
                     isLoading = false
                     return
                 }
                 
-                let userEmail = user.email ?? Constants.naString
+                let newproject = Project(
+                    name: projectName,
+                    projectLeaderID: userDetails.id,
+                    usersID: [userDetails.id],
+                    usersDetails: [userDetails]
+                )
                 
-                let newproject = Project(name: projectName, projectLeaderID: user.uid, usersID: [user.uid], usersDetails: [UserDetails(id: user.uid, userName: userName, userEmail: userEmail)])
-                
-                try await DatabaseManager.shared.createNewProject(projectDetails: newproject, user: user)
-               
+                try await DatabaseManager.shared.createNewProject(
+                    projectDetails: newproject,
+                    userDetails: userDetails
+                )
                 dismiss()
                 isLoading = false
             }

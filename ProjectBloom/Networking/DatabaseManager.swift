@@ -15,13 +15,13 @@ class DatabaseManager {
     var database = Firestore.firestore()
     
     //MARK: Project Functions
-    func createNewProject(projectDetails: Project, user: User) async throws {
+    func createNewProject(projectDetails: Project, userDetails: UserDetails) async throws {
         do {
             try database.collection(FirebasePaths.projects.rawValue)
                 .document(projectDetails.id.description)
                 .setData(from: projectDetails)
             
-            try await assignDefaultTasks(projectDetails: projectDetails,user: user)
+            try await assignDefaultTasks(projectID: projectDetails.id.description, userDetails: userDetails)
             
             print("Project \(projectDetails.name) created successfully!")
         } catch {
@@ -30,16 +30,16 @@ class DatabaseManager {
         }
     }
     
-    func assignDefaultTasks(projectDetails: Project,user: User) async throws {
+    func assignDefaultTasks(projectID: String, userDetails: UserDetails) async throws {
         let starterprojectTasks = [
             ProjectTask(
                 title: DefaultTaskStrings.defaultTaskTitle.rawValue,
-                assignedToID: user.uid,assignedToUserName: user.displayName ?? "",
+                assignedToID: userDetails.id,assignedToUserName: userDetails.userName,
                 isActiveTask: false
             ),
             ProjectTask(
                 title: DefaultTaskStrings.defaultTaskTitle.rawValue,
-                assignedToID: user.uid, assignedToUserName: user.displayName ?? "",
+                assignedToID: userDetails.id,assignedToUserName: userDetails.userName,
                 isActiveTask: false
             )
         ]
@@ -48,7 +48,7 @@ class DatabaseManager {
         
         for task in starterprojectTasks {
             let taskRef = database.collection(FirebasePaths.projects.rawValue)
-                .document(projectDetails.id.description)
+                .document(projectID)
                 .collection(FirebasePaths.projectTasks.rawValue)
                 .document(task.id.description)
             batch.setData(try Firestore.Encoder().encode(task), forDocument: taskRef)
@@ -147,6 +147,7 @@ class DatabaseManager {
             throw error
         }
     }
+    
     func completeTask(projectId: String, projectTask: ProjectTask) async throws {
         
         if(projectTask.isCompleted != nil) {
@@ -247,74 +248,28 @@ class DatabaseManager {
         }
         return matchedUsers
     }
+    
+    func addUserToProject(projectId: String ,userDetails: UserDetails) async throws {
+        do {
+            let projectRef = database.collection(FirebasePaths.projects.rawValue)
+                .document(projectId)
+            
+            let userDetailsData: [String: Any] = [
+                "id": userDetails.id,
+                "userEmail": userDetails.userEmail,
+                "userName": userDetails.userName
+            ]
+                
+            try await projectRef.updateData([
+                "usersDetails": FieldValue.arrayUnion([userDetailsData]),
+                FirebasePaths.usersID.rawValue: FieldValue.arrayUnion([userDetails.id])
+            ])
+            
+            try await assignDefaultTasks(projectID: projectId, userDetails: userDetails)
+            print("User added to the project successfully!")
+        } catch {
+            print("Error user to project: \(error.localizedDescription)")
+            throw error
+        }
+    }
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-//MARK: Task Functions
-// func deleteCompletedTask(projectId: String, projectTask: ProjectTask) async throws {
-//        let taskRef = database.collection(FirebasePaths.projects.rawValue)
-//            .document(projectId)
-//            .collection(FirebasePaths.completedTasks.rawValue)
-//            .document(projectTask.id.description)
-//
-//        do {
-//            try await taskRef.delete()
-//            print("Task \(projectTask.id.description) successfully deleted")
-//        } catch {
-//            print ("Error deleting task: \(error.localizedDescription)")
-//            throw error
-//        }
-//    }
-//
-//    func addTaskBackToCompleted(projectId:String, projectTask: ProjectTask) async throws {
-//        let taskRef = database.collection(FirebasePaths.projects.rawValue)
-//            .document(projectId)
-//            .collection(FirebasePaths.completedTasks.rawValue)
-//            .document(projectTask.id.description)
-//
-//        try taskRef.setData(from: projectTask)
-//    }
-//
-//
-
-//
-
-//
-//
-//    func listenToProjectTasks(projectID: String, taskType: String) {
-//
-//
-//        let listener = database.collection(FirebasePaths.projects.rawValue)
-//            .document(projectID)
-//            .collection(taskType)
-//            .addSnapshotListener { [weak self] snapshot, error in
-//                guard let self = self else {return}
-//
-//                if let error = error {
-//                    print("Error fetching project tasks: \(error.localizedDescription)")
-//                    return
-//                }
-//
-//                guard let snapshot = snapshot else {
-//
-//
-//                    print("No Tasks Found")
-//                    return
-//                }
-//            }
-//    }
-
-
-
