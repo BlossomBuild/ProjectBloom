@@ -47,8 +47,3 @@ struct AccountView: View {
         }
     }
 }
-
-#Preview {
-    AccountView()
-        .environment(AuthViewModel())
-}

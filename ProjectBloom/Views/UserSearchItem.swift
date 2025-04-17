@@ -22,7 +22,3 @@ struct UserSearchItem: View {
         }
     }
 }
-
-#Preview {
-    UserSearchItem(userDetails: UserDetails.userSample1)
-}

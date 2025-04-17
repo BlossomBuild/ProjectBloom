@@ -66,8 +66,7 @@ struct EditProjectView: View {
                 let newproject = Project(
                     name: projectName,
                     projectLeaderID: userDetails.id,
-                    usersID: [userDetails.id],
-                    usersDetails: [userDetails]
+                    usersID: [userDetails.id]
                 )
                 
                 try await DatabaseManager.shared.createNewProject(

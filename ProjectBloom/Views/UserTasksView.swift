@@ -23,8 +23,7 @@ struct UserTasksView: View {
     var body: some View {
         NavigationStack {
             VStack(alignment: .leading) {
-                Text(authViewModel.userDetails?.userName
-                     ?? authViewModel.user?.displayName ?? "")
+                Text(userDetails.userName)
                 .font(.title3)
                 
                 List(projectTasks){ projectTask in
@@ -44,7 +43,7 @@ struct UserTasksView: View {
                 }
                 
             }
-            .frame(height: 225)
+            .frame(height: 175)
             .padding()
         }
     }

@@ -54,8 +54,3 @@ struct AuthenticatedHomeView: View {
             .navigationTitle(Constants.projectsString)
     }
 }
-
-#Preview {
-    AuthenticatedHomeView(isAnonymous: true)
-}
-

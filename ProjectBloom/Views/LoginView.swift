@@ -79,8 +79,3 @@ struct LoginView: View {
         }
     }
 }
-
-#Preview {
-    LoginView()
-        .environment(AuthViewModel())
-}

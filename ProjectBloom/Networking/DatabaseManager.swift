@@ -54,6 +54,14 @@ class DatabaseManager {
             batch.setData(try Firestore.Encoder().encode(task), forDocument: taskRef)
         }
         
+        
+        let userDetailsRef = database.collection(FirebasePaths.projects.rawValue)
+                .document(projectID)
+                .collection(FirebasePaths.userDetails.rawValue)
+                .document(userDetails.id)
+       
+        batch.setData(try Firestore.Encoder().encode(userDetails), forDocument: userDetailsRef)
+        
         try await batch.commit()
     }
     
@@ -67,7 +75,8 @@ class DatabaseManager {
                 parentRef: projectRef,
                 subcollectionNames: [
                     FirebasePaths.projectTasks.rawValue,
-                    FirebasePaths.completedTasks.rawValue
+                    FirebasePaths.completedTasks.rawValue,
+                    FirebasePaths.userDetails.rawValue
                 ]
             )
             try await projectRef.delete()

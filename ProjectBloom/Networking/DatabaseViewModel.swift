@@ -31,6 +31,8 @@ class DatabaseViewModel {
     private var projectsListener: ListenerRegistration?
     private var activeTasksListener: ListenerRegistration?
     private var completedTasksListener: ListenerRegistration?
+    private var projectUsersListener: ListenerRegistration?
+    
     
     var userProjects : [Project] = []
     var projectTasks : [ProjectTask] = []
@@ -42,6 +44,7 @@ class DatabaseViewModel {
         }
     }
     var userDetailsSearch : [UserDetails] = []
+    var projectUsers: [UserDetails] = []
     
     
     // MARK: Project Functions
@@ -179,7 +182,7 @@ class DatabaseViewModel {
         })
     }
     
-    // MARK: Search Functions
+    // MARK: Sharing Functions
     func searchUsersByEmail(userEmail: String) async {
         userSearchStatus = .fetching
         do {
@@ -190,4 +193,42 @@ class DatabaseViewModel {
         }
     }
     
+    func listenToProjectUsers(projectID: String) {
+        let listener = Firestore.firestore()
+            .collection(FirebasePaths.projects.rawValue)
+            .document(projectID)
+            .collection(FirebasePaths.userDetails.rawValue)
+            .addSnapshotListener { [weak self] snapshot, error in
+                guard let self = self else {return}
+                
+                if let error = error {
+                    print("Error fetching project users: \(error.localizedDescription)")
+                    return
+                }
+                
+                guard let snapshot = snapshot else {
+                    print("No project users found")
+                    return
+                }
+                
+                do {
+                    self.projectUsers = try snapshot.documents.map { document in
+                        return try document.data(as: UserDetails.self)
+                    }
+                    
+                    print("Fetched Project Users: \(self.projectUsers)")
+                    
+                } catch {
+                    
+                    print("Error decoding users: \(error.localizedDescription)")
+                }
+            }
+        projectUsersListener = listener
+    }
+    
+    func stopListeningToProjectUsers() {
+        projectUsersListener?.remove()
+        projectUsersListener = nil
+        print("Stopped listening to project users")
+    }
 }

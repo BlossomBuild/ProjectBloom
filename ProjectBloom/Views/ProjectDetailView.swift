@@ -25,13 +25,12 @@ struct ProjectDetailView: View {
                 TabView {
                     Tab(Constants.activeTasksString, systemImage: Constants.activeTaskIcon) {
                         ScrollView {
-                            ForEach(project.usersDetails) { user in
+                            ForEach(databaseViewModel.projectUsers) { user in
                                 UserTasksView(userDetails: user,
                                               projectTasks: databaseViewModel.getUserTasks(userID: user.id),
                                               projectId: project.id.description)
                             }
-                        }
-                        
+                        } 
                     }
                     
                     Tab(Constants.completedTasksString, systemImage: Constants.completeTaskIcon) {
@@ -60,11 +59,21 @@ struct ProjectDetailView: View {
             UserSearchScreen(projectID: project.id.description)
         })
         .task {
-            databaseViewModel.listenToProjectTasks(projectID: project.id.description, taskType: FirebasePaths.projectTasks.rawValue)
+            databaseViewModel.listenToProjectTasks(
+                projectID: project.id.description,
+                taskType: FirebasePaths.projectTasks.rawValue
+            )
+            
+            databaseViewModel.listenToProjectUsers(
+                projectID: project.id.description
+            )
         }
         .onDisappear {
-            databaseViewModel.stopListeningToProjectTasks(taskType: FirebasePaths.projectTasks.rawValue)
+            databaseViewModel.stopListeningToProjectTasks(
+                taskType: FirebasePaths.projectTasks.rawValue
+            )
+            
+            databaseViewModel.stopListeningToProjectUsers()
         }
     }
-    
 }

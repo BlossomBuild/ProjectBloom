@@ -9,6 +9,7 @@ import SwiftUI
 
 struct UserSearchScreen: View {
     @Environment(DatabaseViewModel.self) var databaseViewModel
+    @Environment(\.dismiss) var dismiss
     @State var searchText: String = ""
     let projectID: String
     
@@ -41,6 +42,7 @@ struct UserSearchScreen: View {
                                 UserSearchItem(userDetails: userDetails)
                                     .onTapGesture {
                                         addUser(userDetails: userDetails)
+                                        dismiss()
                                     }
                             }
                             .padding(.leading, 20)
