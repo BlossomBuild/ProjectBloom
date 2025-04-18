@@ -11,7 +11,7 @@ struct Project: Identifiable, Codable, Sendable {
     var id = UUID()
     var name: String
     var projectLeaderID: String
-    var usersID: [String]
+    var userEmails: [String]
 }
 
 

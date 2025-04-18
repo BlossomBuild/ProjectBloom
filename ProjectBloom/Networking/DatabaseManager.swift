@@ -56,10 +56,10 @@ class DatabaseManager {
         
         
         let userDetailsRef = database.collection(FirebasePaths.projects.rawValue)
-                .document(projectID)
-                .collection(FirebasePaths.userDetails.rawValue)
-                .document(userDetails.id)
-       
+            .document(projectID)
+            .collection(FirebasePaths.userDetails.rawValue)
+            .document(userDetails.id)
+        
         batch.setData(try Firestore.Encoder().encode(userDetails), forDocument: userDetailsRef)
         
         try await batch.commit()
@@ -222,7 +222,7 @@ class DatabaseManager {
     }
     
     //MARK: Sharing Functions
-    func searchUsersByEmail(with email: String) async throws -> [UserDetails] {
+    func searchUsersByEmail(project: Project,with email: String) async throws -> [UserDetails] {
         var matchedUsers: [UserDetails] = []
         
         let trimmedEmail = email
@@ -244,8 +244,14 @@ class DatabaseManager {
         for document in snapshot.documents {
             do {
                 let userDetails = try document.data(as: UserDetails.self)
+                let email = userDetails.userEmail.lowercased()
                 
-                if userDetails.userEmail.lowercased() == currentUserEmail {
+                
+                // Skip self
+                if email == currentUserEmail {
+                    continue
+                }
+                if project.userEmails.contains(email) {
                     continue
                 }
                 
@@ -258,23 +264,23 @@ class DatabaseManager {
         return matchedUsers
     }
     
-    func addUserToProject(projectId: String ,userDetails: UserDetails) async throws {
+    func addUserToProject(project: Project ,userDetails: UserDetails) async throws {
         do {
             let projectRef = database.collection(FirebasePaths.projects.rawValue)
-                .document(projectId)
+                .document(project.id.description)
             
             let userDetailsData: [String: Any] = [
                 "id": userDetails.id,
                 "userEmail": userDetails.userEmail,
                 "userName": userDetails.userName
             ]
-                
+            
             try await projectRef.updateData([
                 "usersDetails": FieldValue.arrayUnion([userDetailsData]),
-                FirebasePaths.usersID.rawValue: FieldValue.arrayUnion([userDetails.id])
+                FirebasePaths.userEmails.rawValue: FieldValue.arrayUnion([userDetails.userEmail])
             ])
             
-            try await assignDefaultTasks(projectID: projectId, userDetails: userDetails)
+            try await assignDefaultTasks(projectID: project.id.description, userDetails: userDetails)
             print("User added to the project successfully!")
         } catch {
             print("Error user to project: \(error.localizedDescription)")

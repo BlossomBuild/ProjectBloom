@@ -66,7 +66,7 @@ class DatabaseViewModel {
         userProjectsStatus = .fetching
         projectsListener = Firestore.firestore()
             .collection(FirebasePaths.projects.rawValue)
-            .whereField(FirebasePaths.usersID.rawValue, arrayContains: user.uid)
+            .whereField(FirebasePaths.userEmails.rawValue, arrayContains: user.email ?? "")
             .addSnapshotListener { [weak self] snapshot, error in
                 guard let self = self else { return }
                 
@@ -183,10 +183,10 @@ class DatabaseViewModel {
     }
     
     // MARK: Sharing Functions
-    func searchUsersByEmail(userEmail: String) async {
+    func searchUsersByEmail(project: Project,userEmail: String) async {
         userSearchStatus = .fetching
         do {
-            userDetailsSearch = try await DatabaseManager.shared.searchUsersByEmail(with: userEmail)
+            userDetailsSearch = try await DatabaseManager.shared.searchUsersByEmail(project: project, with: userEmail)
             userSearchStatus = .success
         } catch {
             userSearchStatus = .failed

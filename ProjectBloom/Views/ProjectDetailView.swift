@@ -56,7 +56,7 @@ struct ProjectDetailView: View {
         .navigationTitle(project.name)
         .navigationBarTitleDisplayMode(.inline)
         .sheet(isPresented: $showUserSearchScreen, content: {
-            UserSearchScreen(projectID: project.id.description)
+            UserSearchScreen(currenProject: project)
         })
         .task {
             databaseViewModel.listenToProjectTasks(

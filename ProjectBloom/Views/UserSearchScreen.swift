@@ -11,7 +11,7 @@ struct UserSearchScreen: View {
     @Environment(DatabaseViewModel.self) var databaseViewModel
     @Environment(\.dismiss) var dismiss
     @State var searchText: String = ""
-    let projectID: String
+    let currenProject: Project
     
     var body: some View {
         GeometryReader { geo in
@@ -65,7 +65,7 @@ struct UserSearchScreen: View {
             if Task.isCancelled {
                 return
             }
-            await databaseViewModel.searchUsersByEmail(userEmail: searchText)
+            await databaseViewModel.searchUsersByEmail(project: currenProject,userEmail: searchText)
         }
     }
     
@@ -73,7 +73,7 @@ struct UserSearchScreen: View {
         Task {
             do {
                 try await DatabaseManager.shared.addUserToProject(
-                    projectId: projectID,
+                    project: currenProject,
                     userDetails: userDetails
                 )
             }

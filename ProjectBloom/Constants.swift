@@ -130,7 +130,7 @@ enum SampleData: String {
 enum FirebasePaths: String {
     case projects = "projects"
     case userDetails = "userDetails"
-    case usersID = "usersID"
+    case userEmails = "userEmails"
     case projectTasks = "projectTasks"
     case completedTasks = "completedTasks"
 }
