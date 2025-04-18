@@ -268,15 +268,9 @@ class DatabaseManager {
         do {
             let projectRef = database.collection(FirebasePaths.projects.rawValue)
                 .document(project.id.description)
-            
-            let userDetailsData: [String: Any] = [
-                "id": userDetails.id,
-                "userEmail": userDetails.userEmail,
-                "userName": userDetails.userName
-            ]
+        
             
             try await projectRef.updateData([
-                "usersDetails": FieldValue.arrayUnion([userDetailsData]),
                 FirebasePaths.userEmails.rawValue: FieldValue.arrayUnion([userDetails.userEmail])
             ])
             

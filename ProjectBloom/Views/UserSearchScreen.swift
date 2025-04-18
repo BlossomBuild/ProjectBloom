@@ -67,6 +67,10 @@ struct UserSearchScreen: View {
             }
             await databaseViewModel.searchUsersByEmail(project: currenProject,userEmail: searchText)
         }
+        .onAppear {
+            searchText = ""
+            databaseViewModel.userDetailsSearch = []
+        }
     }
     
     func addUser(userDetails: UserDetails){
@@ -75,6 +79,11 @@ struct UserSearchScreen: View {
                 try await DatabaseManager.shared.addUserToProject(
                     project: currenProject,
                     userDetails: userDetails
+                )
+                
+                databaseViewModel.appendUserEmailToProject(
+                    email: userDetails.userEmail.lowercased(),
+                    toProjectID: currenProject.id
                 )
             }
         }

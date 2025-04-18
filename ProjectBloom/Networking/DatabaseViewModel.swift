@@ -193,6 +193,19 @@ class DatabaseViewModel {
         }
     }
     
+    func appendUserEmailToProject(email: String, toProjectID id: UUID) {
+        if let index = userProjects.firstIndex(where: { $0.id == id }) {
+            if !userProjects[index].userEmails.contains(email) {
+                userProjects[index].userEmails.append(email)
+                print("Appended \(email) to project ID \(id)")
+            } else {
+                print("Email \(email) already exists in project")
+            }
+        } else {
+            print("Could not find project with ID \(id)")
+        }
+    }
+    
     func listenToProjectUsers(projectID: String) {
         let listener = Firestore.firestore()
             .collection(FirebasePaths.projects.rawValue)
