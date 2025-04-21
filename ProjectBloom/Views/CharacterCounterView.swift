@@ -19,14 +19,6 @@ struct CharacterCounterView: View {
                 .foregroundStyle(currentCount == maxLimit ? .red : .gray)
                 .animation(.easeInOut(duration: 0.2), value: currentCount)
                 .padding(.top, -8)
-            
-            if currentCount == maxLimit {
-                Text(Constants.characterLimitReachedString)
-                    .font(.caption)
-                    .foregroundStyle(.red)
-                    .transition(.opacity)
-                    .padding(.bottom, 5)
-            }
         }
     }
 }

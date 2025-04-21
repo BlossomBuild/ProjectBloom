@@ -43,7 +43,7 @@ struct UserTasksView: View {
                 }
                 
             }
-            .frame(height: 175)
+            .frame(height: 155)
             .padding()
         }
     }

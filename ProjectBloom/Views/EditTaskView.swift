@@ -25,12 +25,20 @@ struct EditTaskView: View {
     }
     
     var body: some View {
-        
         VStack {
             TextField(projectTask.title, text: $taskName, axis: .vertical)
                 .textFieldStyle(PlainTextFieldStyle())
                 .padding(10)
                 .frame(minHeight: 30)
+                .onChange(of: taskName) { oldValue, newValue in
+                    if newValue.count > 40 {
+                        taskName = String(newValue.prefix(40))
+                    }
+                }
+            
+            CharacterCounterView(currentCount: taskName.count, maxLimit: 40)
+                                 
+                                 
             
             Rectangle()
                 .foregroundStyle(.bbGreenDark)
