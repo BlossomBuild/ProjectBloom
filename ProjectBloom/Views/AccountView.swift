@@ -18,7 +18,7 @@ struct AccountView: View {
             Spacer()
             
             if isSigningOut {
-                ProgressView(Constants.signingOutString)
+                ProgressView(MessageStrings.signingOut.rawValue)
                     .progressViewStyle(CircularProgressViewStyle())
                     .padding()
                 
@@ -41,7 +41,7 @@ struct AccountView: View {
                     dismiss()
                 }
             } label: {
-                Text(Constants.signOutString)
+                Text(UIStrings.signOut.rawValue)
                     .ghostButton(borderColor: .red)
             }
         }

@@ -14,14 +14,14 @@ struct DeleteCompletedTaskAlertView: View {
     
     var body: some View {
         Text("")
-            .alert("\(Constants.deleteSting + Constants.spaceString)\(completedTaskToDelete.title)",isPresented: $isPresented,
+            .alert("\(UIStrings.delete.rawValue + Punctuation.space.rawValue)\(completedTaskToDelete.title)",isPresented: $isPresented,
                    actions: {
-                Button(Constants.deleteSting, role:.destructive){
+                Button(UIStrings.delete.rawValue, role:.destructive){
                     deleteCompletedTask()
                     isPresented = false
                 }
                 
-                Button(Constants.cancelString, role: .cancel) {
+                Button(UIStrings.cancel.rawValue, role: .cancel) {
                     isPresented = false // Dismiss the alert
                 }
             }, message: {

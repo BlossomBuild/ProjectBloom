@@ -30,7 +30,7 @@ struct ProjectsListView: View {
                     ProgressView()
                         .progressViewStyle(.circular)
                         .padding()
-                    Text(Constants.loadingUserInfoString)
+                    Text(MessageStrings.loadingUserInfo.rawValue)
                         .font(.headline)
                         .foregroundColor(.gray)
                 }
@@ -53,7 +53,7 @@ struct ProjectsListView: View {
                             
                             
                             Spacer()
-                            Text(Constants.noActiveProjectsString)
+                            Text(MessageStrings.noActiveProjects.rawValue)
                                 .font(.title3)
                                 .foregroundColor(.gray)
                                 .frame(maxWidth: .infinity, alignment: .center)
@@ -63,7 +63,7 @@ struct ProjectsListView: View {
                         
                     } else {
                         List {
-                            Text("\(greeting)" + Constants.commaString + Constants.spaceString
+                            Text("\(greeting)" + Punctuation.comma.rawValue + Punctuation.space.rawValue
                                  +  Constants.getFirstName(from: authViewModel.userDetails?.userName ?? authViewModel.user?.displayName))
                             .font(.title3)
                             .listRowSeparator(.hidden)

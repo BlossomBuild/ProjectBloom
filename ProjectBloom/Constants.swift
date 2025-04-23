@@ -9,48 +9,6 @@ import Foundation
 import SwiftUI
 
 struct Constants {
-    //MARK: UI Strings
-    static var appName = "Project Bloom"
-    static var noActiveProjectsString = "No Active Projects"
-    static var noProjectsFoundString = "No Projects Found"
-    static var skipString = "Skip"
-    static var signOutString = "Sign Out"
-    static var projectNameString = "Project Name"
-    static var cancelString = "Cancel"
-    static var createString = "Create"
-    static var renameString = "Rename"
-    static var taskString = "Task"
-    static var completedTasksString = "Completed Tasks"
-    static var activeTasksString = "Active Tasks"
-    static var spaceString = " "
-    static var colonString = ":"
-    static var completedByString = "Completed By"
-    static var completeOnString = "Completed On"
-    static var taskNameString = "Task Name"
-    static var projectsString = "Projects"
-    static var projectString = "Project"
-    static var undoString = "Undo"
-    static var taskDeletedString = "Task Deleted"
-    static var commaString = ","
-    static var goodMorningString = "Good Morning"
-    static var goodAfternoonString = "Good Afternoon"
-    static var goodEveningString = "Good Evening"
-    static var guestUnknownString = "Guest Unknown"
-    static var helloString = "Hello"
-    static var deleteSting = "Delete"
-    static var projectLimitString = "/30"
-    static var projectAccessibilityHint = "Limt: 30 characters"
-    static var characterLimitReachedString = "Character Limit Reached"
-    static var signingOutString = "Signing Out..."
-    static var naString = "N/A"
-    static var loadingUserInfoString = "Loading User Info"
-    static var inProgressString = "In Progress"
-    static var descriptionOptionalString = "Description (Optional)"
-    static var noCompletedTasks = "No Completed Tasks"
-    static var searchByEmail = "Search By Email"
-    static var noResultsFoundString = "No Results Found"
-    
-    
     //MARK: UI Icons
     static var signedInIcon = "person.crop.circle.badge.checkmark"
     static var signedOutIcon = "person.crop.circle.badge.questionmark"
@@ -73,10 +31,10 @@ struct Constants {
     static func getGreeting() -> String {
         let hour = Calendar.current.component(.hour, from: Date())
         return switch hour {
-        case 6..<12: goodMorningString
-        case 12..<18: goodAfternoonString
-        case 18..<24: goodEveningString
-        default: helloString
+        case 6..<12: GreetingStrings.goodMorning.rawValue
+        case 12..<18: GreetingStrings.goodAfternoon.rawValue
+        case 18..<24: GreetingStrings.goodEvening.rawValue
+        default: GreetingStrings.hello.rawValue
         }
     }
     
@@ -90,6 +48,45 @@ struct Constants {
     static func getFirstName(from fullName: String?) -> String {
         fullName?.components(separatedBy: " ").first ?? ""
     }
+}
+
+enum UIStrings: String {
+    case appName = "Project Bloom"
+    case activeTasks = "Active Tasks"
+    case cancel = "Cancel"
+    case completedBy = "Completed By"
+    case completedTasks = "Completed Tasks"
+    case create = "Create"
+    case delete = "Delete"
+    case descriptionOptional = "Description (Optional)"
+    case projects = "Projects"
+    case projectName = "Project Name"
+    case rename = "Rename"
+    case searchByEmail = "Search by Email"
+    case signOut = "Sign Out"
+    case skip = "Skip"
+}
+
+enum MessageStrings: String {
+    case loadingUserInfo = "Loading User Info..."
+    case noActiveProjects = "No Active Projects"
+    case noCompletedTasks = "No Completed Tasks"
+    case noResultsFound = "No Results Found"
+    case signingOut = "Signing Out..."
+}
+
+enum GreetingStrings: String {
+    case goodMorning = "Good Morning"
+    case goodAfternoon = "Good Afternoon"
+    case goodEvening = "Good Evening"
+    case hello = "Hello"
+    
+}
+
+enum Punctuation: String {
+    case colon = ":"
+    case comma = ","
+    case space = " "
 }
 
 enum AlertString: String {
@@ -106,25 +103,6 @@ enum DefaultTaskStrings: String {
 enum UserErrorMessages: String {
     case deletingProjectError = "Error deleting project please try again"
     case genericErrorMessage = "Something went wrong please try again"
-}
-
-enum SampleData: String {
-    case sampleUser1ID = "sampleUser1ID"
-    case sampleUser1Name = "Sample User 1"
-    case sampleUser1Email = "sampleUser1@email.com"
-    
-    case sampleUser2ID = "sampleUser2ID"
-    case sampleUser2Name = "Sample User 2"
-    case sampleUser2Email = "sampleUser2@email.com"
-    
-    case sampleUser3ID = "sampleUser3ID"
-    case sampleUser3Name = "Sample User 3"
-    case sampleUser3Email = "sampleUser3@email.com"
-    
-    case sampleUser4ID = "sampleUser4ID"
-    case sampleUser4Name = "Sample User 4"
-    case sampleUser4Email = "sampleUser4@email.com"
-    
 }
 
 enum FirebasePaths: String {

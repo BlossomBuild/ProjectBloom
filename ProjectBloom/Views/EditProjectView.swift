@@ -23,10 +23,8 @@ struct EditProjectView: View {
     
     var body: some View {
         VStack{
-            TextField(Constants.projectNameString, text: $projectName)
+            TextField(UIStrings.projectName.rawValue, text: $projectName)
                 .textFieldStyle(RoundedBorderTextFieldStyle())
-                .accessibilityLabel(Constants.projectNameString)
-                .accessibilityHint(Constants.projectAccessibilityHint)
                 .padding(10)
                 .onChange(of: projectName) { oldValue, newValue in
                     if newValue.count > 30 {
@@ -46,7 +44,7 @@ struct EditProjectView: View {
                 }
                 
             } label: {
-                Text(updateProject ? Constants.renameString : Constants.createString)
+                Text(updateProject ? UIStrings.rename.rawValue : UIStrings.create.rawValue)
                     .ghostButton(borderColor: projectName.isEmpty ? .gray : .bbGreenDark)
             }
             .disabled(projectName.isEmpty || isLoading)

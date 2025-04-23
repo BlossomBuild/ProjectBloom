@@ -51,6 +51,6 @@ struct AuthenticatedHomeView: View {
                 EditProjectView(updateProject: false)
                     .presentationDetents([.fraction(0.25)])
             }
-            .navigationTitle(Constants.projectsString)
+            .navigationTitle(UIStrings.projects.rawValue)
     }
 }

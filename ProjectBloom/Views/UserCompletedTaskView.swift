@@ -28,7 +28,7 @@ struct UserCompletedTaskView: View {
                 
             case .success:
                 if databaseViewModel.completedTasks.isEmpty {
-                    Text(Constants.noCompletedTasks)
+                    Text(MessageStrings.noCompletedTasks.rawValue)
                         .frame(width: geo.size.width, height: geo.size.height)
                 } else {
                     List(databaseViewModel.sortedCompletedTasks) {projectTask in
@@ -37,9 +37,9 @@ struct UserCompletedTaskView: View {
                                 .font(.system(size: 13))
                                 .bold()
                             
-                            Text(Constants.completedByString +
-                                 Constants.colonString +
-                                 Constants.spaceString + projectTask.assignedToUserName)
+                            Text(UIStrings.completedBy.rawValue +
+                                 Punctuation.colon.rawValue +
+                                 Punctuation.space.rawValue + projectTask.assignedToUserName)
                             .font(.system(size: 12))
                             
                             Text(Constants.getFormattedDate(projectTask: projectTask))

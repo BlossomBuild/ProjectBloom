@@ -22,7 +22,7 @@ struct UserSearchScreen: View {
                             .foregroundStyle(.gray)
                             .font(.system(size: 20))
                         
-                        TextField(Constants.searchByEmail, text: $searchText)
+                        TextField(UIStrings.searchByEmail.rawValue, text: $searchText)
                             .textInputAutocapitalization(.never)
                             .autocorrectionDisabled(true)
                     }
@@ -35,7 +35,7 @@ struct UserSearchScreen: View {
                     switch databaseViewModel.userSearchStatus {
                     case .success:
                         if databaseViewModel.userDetailsSearch.isEmpty {
-                            Text(Constants.noResultsFoundString)
+                            Text(MessageStrings.noResultsFound.rawValue)
                                 .frame(width: geo.size.width, height: geo.size.height)
                         } else {
                             ForEach(databaseViewModel.userDetailsSearch) { userDetails in

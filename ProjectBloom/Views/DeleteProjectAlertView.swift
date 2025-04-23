@@ -14,14 +14,14 @@ struct DeleteProjectAlertView: View {
     
     var body: some View {
         Text("")
-            .alert("\(Constants.deleteSting + Constants.spaceString)\(projectToDelete.name)",isPresented: $isPresented,
+            .alert("\(UIStrings.delete.rawValue + Punctuation.space.rawValue)\(projectToDelete.name)",isPresented: $isPresented,
                    actions: {
-                Button(Constants.deleteSting, role:.destructive){
+                Button(UIStrings.delete.rawValue, role:.destructive){
                     deleteProject(project: projectToDelete)
                     isPresented = false
                 }
                 
-                Button(Constants.cancelString, role: .cancel) {
+                Button(UIStrings.cancel.rawValue, role: .cancel) {
                     isPresented = false // Dismiss the alert
                 }
             }, message: {
