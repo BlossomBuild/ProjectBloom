@@ -23,7 +23,7 @@ struct EditProjectView: View {
     
     var body: some View {
         VStack{
-            TextField(UIStrings.projectName.rawValue, text: $projectName)
+            TextField(UIStrings.projectName.string, text: $projectName)
                 .textFieldStyle(RoundedBorderTextFieldStyle())
                 .padding(10)
                 .onChange(of: projectName) { oldValue, newValue in
@@ -44,7 +44,7 @@ struct EditProjectView: View {
                 }
                 
             } label: {
-                Text(updateProject ? UIStrings.rename.rawValue : UIStrings.create.rawValue)
+                Text(updateProject ? UIStrings.rename.localizedKey : UIStrings.create.localizedKey)
                     .ghostButton(borderColor: projectName.isEmpty ? .gray : .bbGreenDark)
             }
             .disabled(projectName.isEmpty || isLoading)

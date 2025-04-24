@@ -45,7 +45,7 @@ struct EditTaskView: View {
                 .frame(height: 2)
             
             TextField(projectTask.description
-                      ?? UIStrings.descriptionOptional.rawValue,
+                      ?? UIStrings.descriptionOptional.string,
                       text: $taskDescription , axis: .vertical)
             .textFieldStyle(PlainTextFieldStyle())
             .padding()

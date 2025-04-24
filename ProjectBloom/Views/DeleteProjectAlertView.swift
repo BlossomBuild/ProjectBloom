@@ -14,25 +14,27 @@ struct DeleteProjectAlertView: View {
     
     var body: some View {
         Text("")
-            .alert("\(UIStrings.delete.rawValue + Punctuation.space.rawValue)\(projectToDelete.name)",isPresented: $isPresented,
+            .alert(Text(UIStrings.delete.localizedKey) +
+                   Text(Punctuation.space.localizedKey) +
+                   Text(projectToDelete.name),isPresented: $isPresented,
                    actions: {
                 Button(UIStrings.delete.rawValue, role:.destructive){
                     deleteProject(project: projectToDelete)
                     isPresented = false
                 }
                 
-                Button(UIStrings.cancel.rawValue, role: .cancel) {
+                Button(UIStrings.cancel.localizedKey, role: .cancel) {
                     isPresented = false // Dismiss the alert
                 }
             }, message: {
-                Text(AlertString.actionCantBeUndone.rawValue)
+                Text(UIStrings.irreversibleAction.localizedKey)
             })
         
         switch databaseViewModel.projectDeletedStatus {
         case .fetching:
             ProgressView()
         case .failed:
-            Text(UserErrorMessages.deletingProjectError.rawValue)
+            Text(UIStrings.deleteProjectError.localizedKey)
         default:
             EmptyView()
         }

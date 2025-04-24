@@ -18,21 +18,19 @@ struct AccountView: View {
             Spacer()
             
             if isSigningOut {
-                ProgressView(MessageStrings.signingOut.rawValue)
+                ProgressView(UIStrings.signingOut.localizedKey)
                     .progressViewStyle(CircularProgressViewStyle())
                     .padding()
                 
                 
             } else {
-                Text(authViewModel.user?.displayName ?? Constants.userName)
+                Text(authViewModel.user?.displayName ?? UIStrings.userName.string)
                     .font(.title2)
                 
-                Text(authViewModel.user?.email ?? Constants.userEmail)
+                Text(authViewModel.user?.email ?? UIStrings.userEmail.string)
                     .font(.title2)
             }
-            
-            
-            
+
             Spacer()
             Button {
                 Task {
@@ -41,7 +39,7 @@ struct AccountView: View {
                     dismiss()
                 }
             } label: {
-                Text(UIStrings.signOut.rawValue)
+                Text(UIStrings.signOut.localizedKey)
                     .ghostButton(borderColor: .red)
             }
         }

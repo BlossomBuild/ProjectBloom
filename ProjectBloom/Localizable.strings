@@ -1,0 +1,37 @@
+
+// MARK: UI Strings
+"app_name" = "Project Bloom";
+"active_tasks" = "Active Tasks";
+"cancel" = "Cancel";
+"completed_by" = "Completed By";
+"completed_tasks" = "Completed Tasks";
+"create" = "Create";
+"delete" = "Delete";
+"delete_project_error" = "Error Deleting Project";
+"description_optional" = "Description Optional";
+"generic_error_message" = "Something went wrong please try again";
+"irreversible_action" = "This action can't be undone";
+"no_active_projects" = "No Active Projects";
+"no_completed_tasks" = "No Completed Tasks";
+"no_results_found" = "No Results Found";
+"projects" = "Projects";
+"project_name" = "Project Name";
+"rename" = "Rename";
+"search_by_email" = "Search By Email";
+"signing_out" = "Signing Out";
+"sign_out" = "Sign Out";
+"skip" = "Skip";
+"user_email" = "User Email";
+"user_name" = "User Name";
+
+// MARK: Greeting Strings
+"good_afternoon" = "Good Afternoon";
+"good_evening" = "Good Evening";
+"good_morning" = "Good Morning";
+"hello" = "Hello";
+
+// MARK: PunctuationStrings
+"colon" = ":";
+"comma" = ",";
+"space" = " ";
+

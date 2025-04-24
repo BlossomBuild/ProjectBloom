@@ -30,9 +30,6 @@ struct ProjectsListView: View {
                     ProgressView()
                         .progressViewStyle(.circular)
                         .padding()
-                    Text(MessageStrings.loadingUserInfo.rawValue)
-                        .font(.headline)
-                        .foregroundColor(.gray)
                 }
                 .frame(maxWidth: .infinity, maxHeight: .infinity)
             } else {
@@ -53,7 +50,7 @@ struct ProjectsListView: View {
                             
                             
                             Spacer()
-                            Text(MessageStrings.noActiveProjects.rawValue)
+                            Text(UIStrings.noActiveProjects.localizedKey)
                                 .font(.title3)
                                 .foregroundColor(.gray)
                                 .frame(maxWidth: .infinity, alignment: .center)
@@ -63,8 +60,13 @@ struct ProjectsListView: View {
                         
                     } else {
                         List {
-                            Text("\(greeting)" + Punctuation.comma.rawValue + Punctuation.space.rawValue
-                                 +  Constants.getFirstName(from: authViewModel.userDetails?.userName ?? authViewModel.user?.displayName))
+                            Group {
+                                Text(greeting) +
+                                Text(Punctuation.comma.localizedKey) +
+                                Text(Punctuation.space.localizedKey) +
+                                Text(Constants.getFirstName(from: authViewModel.userDetails?.userName ??
+                                                            authViewModel.user?.displayName))
+                            }
                             .font(.title3)
                             .listRowSeparator(.hidden)
                             
@@ -112,7 +114,7 @@ struct ProjectsListView: View {
                         }
                     }
                 case .failed:
-                    Text(UserErrorMessages.genericErrorMessage.rawValue)
+                    Text(UIStrings.genericErrorMessage.localizedKey)
                 }
             }
         }

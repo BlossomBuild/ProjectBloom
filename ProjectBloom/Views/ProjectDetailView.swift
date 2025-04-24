@@ -23,7 +23,7 @@ struct ProjectDetailView: View {
                 ProgressView()
             case .success:
                 TabView {
-                    Tab(UIStrings.activeTasks.rawValue, systemImage: Constants.activeTaskIcon) {
+                    Tab(UIStrings.activeTasks.localizedKey, systemImage: Constants.activeTaskIcon) {
                         ScrollView {
                             ForEach(databaseViewModel.projectUsers) { user in
                                 UserTasksView(userDetails: user,
@@ -33,13 +33,13 @@ struct ProjectDetailView: View {
                         } 
                     }
                     
-                    Tab(UIStrings.completedTasks.rawValue, systemImage: Constants.completeTaskIcon) {
+                    Tab(UIStrings.completedTasks.localizedKey, systemImage: Constants.completeTaskIcon) {
                         UserCompletedTaskView(project: project)
                     }
                 }
                 
             case .failed:
-                Text(UserErrorMessages.genericErrorMessage.rawValue)
+                Text(UIStrings.genericErrorMessage.localizedKey)
             }
             
         }

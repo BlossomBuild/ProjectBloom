@@ -20,7 +20,7 @@ struct LoginView: View {
             VStack(spacing: 16) {
                 Spacer()
                 
-                Text(UIStrings.appName.rawValue)
+                Text(UIStrings.appName.localizedKey)
                     .foregroundStyle(Color(.bbWhite))
                     .font(.poppinsFontBold)
                     .padding()
@@ -60,7 +60,7 @@ struct LoginView: View {
                             isSigningIn = false
                         }
                     } label: {
-                        Text(UIStrings.skip.rawValue)
+                        Text(UIStrings.skip.localizedKey)
                             .font(.body.bold())
                             .frame(width: 280, height: 45, alignment: .center)
                             .foregroundStyle(.bbWhite)

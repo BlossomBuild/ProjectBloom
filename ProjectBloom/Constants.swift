@@ -23,18 +23,14 @@ struct Constants {
     static var addUser = "person.badge.plus"
     static var magnifyingGlassIcon = "magnifyingglass"
     
-    //MARK: UI Unwraps
-    static var userName = "User Name"
-    static var userEmail = "User Email"
-    
     //MARK: Constant Functions
     static func getGreeting() -> String {
         let hour = Calendar.current.component(.hour, from: Date())
         return switch hour {
-        case 6..<12: GreetingStrings.goodMorning.rawValue
-        case 12..<18: GreetingStrings.goodAfternoon.rawValue
-        case 18..<24: GreetingStrings.goodEvening.rawValue
-        default: GreetingStrings.hello.rawValue
+        case 6..<12: GreetingStrings.goodMorning.string
+        case 12..<18: GreetingStrings.goodAfternoon.string
+        case 18..<24: GreetingStrings.goodEvening.string
+        default: GreetingStrings.hello.string
         }
     }
     
@@ -51,58 +47,74 @@ struct Constants {
 }
 
 enum UIStrings: String {
-    case appName = "Project Bloom"
-    case activeTasks = "Active Tasks"
-    case cancel = "Cancel"
-    case completedBy = "Completed By"
-    case completedTasks = "Completed Tasks"
-    case create = "Create"
-    case delete = "Delete"
-    case descriptionOptional = "Description (Optional)"
-    case projects = "Projects"
-    case projectName = "Project Name"
-    case rename = "Rename"
-    case searchByEmail = "Search by Email"
-    case signOut = "Sign Out"
-    case skip = "Skip"
+    case appName = "app_name"
+    case activeTasks = "active_tasks"
+    case irreversibleAction = "irreversible_action"
+    case cancel = "cancel"
+    case completedBy = "completed_by"
+    case completedTasks = "completed_tasks"
+    case create = "create"
+    case delete = "delete"
+    case deleteProjectError = "delete_project_error"
+    case descriptionOptional = "description_optional"
+    case genericErrorMessage = "generic_error_message"
+    case noActiveProjects = "no_active_projects"
+    case noCompletedTasks = "no_completed_tasks"
+    case noResultsFound = "no_results_found"
+    case projects = "projects"
+    case projectName = "project_name"
+    case rename = "rename"
+    case searchByEmail = "search_by_email"
+    case signingOut = "signing_out"
+    case signOut = "sign_out"
+    case skip = "skip"
+    case userEmail = "user_email"
+    case userName = "user_name"
 }
 
-enum MessageStrings: String {
-    case loadingUserInfo = "Loading User Info..."
-    case noActiveProjects = "No Active Projects"
-    case noCompletedTasks = "No Completed Tasks"
-    case noResultsFound = "No Results Found"
-    case signingOut = "Signing Out..."
-}
-
-enum GreetingStrings: String {
-    case goodMorning = "Good Morning"
-    case goodAfternoon = "Good Afternoon"
-    case goodEvening = "Good Evening"
-    case hello = "Hello"
+extension UIStrings {
+    var localizedKey: LocalizedStringKey {
+        LocalizedStringKey(self.rawValue)
+    }
     
+    var string: String {
+        NSLocalizedString(self.rawValue, comment: "")
+    }
 }
 
 enum Punctuation: String {
-    case colon = ":"
-    case comma = ","
-    case space = " "
+    case colon = "colon"
+    case comma = "comma"
+    case space = "space"
 }
 
-enum AlertString: String {
-    case actionCantBeUndone = "This action can't be undone"
+extension Punctuation {
+    var localizedKey: LocalizedStringKey {
+        LocalizedStringKey(self.rawValue)
+    }
+}
+
+enum GreetingStrings: String {
+    case goodMorning = "good_morning"
+    case goodAfternoon = "good_afternoon"
+    case goodEvening = "good_evening"
+    case hello = "hello"
+}
+
+extension GreetingStrings {
+    var localizedKey: LocalizedStringKey {
+        LocalizedStringKey(self.rawValue)
+    }
+    
+    var string: String {
+        NSLocalizedString(self.rawValue, comment: "")
+    }
 }
 
 enum DefaultTaskStrings: String {
     case userHasNoTasksAssigned = "User has no tasks assigned"
     case defaultTaskTitle = "No task assigned"
     case defaultTaskDescription = ""
-    
-}
-
-enum UserErrorMessages: String {
-    case deletingProjectError = "Error deleting project please try again"
-    case genericErrorMessage = "Something went wrong please try again"
 }
 
 enum FirebasePaths: String {
