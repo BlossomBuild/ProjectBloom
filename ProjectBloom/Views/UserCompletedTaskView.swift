@@ -37,13 +37,16 @@ struct UserCompletedTaskView: View {
                                 .font(.system(size: 13))
                                 .bold()
                             
-                            Text(UIStrings.completedBy.localizedKey) +
-                            Text(Punctuation.colon.localizedKey) +
-                            Text(Punctuation.space.localizedKey)
-                                .font(.system(size: 12))
-                            
-                            Text(Constants.getFormattedDate(projectTask: projectTask))
-                                .font(.system(size: 12))
+                            Group {
+                                Text(UIStrings.completedBy.localizedKey) +
+                                Text(Punctuation.colon.localizedKey) +
+                                Text(Punctuation.space.localizedKey) +
+                                Text(projectTask.assignedToUserName)
+                                
+                                Text(Constants.getFormattedDate(projectTask: projectTask))
+                                 
+                            }
+                            .font(.system(size: 12))
                             
                         }
                         .onTapGesture {
