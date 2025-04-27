@@ -63,7 +63,7 @@ struct UserCompletedTaskView: View {
                         .tint(.red)
                     }
                     .sheet(item: $taskToEdit) {task in
-                        EditTaskView(projectID: project.id.description, projectTask: task)
+                        EditTaskView(project: project, projectTask: task)
                             .presentationDetents([.fraction(0.30)])
                     }
                     

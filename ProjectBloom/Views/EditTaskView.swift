@@ -9,15 +9,31 @@ import SwiftUI
 
 struct EditTaskView: View {
     @Environment(\.dismiss) var dismiss
+    @Environment(AuthViewModel.self) var authViewModel
     
-    var projectId: String
+    
+    var project: Project
     var projectTask: ProjectTask
     @State var taskName: String = ""
     @State var taskDescription: String = ""
     
-    init(projectID: String,projectTask: ProjectTask){
+    var canEditTask: Bool {
+        !projectTask.isActiveTask || Constants.isProjectLeader(
+            leaderID: project.projectLeaderID,
+            currentUserID: authViewModel.userDetails?.id ?? ""
+        )
+    }
+    
+    var canCompleteTask: Bool {
+        projectTask.isActiveTask && Constants.taskOwner(
+            taskOwnerID: projectTask.assignedToID,
+            currentUserID: authViewModel.userDetails?.id ?? ""
+        )
+    }
+    
+    init(project: Project,projectTask: ProjectTask){
         self.projectTask = projectTask
-        self.projectId = projectID
+        self.project = project
         
         _taskName = State(initialValue: projectTask.isActiveTask ||
                           (projectTask.isCompleted != nil) ? projectTask.title : "")
@@ -37,8 +53,6 @@ struct EditTaskView: View {
                 }
             
             CharacterCounterView(currentCount: taskName.count, maxLimit: 40)
-                                 
-                                 
             
             Rectangle()
                 .foregroundStyle(.bbGreenDark)
@@ -51,22 +65,24 @@ struct EditTaskView: View {
             .padding()
             .frame(minHeight: 50)
             Spacer()
+            
             HStack {
-                
-                Button {
-                    if !taskName.isEmpty{
-                        assignTask()
-                        dismiss()
-                    }
-                } label: {
-                    Image(systemName: projectTask.isActiveTask || (projectTask.isCompleted != nil) ? Constants.pencilIcon : Constants.arrowUpIcon)
-                        .font(.system(size: 35))
-                        .foregroundStyle(taskName.isEmpty ? .gray : .bbGreenDark)
-                }
-                
                 Spacer()
                 
-                if projectTask.isActiveTask {
+                if canEditTask {
+                    Button {
+                        if !taskName.isEmpty{
+                            assignTask()
+                            dismiss()
+                        }
+                    } label: {
+                        Image(systemName: projectTask.isActiveTask || (projectTask.isCompleted != nil) ? Constants.pencilIcon : Constants.arrowUpIcon)
+                            .font(.system(size: 35))
+                            .foregroundStyle(taskName.isEmpty ? .gray : .bbGreenDark)
+                    }
+                }
+                
+                if canCompleteTask {
                     Button {
                         completeTask()
                         dismiss()
@@ -87,7 +103,7 @@ struct EditTaskView: View {
         Task {
             //TODO: Add a catch block for feedback if the operation fails
             try await DatabaseManager.shared.assignTask(
-                projectId: projectId,
+                projectId: project.id.description,
                 projectTask: projectTask,
                 newTaskName: taskName,
                 newTaskDescription: taskDescription
@@ -99,7 +115,7 @@ struct EditTaskView: View {
         Task {
             //TODO: Add a catch block for feedback if the operation fails
             try await DatabaseManager.shared.completeTask(
-                projectId: projectId,
+                projectId: project.id.description,
                 projectTask: projectTask
             )
         }

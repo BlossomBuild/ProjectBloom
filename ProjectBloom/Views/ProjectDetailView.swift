@@ -28,7 +28,7 @@ struct ProjectDetailView: View {
                             ForEach(databaseViewModel.projectUsers) { user in
                                 UserTasksView(userDetails: user,
                                               projectTasks: databaseViewModel.getUserTasks(userID: user.id),
-                                              projectId: project.id.description)
+                                              project: project)
                             }
                         } 
                     }

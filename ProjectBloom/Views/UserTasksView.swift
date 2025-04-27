@@ -18,7 +18,7 @@ struct UserTasksView: View {
     
     var userDetails: UserDetails
     var projectTasks: [ProjectTask]
-    var projectId: String
+    var project: Project
     
     var body: some View {
         NavigationStack {
@@ -37,7 +37,7 @@ struct UserTasksView: View {
                 .padding(.top, -25)
                 .clipShape(.rect(cornerRadius: 10))
                 .sheet(item: $taskToEdit) { task in
-                    EditTaskView(projectID: projectId, projectTask: task)
+                    EditTaskView(project: project, projectTask: task)
                         .presentationDetents([.fraction(0.30)])
 
                 }

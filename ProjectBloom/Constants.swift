@@ -44,6 +44,15 @@ struct Constants {
     static func getFirstName(from fullName: String?) -> String {
         fullName?.components(separatedBy: " ").first ?? ""
     }
+    
+    static func isProjectLeader(leaderID: String, currentUserID: String) -> Bool {
+        return leaderID == currentUserID
+    }
+    
+    static func taskOwner(taskOwnerID: String, currentUserID: String) -> Bool {
+        return taskOwnerID == currentUserID
+    }
+    
 }
 
 enum UIStrings: String {
