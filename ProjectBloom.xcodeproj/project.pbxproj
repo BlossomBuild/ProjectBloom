@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		830044D52DC2C4F200439EC8 /* DeleteUserAlert.swift in Sources */ = {isa = PBXBuildFile; fileRef = 830044D42DC2C4F200439EC8 /* DeleteUserAlert.swift */; };
 		830C7D0E2CF3D96D00B03417 /* Poppins-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 830C7D0D2CF3D96D00B03417 /* Poppins-Bold.ttf */; };
 		836BB7CF2DBAD3EF00C9F8AC /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 836BB7CE2DBAD3EF00C9F8AC /* Localizable.strings */; };
 		8373A7002CE55541007E1274 /* GoogleSignIn in Frameworks */ = {isa = PBXBuildFile; productRef = 8373A6FF2CE55541007E1274 /* GoogleSignIn */; };
@@ -50,6 +51,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		830044D42DC2C4F200439EC8 /* DeleteUserAlert.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeleteUserAlert.swift; sourceTree = "<group>"; };
 		830C7D0D2CF3D96D00B03417 /* Poppins-Bold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Poppins-Bold.ttf"; sourceTree = "<group>"; };
 		831B82CD2CDD37C7000A48AF /* ProjectBloom.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ProjectBloom.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		836BB7CE2DBAD3EF00C9F8AC /* Localizable.strings */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; path = Localizable.strings; sourceTree = "<group>"; };
@@ -169,6 +171,7 @@
 				83B3467A2DA9696400DEC239 /* AuthenticatedHomeView.swift */,
 				83B3467B2DA9696400DEC239 /* CharacterCounterView.swift */,
 				83B3467C2DA9696400DEC239 /* DeleteCompletedTaskAlertView.swift */,
+				830044D42DC2C4F200439EC8 /* DeleteUserAlert.swift */,
 				83B3467D2DA9696400DEC239 /* DeleteProjectAlertView.swift */,
 				83B3467E2DA9696400DEC239 /* EditProjectView.swift */,
 				83B3467F2DA9696400DEC239 /* EditTaskView.swift */,
@@ -298,6 +301,7 @@
 				83B346982DA9696400DEC239 /* AuthManager.swift in Sources */,
 				83B346992DA9696400DEC239 /* AuthViewModel.swift in Sources */,
 				83B3469A2DA9696400DEC239 /* DatabaseManager.swift in Sources */,
+				830044D52DC2C4F200439EC8 /* DeleteUserAlert.swift in Sources */,
 				83B3469B2DA9696400DEC239 /* DatabaseViewModel.swift in Sources */,
 				83B3469C2DA9696400DEC239 /* GoogleSignInManager.swift in Sources */,
 				83B3469D2DA9696400DEC239 /* AccountView.swift in Sources */,

@@ -268,7 +268,7 @@ class DatabaseManager {
         do {
             let projectRef = database.collection(FirebasePaths.projects.rawValue)
                 .document(project.id.description)
-        
+            
             
             try await projectRef.updateData([
                 FirebasePaths.userEmails.rawValue: FieldValue.arrayUnion([userDetails.userEmail])
@@ -279,6 +279,48 @@ class DatabaseManager {
         } catch {
             print("Error user to project: \(error.localizedDescription)")
             throw error
+        }
+    }
+    
+    func removeUserFromProject(project: Project, userDetails: UserDetails) async throws {
+        do {
+            let projectRef = database.collection(FirebasePaths.projects.rawValue)
+                .document(project.id.description)
+            
+            try await projectRef.updateData([
+                FirebasePaths.userEmails.rawValue: FieldValue.arrayRemove([userDetails.userEmail])
+            ])
+            
+            
+            let userDocRef = projectRef
+                .collection(FirebasePaths.userDetails.rawValue)
+                .document(userDetails.id) // assuming userDetails.id = user UID
+            try await userDocRef.delete()
+            
+            try await deleteActiveTasks(projectID: project.id.description, userID: userDetails.id)
+            
+        } catch {
+            print("Failed to remove user from project: \(error.localizedDescription)")
+            throw error
+        }
+    }
+    
+    
+    func deleteActiveTasks(projectID: String, userID: String) async throws {
+        let tasksRef = database.collection(FirebasePaths.projects.rawValue)
+            .document(projectID)
+            .collection(FirebasePaths.projectTasks.rawValue)
+        
+        let snapshot = try await tasksRef.getDocuments()
+        
+        
+        for doc in snapshot.documents {
+            guard let assignedToID = doc.data()["assignedToID"] as? String else { continue }
+            
+            if assignedToID == userID {
+                try await tasksRef.document(doc.documentID).delete()
+                print("Deleted task: \(doc.documentID)")
+            }
         }
     }
 }

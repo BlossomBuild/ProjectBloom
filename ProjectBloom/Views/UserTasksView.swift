@@ -14,17 +14,38 @@ struct UserTasksView: View {
     
     @State private var showEditTaskSheet: Bool = false
     @State private var taskToEdit: ProjectTask?
-
+    
     
     var userDetails: UserDetails
     var projectTasks: [ProjectTask]
     var project: Project
     
+    var shouldShowRemoveIcon: Bool {
+        let isLeader = Constants.isProjectLeader(
+            leaderID: project.projectLeaderID,
+            currentUserID: authViewModel.userDetails?.id ?? ""
+        )
+        
+        let isNotViewingSelf = userDetails.id != authViewModel.userDetails?.id
+        
+        return isLeader && isNotViewingSelf
+    }
+    
     var body: some View {
         NavigationStack {
             VStack(alignment: .leading) {
-                Text(userDetails.userName)
-                .font(.title3)
+                HStack {
+                    Text(userDetails.userName)
+                        .font(.title3)
+                    
+                    if(shouldShowRemoveIcon) {
+                        Button {
+                            
+                        } label: {
+                            Image(systemName: Constants.removeUserIcon)
+                        }
+                    }
+                }
                 
                 List(projectTasks){ projectTask in
                     Button {
@@ -39,7 +60,7 @@ struct UserTasksView: View {
                 .sheet(item: $taskToEdit) { task in
                     EditTaskView(project: project, projectTask: task)
                         .presentationDetents([.fraction(0.30)])
-
+                    
                 }
                 
             }
@@ -48,3 +69,4 @@ struct UserTasksView: View {
         }
     }
 }
+
