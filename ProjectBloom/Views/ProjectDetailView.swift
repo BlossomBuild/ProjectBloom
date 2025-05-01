@@ -30,7 +30,7 @@ struct ProjectDetailView: View {
                                               projectTasks: databaseViewModel.getUserTasks(userID: user.id),
                                               project: project)
                             }
-                        } 
+                        }
                     }
                     
                     Tab(UIStrings.completedTasks.localizedKey, systemImage: Constants.completeTaskIcon) {
@@ -74,6 +74,30 @@ struct ProjectDetailView: View {
             )
             
             databaseViewModel.stopListeningToProjectUsers()
+        }
+        .overlay {
+            Group {
+                
+                if databaseViewModel.userRemovedStatus == .fetching {
+                    ZStack {
+                        Color.black.opacity(0.4).ignoresSafeArea() // dim background
+                        ProgressView()
+                            .progressViewStyle(CircularProgressViewStyle())
+                            .tint(.white)
+                            .scaleEffect(1.5)
+                    }
+                }
+                
+                if databaseViewModel.userRemovedStatus == .failed {
+                    ZStack {
+                        Color.black.opacity(0.5).ignoresSafeArea()
+                        Text(UIStrings.removeUserError.localizedKey)
+                            .foregroundColor(.white)
+                            .font(.headline)
+                            .padding()
+                    }
+                }
+            }
         }
     }
 }

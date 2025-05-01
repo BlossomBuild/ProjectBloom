@@ -110,7 +110,10 @@ struct ProjectsListView: View {
                         
                         
                         if let project = projectToDelete {
-                            DeleteProjectAlertView(isPresented: $showDeleteAlert, projectToDelete: project)
+                            DeleteProjectAlertView(
+                                isPresented: $showDeleteAlert,
+                                projectToDelete: project
+                            )
                         }
                     }
                 case .failed:

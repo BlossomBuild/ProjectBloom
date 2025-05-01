@@ -16,6 +16,9 @@
 "no_results_found" = "No Results Found";
 "projects" = "Projects";
 "project_name" = "Project Name";
+"remove" = "Remove";
+"remove_user_error" = "Error Removing User";
+"remove_user_message" = "Do you want to remove";
 "rename" = "Rename";
 "search_by_email" = "Search By Email";
 "signing_out" = "Signing Out";
@@ -34,4 +37,5 @@
 "colon" = ":";
 "comma" = ",";
 "space" = " ";
+"question_mark" = "?";
 

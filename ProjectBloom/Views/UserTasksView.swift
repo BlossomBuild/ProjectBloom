@@ -13,7 +13,9 @@ struct UserTasksView: View {
     @Environment(DatabaseViewModel.self) var databaseViewModel
     
     @State private var showEditTaskSheet: Bool = false
+    @State private var showRemoveUserAlert: Bool = false
     @State private var taskToEdit: ProjectTask?
+    @State private var userToRemove: UserDetails?
     
     
     var userDetails: UserDetails
@@ -40,7 +42,8 @@ struct UserTasksView: View {
                     
                     if(shouldShowRemoveIcon) {
                         Button {
-                            
+                            showRemoveUserAlert = true
+                            userToRemove = userDetails
                         } label: {
                             Image(systemName: Constants.removeUserIcon)
                         }
@@ -61,6 +64,14 @@ struct UserTasksView: View {
                     EditTaskView(project: project, projectTask: task)
                         .presentationDetents([.fraction(0.30)])
                     
+                }
+                
+                if let userDetails = userToRemove {
+                    RemoveUserAlertView(
+                        isPresented: $showRemoveUserAlert,
+                        currentProject: project,
+                        userToRemove: userDetails
+                    )
                 }
                 
             }

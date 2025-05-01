@@ -26,6 +26,7 @@ class DatabaseViewModel {
     private(set) var userSearchStatus: OperationStatus = .notStarted
     
     private(set) var projectDeletedStatus: OperationStatus = .notStarted
+    private(set) var userRemovedStatus: OperationStatus = .notStarted
     
     private var projectsListener: ListenerRegistration?
     private var activeTasksListener: ListenerRegistration?
@@ -242,5 +243,36 @@ class DatabaseViewModel {
         projectUsersListener?.remove()
         projectUsersListener = nil
         print("Stopped listening to project users")
+    }
+    
+    func removeUserFromProject(project: Project, userDetails: UserDetails) async throws {
+        userRemovedStatus = .fetching
+        
+        do {
+            try await DatabaseManager.shared.removeUserFromProject(
+                project: project,
+                userDetails: userDetails
+            )
+            
+            removeUserEmailFromProject(email: userDetails.userEmail, fromProjectID: project.id)
+            userRemovedStatus = .success
+        } catch {
+            userRemovedStatus = .failed
+            try await Task.sleep(nanoseconds: 2_000_000_000)
+            userRemovedStatus = .notStarted
+        }
+    }
+    
+    func removeUserEmailFromProject(email: String, fromProjectID id: UUID) {
+        if let index = userProjects.firstIndex(where: { $0.id == id }) {
+            if let emailIndex = userProjects[index].userEmails.firstIndex(of: email) {
+                userProjects[index].userEmails.remove(at: emailIndex)
+                print("Removed \(email) from project ID \(id)")
+            } else {
+                print("Email \(email) not found in project")
+            }
+        } else {
+            print("Could not find project with ID \(id)")
+        }
     }
 }

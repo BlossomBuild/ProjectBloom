@@ -34,7 +34,7 @@ struct DeleteProjectAlertView: View {
         case .fetching:
             ProgressView()
         case .failed:
-            Text(UIStrings.deleteProjectError.localizedKey)
+            Text(UIStrings.removeUserMessage.localizedKey)
         default:
             EmptyView()
         }

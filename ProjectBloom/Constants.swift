@@ -73,6 +73,9 @@ enum UIStrings: String {
     case noResultsFound = "no_results_found"
     case projects = "projects"
     case projectName = "project_name"
+    case remove = "remove"
+    case removeUserError = "remove_user_error"
+    case removeUserMessage = "remove_user_message"
     case rename = "rename"
     case searchByEmail = "search_by_email"
     case signingOut = "signing_out"
@@ -96,6 +99,7 @@ enum Punctuation: String {
     case colon = "colon"
     case comma = "comma"
     case space = "space"
+    case questionMark = "question_mark"
 }
 
 extension Punctuation {
