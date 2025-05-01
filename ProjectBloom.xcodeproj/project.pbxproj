@@ -7,87 +7,43 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		830044D52DC2C4F200439EC8 /* RemoveUserAlertView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 830044D42DC2C4F200439EC8 /* RemoveUserAlertView.swift */; };
 		830C7D0E2CF3D96D00B03417 /* Poppins-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 830C7D0D2CF3D96D00B03417 /* Poppins-Bold.ttf */; };
-		836BB7CF2DBAD3EF00C9F8AC /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 836BB7CE2DBAD3EF00C9F8AC /* Localizable.strings */; };
 		8373A7002CE55541007E1274 /* GoogleSignIn in Frameworks */ = {isa = PBXBuildFile; productRef = 8373A6FF2CE55541007E1274 /* GoogleSignIn */; };
 		8373A7022CE55541007E1274 /* GoogleSignInSwift in Frameworks */ = {isa = PBXBuildFile; productRef = 8373A7012CE55541007E1274 /* GoogleSignInSwift */; };
-		8387D5BF2DA9AA10003006C0 /* UserSearchItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8387D5BE2DA9AA10003006C0 /* UserSearchItem.swift */; };
 		8397EFC42CE41B16005F9F2E /* FirebaseAnalytics in Frameworks */ = {isa = PBXBuildFile; productRef = 8397EFC32CE41B16005F9F2E /* FirebaseAnalytics */; };
 		8397EFC62CE41B16005F9F2E /* FirebaseAuth in Frameworks */ = {isa = PBXBuildFile; productRef = 8397EFC52CE41B16005F9F2E /* FirebaseAuth */; };
 		8397EFC82CE41B16005F9F2E /* FirebaseCore in Frameworks */ = {isa = PBXBuildFile; productRef = 8397EFC72CE41B16005F9F2E /* FirebaseCore */; };
 		8397EFCA2CE41B16005F9F2E /* FirebaseDatabase in Frameworks */ = {isa = PBXBuildFile; productRef = 8397EFC92CE41B16005F9F2E /* FirebaseDatabase */; };
 		8397EFEA2CE4224E005F9F2E /* FirebaseFirestore in Frameworks */ = {isa = PBXBuildFile; productRef = 8397EFE92CE4224E005F9F2E /* FirebaseFirestore */; };
 		83A001BA2CF3D7F800863A63 /* Poppins-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 83A001B92CF3D7F800863A63 /* Poppins-Regular.ttf */; };
-		83B346902DA9696400DEC239 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 83B346772DA9696400DEC239 /* Preview Assets.xcassets */; };
-		83B346912DA9696400DEC239 /* .gitignore in Resources */ = {isa = PBXBuildFile; fileRef = 83B346882DA9696400DEC239 /* .gitignore */; };
-		83B346922DA9696400DEC239 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 83B346892DA9696400DEC239 /* Assets.xcassets */; };
-		83B346932DA9696400DEC239 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 83B3468C2DA9696400DEC239 /* GoogleService-Info.plist */; };
-		83B346952DA9696400DEC239 /* Project.swift in Sources */ = {isa = PBXBuildFile; fileRef = 83B3466D2DA9696400DEC239 /* Project.swift */; };
-		83B346962DA9696400DEC239 /* ProjectTask.swift in Sources */ = {isa = PBXBuildFile; fileRef = 83B3466E2DA9696400DEC239 /* ProjectTask.swift */; };
-		83B346972DA9696400DEC239 /* UserDetails.swift in Sources */ = {isa = PBXBuildFile; fileRef = 83B3466F2DA9696400DEC239 /* UserDetails.swift */; };
-		83B346982DA9696400DEC239 /* AuthManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 83B346712DA9696400DEC239 /* AuthManager.swift */; };
-		83B346992DA9696400DEC239 /* AuthViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 83B346722DA9696400DEC239 /* AuthViewModel.swift */; };
-		83B3469A2DA9696400DEC239 /* DatabaseManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 83B346732DA9696400DEC239 /* DatabaseManager.swift */; };
-		83B3469B2DA9696400DEC239 /* DatabaseViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 83B346742DA9696400DEC239 /* DatabaseViewModel.swift */; };
-		83B3469C2DA9696400DEC239 /* GoogleSignInManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 83B346752DA9696400DEC239 /* GoogleSignInManager.swift */; };
-		83B3469D2DA9696400DEC239 /* AccountView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 83B346792DA9696400DEC239 /* AccountView.swift */; };
-		83B3469E2DA9696400DEC239 /* AuthenticatedHomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 83B3467A2DA9696400DEC239 /* AuthenticatedHomeView.swift */; };
-		83B3469F2DA9696400DEC239 /* CharacterCounterView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 83B3467B2DA9696400DEC239 /* CharacterCounterView.swift */; };
-		83B346A02DA9696400DEC239 /* DeleteCompletedTaskAlertView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 83B3467C2DA9696400DEC239 /* DeleteCompletedTaskAlertView.swift */; };
-		83B346A12DA9696400DEC239 /* DeleteProjectAlertView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 83B3467D2DA9696400DEC239 /* DeleteProjectAlertView.swift */; };
-		83B346A22DA9696400DEC239 /* EditProjectView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 83B3467E2DA9696400DEC239 /* EditProjectView.swift */; };
-		83B346A32DA9696400DEC239 /* EditTaskView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 83B3467F2DA9696400DEC239 /* EditTaskView.swift */; };
-		83B346A42DA9696400DEC239 /* HomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 83B346802DA9696400DEC239 /* HomeView.swift */; };
-		83B346A52DA9696400DEC239 /* LoginView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 83B346812DA9696400DEC239 /* LoginView.swift */; };
-		83B346A62DA9696400DEC239 /* ProjectDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 83B346822DA9696400DEC239 /* ProjectDetailView.swift */; };
-		83B346A72DA9696400DEC239 /* ProjectsListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 83B346832DA9696400DEC239 /* ProjectsListView.swift */; };
-		83B346A82DA9696400DEC239 /* UserCompletedTaskView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 83B346842DA9696400DEC239 /* UserCompletedTaskView.swift */; };
-		83B346A92DA9696400DEC239 /* UserSearchScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 83B346852DA9696400DEC239 /* UserSearchScreen.swift */; };
-		83B346AA2DA9696400DEC239 /* UserTasksView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 83B346862DA9696400DEC239 /* UserTasksView.swift */; };
-		83B346AB2DA9696400DEC239 /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 83B3468A2DA9696400DEC239 /* Constants.swift */; };
-		83B346AC2DA9696400DEC239 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 83B3468B2DA9696400DEC239 /* ContentView.swift */; };
-		83B346AD2DA9696400DEC239 /* ProjectBloomApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 83B3468E2DA9696400DEC239 /* ProjectBloomApp.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		830044D42DC2C4F200439EC8 /* RemoveUserAlertView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RemoveUserAlertView.swift; sourceTree = "<group>"; };
 		830C7D0D2CF3D96D00B03417 /* Poppins-Bold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Poppins-Bold.ttf"; sourceTree = "<group>"; };
 		831B82CD2CDD37C7000A48AF /* ProjectBloom.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ProjectBloom.app; sourceTree = BUILT_PRODUCTS_DIR; };
-		836BB7CE2DBAD3EF00C9F8AC /* Localizable.strings */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; path = Localizable.strings; sourceTree = "<group>"; };
-		8387D5BE2DA9AA10003006C0 /* UserSearchItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserSearchItem.swift; sourceTree = "<group>"; };
 		83A001B92CF3D7F800863A63 /* Poppins-Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Poppins-Regular.ttf"; sourceTree = "<group>"; };
-		83B3466D2DA9696400DEC239 /* Project.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Project.swift; sourceTree = "<group>"; };
-		83B3466E2DA9696400DEC239 /* ProjectTask.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProjectTask.swift; sourceTree = "<group>"; };
-		83B3466F2DA9696400DEC239 /* UserDetails.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserDetails.swift; sourceTree = "<group>"; };
-		83B346712DA9696400DEC239 /* AuthManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthManager.swift; sourceTree = "<group>"; };
-		83B346722DA9696400DEC239 /* AuthViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthViewModel.swift; sourceTree = "<group>"; };
-		83B346732DA9696400DEC239 /* DatabaseManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DatabaseManager.swift; sourceTree = "<group>"; };
-		83B346742DA9696400DEC239 /* DatabaseViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DatabaseViewModel.swift; sourceTree = "<group>"; };
-		83B346752DA9696400DEC239 /* GoogleSignInManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GoogleSignInManager.swift; sourceTree = "<group>"; };
-		83B346772DA9696400DEC239 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
-		83B346792DA9696400DEC239 /* AccountView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccountView.swift; sourceTree = "<group>"; };
-		83B3467A2DA9696400DEC239 /* AuthenticatedHomeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthenticatedHomeView.swift; sourceTree = "<group>"; };
-		83B3467B2DA9696400DEC239 /* CharacterCounterView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CharacterCounterView.swift; sourceTree = "<group>"; };
-		83B3467C2DA9696400DEC239 /* DeleteCompletedTaskAlertView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeleteCompletedTaskAlertView.swift; sourceTree = "<group>"; };
-		83B3467D2DA9696400DEC239 /* DeleteProjectAlertView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeleteProjectAlertView.swift; sourceTree = "<group>"; };
-		83B3467E2DA9696400DEC239 /* EditProjectView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditProjectView.swift; sourceTree = "<group>"; };
-		83B3467F2DA9696400DEC239 /* EditTaskView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditTaskView.swift; sourceTree = "<group>"; };
-		83B346802DA9696400DEC239 /* HomeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeView.swift; sourceTree = "<group>"; };
-		83B346812DA9696400DEC239 /* LoginView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginView.swift; sourceTree = "<group>"; };
-		83B346822DA9696400DEC239 /* ProjectDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProjectDetailView.swift; sourceTree = "<group>"; };
-		83B346832DA9696400DEC239 /* ProjectsListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProjectsListView.swift; sourceTree = "<group>"; };
-		83B346842DA9696400DEC239 /* UserCompletedTaskView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserCompletedTaskView.swift; sourceTree = "<group>"; };
-		83B346852DA9696400DEC239 /* UserSearchScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserSearchScreen.swift; sourceTree = "<group>"; };
-		83B346862DA9696400DEC239 /* UserTasksView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserTasksView.swift; sourceTree = "<group>"; };
-		83B346882DA9696400DEC239 /* .gitignore */ = {isa = PBXFileReference; lastKnownFileType = text; path = .gitignore; sourceTree = "<group>"; };
-		83B346892DA9696400DEC239 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
-		83B3468A2DA9696400DEC239 /* Constants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
-		83B3468B2DA9696400DEC239 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
-		83B3468C2DA9696400DEC239 /* GoogleService-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
-		83B3468D2DA9696400DEC239 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		83B3468E2DA9696400DEC239 /* ProjectBloomApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProjectBloomApp.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
+
+/* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
+		8373A7082CE5564E007E1274 /* Exceptions for "ProjectBloom" folder in "ProjectBloom" target */ = {
+			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
+			membershipExceptions = (
+				Info.plist,
+			);
+			target = 831B82CC2CDD37C7000A48AF /* ProjectBloom */;
+		};
+/* End PBXFileSystemSynchronizedBuildFileExceptionSet section */
+
+/* Begin PBXFileSystemSynchronizedRootGroup section */
+		831B82CF2CDD37C7000A48AF /* ProjectBloom */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			exceptions = (
+				8373A7082CE5564E007E1274 /* Exceptions for "ProjectBloom" folder in "ProjectBloom" target */,
+			);
+			path = ProjectBloom;
+			sourceTree = "<group>";
+		};
+/* End PBXFileSystemSynchronizedRootGroup section */
 
 /* Begin PBXFrameworksBuildPhase section */
 		831B82CA2CDD37C7000A48AF /* Frameworks */ = {
@@ -114,8 +70,7 @@
 				83A001B92CF3D7F800863A63 /* Poppins-Regular.ttf */,
 				8397EFE82CE4224E005F9F2E /* Frameworks */,
 				831B82CE2CDD37C7000A48AF /* Products */,
-				83B3468F2DA9696400DEC239 /* ProjectBloom */,
-				83B3468E2DA9696400DEC239 /* ProjectBloomApp.swift */,
+				831B82CF2CDD37C7000A48AF /* ProjectBloom */,
 			);
 			sourceTree = "<group>";
 		};
@@ -134,77 +89,6 @@
 			name = Frameworks;
 			sourceTree = "<group>";
 		};
-		83B346702DA9696400DEC239 /* Models */ = {
-			isa = PBXGroup;
-			children = (
-				83B3466D2DA9696400DEC239 /* Project.swift */,
-				83B3466E2DA9696400DEC239 /* ProjectTask.swift */,
-				83B3466F2DA9696400DEC239 /* UserDetails.swift */,
-			);
-			path = Models;
-			sourceTree = "<group>";
-		};
-		83B346762DA9696400DEC239 /* Networking */ = {
-			isa = PBXGroup;
-			children = (
-				83B346712DA9696400DEC239 /* AuthManager.swift */,
-				83B346722DA9696400DEC239 /* AuthViewModel.swift */,
-				83B346732DA9696400DEC239 /* DatabaseManager.swift */,
-				83B346742DA9696400DEC239 /* DatabaseViewModel.swift */,
-				83B346752DA9696400DEC239 /* GoogleSignInManager.swift */,
-			);
-			path = Networking;
-			sourceTree = "<group>";
-		};
-		83B346782DA9696400DEC239 /* Preview Content */ = {
-			isa = PBXGroup;
-			children = (
-				83B346772DA9696400DEC239 /* Preview Assets.xcassets */,
-			);
-			path = "Preview Content";
-			sourceTree = "<group>";
-		};
-		83B346872DA9696400DEC239 /* Views */ = {
-			isa = PBXGroup;
-			children = (
-				83B346792DA9696400DEC239 /* AccountView.swift */,
-				83B3467A2DA9696400DEC239 /* AuthenticatedHomeView.swift */,
-				83B3467B2DA9696400DEC239 /* CharacterCounterView.swift */,
-				83B3467C2DA9696400DEC239 /* DeleteCompletedTaskAlertView.swift */,
-				830044D42DC2C4F200439EC8 /* RemoveUserAlertView.swift */,
-				83B3467D2DA9696400DEC239 /* DeleteProjectAlertView.swift */,
-				83B3467E2DA9696400DEC239 /* EditProjectView.swift */,
-				83B3467F2DA9696400DEC239 /* EditTaskView.swift */,
-				83B346802DA9696400DEC239 /* HomeView.swift */,
-				83B346812DA9696400DEC239 /* LoginView.swift */,
-				83B346822DA9696400DEC239 /* ProjectDetailView.swift */,
-				83B346832DA9696400DEC239 /* ProjectsListView.swift */,
-				83B346842DA9696400DEC239 /* UserCompletedTaskView.swift */,
-				83B346852DA9696400DEC239 /* UserSearchScreen.swift */,
-				8387D5BE2DA9AA10003006C0 /* UserSearchItem.swift */,
-				83B346862DA9696400DEC239 /* UserTasksView.swift */,
-			);
-			path = Views;
-			sourceTree = "<group>";
-		};
-		83B3468F2DA9696400DEC239 /* ProjectBloom */ = {
-			isa = PBXGroup;
-			children = (
-				83B346882DA9696400DEC239 /* .gitignore */,
-				83B346892DA9696400DEC239 /* Assets.xcassets */,
-				83B3468A2DA9696400DEC239 /* Constants.swift */,
-				83B3468B2DA9696400DEC239 /* ContentView.swift */,
-				83B3468C2DA9696400DEC239 /* GoogleService-Info.plist */,
-				83B3468D2DA9696400DEC239 /* Info.plist */,
-				83B346702DA9696400DEC239 /* Models */,
-				83B346762DA9696400DEC239 /* Networking */,
-				83B346782DA9696400DEC239 /* Preview Content */,
-				83B346872DA9696400DEC239 /* Views */,
-				836BB7CE2DBAD3EF00C9F8AC /* Localizable.strings */,
-			);
-			path = ProjectBloom;
-			sourceTree = "<group>";
-		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -219,6 +103,9 @@
 			buildRules = (
 			);
 			dependencies = (
+			);
+			fileSystemSynchronizedGroups = (
+				831B82CF2CDD37C7000A48AF /* ProjectBloom */,
 			);
 			name = ProjectBloom;
 			packageProductDependencies = (
@@ -242,7 +129,7 @@
 			attributes = {
 				BuildIndependentTargetsInParallel = 1;
 				LastSwiftUpdateCheck = 1610;
-				LastUpgradeCheck = 1630;
+				LastUpgradeCheck = 1610;
 				TargetAttributes = {
 					831B82CC2CDD37C7000A48AF = {
 						CreatedOnToolsVersion = 16.1;
@@ -279,11 +166,6 @@
 			files = (
 				83A001BA2CF3D7F800863A63 /* Poppins-Regular.ttf in Resources */,
 				830C7D0E2CF3D96D00B03417 /* Poppins-Bold.ttf in Resources */,
-				83B346902DA9696400DEC239 /* Preview Assets.xcassets in Resources */,
-				836BB7CF2DBAD3EF00C9F8AC /* Localizable.strings in Resources */,
-				83B346912DA9696400DEC239 /* .gitignore in Resources */,
-				83B346922DA9696400DEC239 /* Assets.xcassets in Resources */,
-				83B346932DA9696400DEC239 /* GoogleService-Info.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -294,33 +176,6 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				83B346952DA9696400DEC239 /* Project.swift in Sources */,
-				8387D5BF2DA9AA10003006C0 /* UserSearchItem.swift in Sources */,
-				83B346962DA9696400DEC239 /* ProjectTask.swift in Sources */,
-				83B346972DA9696400DEC239 /* UserDetails.swift in Sources */,
-				83B346982DA9696400DEC239 /* AuthManager.swift in Sources */,
-				83B346992DA9696400DEC239 /* AuthViewModel.swift in Sources */,
-				83B3469A2DA9696400DEC239 /* DatabaseManager.swift in Sources */,
-				830044D52DC2C4F200439EC8 /* RemoveUserAlertView.swift in Sources */,
-				83B3469B2DA9696400DEC239 /* DatabaseViewModel.swift in Sources */,
-				83B3469C2DA9696400DEC239 /* GoogleSignInManager.swift in Sources */,
-				83B3469D2DA9696400DEC239 /* AccountView.swift in Sources */,
-				83B3469E2DA9696400DEC239 /* AuthenticatedHomeView.swift in Sources */,
-				83B3469F2DA9696400DEC239 /* CharacterCounterView.swift in Sources */,
-				83B346A02DA9696400DEC239 /* DeleteCompletedTaskAlertView.swift in Sources */,
-				83B346A12DA9696400DEC239 /* DeleteProjectAlertView.swift in Sources */,
-				83B346A22DA9696400DEC239 /* EditProjectView.swift in Sources */,
-				83B346A32DA9696400DEC239 /* EditTaskView.swift in Sources */,
-				83B346A42DA9696400DEC239 /* HomeView.swift in Sources */,
-				83B346A52DA9696400DEC239 /* LoginView.swift in Sources */,
-				83B346A62DA9696400DEC239 /* ProjectDetailView.swift in Sources */,
-				83B346A72DA9696400DEC239 /* ProjectsListView.swift in Sources */,
-				83B346A82DA9696400DEC239 /* UserCompletedTaskView.swift in Sources */,
-				83B346A92DA9696400DEC239 /* UserSearchScreen.swift in Sources */,
-				83B346AA2DA9696400DEC239 /* UserTasksView.swift in Sources */,
-				83B346AB2DA9696400DEC239 /* Constants.swift in Sources */,
-				83B346AC2DA9696400DEC239 /* ContentView.swift in Sources */,
-				83B346AD2DA9696400DEC239 /* ProjectBloomApp.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -362,7 +217,6 @@
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				COPY_PHASE_STRIP = NO;
 				DEBUG_INFORMATION_FORMAT = dwarf;
-				DEVELOPMENT_TEAM = 899T7BV947;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				ENABLE_TESTABILITY = YES;
 				ENABLE_USER_SCRIPT_SANDBOXING = YES;
@@ -426,7 +280,6 @@
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				COPY_PHASE_STRIP = NO;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
-				DEVELOPMENT_TEAM = 899T7BV947;
 				ENABLE_NS_ASSERTIONS = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				ENABLE_USER_SCRIPT_SANDBOXING = YES;
@@ -457,6 +310,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"ProjectBloom/Preview Content\"";
+				DEVELOPMENT_TEAM = 899T7BV947;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = ProjectBloom/Info.plist;
@@ -488,6 +342,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"ProjectBloom/Preview Content\"";
+				DEVELOPMENT_TEAM = 899T7BV947;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = ProjectBloom/Info.plist;
