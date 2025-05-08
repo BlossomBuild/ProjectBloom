@@ -8,9 +8,7 @@
 import SwiftUI
 
 struct UserTasksView: View {
-    
     @Environment(AuthViewModel.self) var authViewModel
-    @Environment(DatabaseViewModel.self) var databaseViewModel
     
     @State private var showEditTaskSheet: Bool = false
     @State private var showRemoveUserAlert: Bool = false
