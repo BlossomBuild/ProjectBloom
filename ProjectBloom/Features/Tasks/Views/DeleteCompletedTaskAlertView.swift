@@ -19,7 +19,7 @@ struct DeleteCompletedTaskAlertView: View {
                    Text(completedTaskToDelete.title)
                    ,isPresented: $isPresented,
                    actions: {
-                Button(UIStrings.delete.rawValue, role:.destructive){
+                Button(UIStrings.delete.localizedKey, role:.destructive){
                     deleteCompletedTask()
                     isPresented = false
                 }
