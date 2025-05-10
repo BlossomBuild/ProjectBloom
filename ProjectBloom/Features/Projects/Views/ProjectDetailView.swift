@@ -10,9 +10,14 @@ import SwiftUI
 struct ProjectDetailView: View {
     
     @Environment(DatabaseViewModel.self) var databaseViewModel
+    @Environment(AuthViewModel.self) var authViewModel
     @State private var showUserSearchScreen = false
     
     var project: Project
+    var isLeader: Bool {Constants.isProjectLeader(
+        leaderID: project.projectLeaderID,
+        currentUserID: authViewModel.user?.uid ?? ""
+    )}
     
     var body: some View {
         NavigationStack {
@@ -44,12 +49,14 @@ struct ProjectDetailView: View {
             
         }
         .toolbar {
-            ToolbarItem(placement: .topBarTrailing) {
-                Button {
-                    showUserSearchScreen.toggle()
-                } label: {
-                    Image(systemName: Constants.addUser)
-                        .tint(.bbWhite)
+            if isLeader {
+                ToolbarItem(placement: .topBarTrailing) {
+                    Button {
+                        showUserSearchScreen.toggle()
+                    } label: {
+                        Image(systemName: Constants.addUser)
+                            .tint(.bbWhite)
+                    }
                 }
             }
         }
@@ -77,7 +84,6 @@ struct ProjectDetailView: View {
         }
         .overlay {
             Group {
-                
                 if databaseViewModel.userRemovedStatus == .fetching {
                     ZStack {
                         Color.black.opacity(0.4).ignoresSafeArea() // dim background
