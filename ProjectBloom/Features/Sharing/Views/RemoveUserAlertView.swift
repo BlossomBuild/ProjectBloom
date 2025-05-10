@@ -23,7 +23,7 @@ struct RemoveUserAlertView: View {
                    
                    
                    isPresented: $isPresented) {
-                Button(UIStrings.remove.rawValue, role:.destructive){
+                Button(UIStrings.remove.localizedKey, role:.destructive){
                     removeUser(project: currentProject, userDetails: userToRemove)
                     isPresented = false
                 }
