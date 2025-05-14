@@ -18,7 +18,7 @@ struct DeleteProjectAlertView: View {
                    Text(Punctuation.space.localizedKey) +
                    Text(projectToDelete.name),isPresented: $isPresented,
                    actions: {
-                Button(UIStrings.delete.rawValue, role:.destructive){
+                Button(UIStrings.delete.localizedKey, role:.destructive){
                     deleteProject(project: projectToDelete)
                     isPresented = false
                 }

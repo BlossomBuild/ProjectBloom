@@ -113,10 +113,17 @@ struct EditTaskView: View {
     
     func completeTask() {
         Task {
+            var updatedProjectTask = projectTask
+            
+            if taskName != projectTask.title || taskDescription != (projectTask.description ?? "") {
+                updatedProjectTask.title = taskName
+                updatedProjectTask.description = taskDescription
+            }
+            
             //TODO: Add a catch block for feedback if the operation fails
             try await DatabaseManager.shared.completeTask(
                 projectId: project.id.description,
-                projectTask: projectTask
+                projectTask: updatedProjectTask
             )
         }
     }
