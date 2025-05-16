@@ -28,7 +28,7 @@ struct Constants {
     static func getGreeting() -> String {
         let hour = Calendar.current.component(.hour, from: Date())
         return switch hour {
-        case 6..<12: GreetingStrings.goodMorning.string
+        case 0..<12: GreetingStrings.goodMorning.string
         case 12..<18: GreetingStrings.goodAfternoon.string
         case 18..<24: GreetingStrings.goodEvening.string
         default: GreetingStrings.hello.string
