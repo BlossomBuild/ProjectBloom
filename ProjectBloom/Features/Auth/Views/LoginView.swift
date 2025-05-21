@@ -35,6 +35,11 @@ struct LoginView: View {
                         .padding().background(Color(.bbGreenDark))
                 } else {
                     
+                    AuthButtonView(title: UIStrings.continueWithEmail.localizedKey, iconName: Constants.emailIcon) {
+                        
+                    }
+                    
+                    
                     GoogleSignInButton {
                         Task {
                             isSigningIn = true
@@ -47,7 +52,6 @@ struct LoginView: View {
                     }
                     .frame(width: 280, height: 45, alignment: .center)
                     .disabled(authViewModel.isLoading)
-                    
                 }
                 
                 // MARK: Anonymous

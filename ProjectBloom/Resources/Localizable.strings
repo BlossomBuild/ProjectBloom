@@ -5,6 +5,7 @@
 "cancel" = "Cancel";
 "completed_by" = "Completed By";
 "completed_tasks" = "Completed Tasks";
+"continue_with_email" = "Continue With Email";
 "create" = "Create";
 "delete" = "Delete";
 "delete_project_error" = "Error Deleting Project";
