@@ -10,6 +10,7 @@ import SwiftUI
 
 struct Constants {
     //MARK: UI Icons
+    static var appleLogo = "apple.logo"
     static var signedInIcon = "person.crop.circle.badge.checkmark"
     static var signedOutIcon = "person.crop.circle.badge.questionmark"
     static var addProjectImage = "document.badge.plus.fill"
@@ -24,6 +25,7 @@ struct Constants {
     static var addUser = "person.badge.plus"
     static var magnifyingGlassIcon = "magnifyingglass"
     static var removeUserIcon = "minus.circle"
+    static var google = "google"
     
     //MARK: Constant Functions
     static func getGreeting() -> String {
@@ -63,7 +65,10 @@ enum UIStrings: String {
     case cancel = "cancel"
     case completedBy = "completed_by"
     case completedTasks = "completed_tasks"
+    case continueAnonymously = "continue_anonymously"
+    case continueWithApple = "continue_with_apple"
     case continueWithEmail = "continue_with_email"
+    case continueWithGoogle = "continue_with_google"
     case create = "create"
     case delete = "delete"
     case deleteProjectError = "delete_project_error"
@@ -155,7 +160,7 @@ extension Text {
 }
 
 extension Font {
-    static let poppinsFontBold = Font.custom("Poppins-Bold", size: 30)
+    static let poppinsFontBold = Font.custom("Poppins-Bold", size: 35)
     static let poppinsFontRegular = Font.custom("Poppins-Regular", size: 25)
 }
 

@@ -5,7 +5,10 @@
 "cancel" = "Cancel";
 "completed_by" = "Completed By";
 "completed_tasks" = "Completed Tasks";
+"continue_anonymously" = "Continue as Guest";
+"continue_with_apple" = "Continue With Apple";
 "continue_with_email" = "Continue With Email";
+"continue_with_google" = "Continue With Google";
 "create" = "Create";
 "delete" = "Delete";
 "delete_project_error" = "Error Deleting Project";

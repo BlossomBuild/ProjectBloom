@@ -13,73 +13,69 @@ import GoogleSignIn
 struct LoginView: View {
     @Environment(AuthViewModel.self) var authViewModel
     @Environment(\.dismiss) var dismiss
-    @State private var isSigningIn: Bool = false
     
     var body: some View {
         NavigationStack {
-            VStack(spacing: 16) {
-                Spacer()
-                
-                Text(UIStrings.appName.localizedKey)
-                    .foregroundStyle(Color(.bbWhite))
-                    .font(.poppinsFontBold)
-                    .padding()
-                
-                Spacer()
-                
-                
-                //MARK: GOOGLE SIGN IN
-                if isSigningIn {
-                    ProgressView()
-                        .progressViewStyle(CircularProgressViewStyle(tint: .white))
-                        .padding().background(Color(.bbGreenDark))
-                } else {
+                VStack(spacing: 16) {
+                    Spacer()
                     
-                    AuthButtonView(title: UIStrings.continueWithEmail.localizedKey, iconName: Constants.emailIcon) {
-                        
-                    }
+                    Text(UIStrings.appName.localizedKey)
+                        .foregroundStyle(Color(.bbWhite))
+                        .font(.poppinsFontBold)
+                        .padding()
                     
+                    Spacer()
                     
-                    GoogleSignInButton {
-                        Task {
-                            isSigningIn = true
-                            await authViewModel
-                                .signInWithGoogle()
-                            dismiss()
-                            isSigningIn = false
+                    if authViewModel.isLoading {
+                        Spacer()
+                        ProgressView()
+                            .progressViewStyle(CircularProgressViewStyle(tint: .white))
+                    } else {
+                        LoginButtonView(
+                            title: UIStrings.continueWithApple.localizedKey,
+                            iconName: Constants.appleLogo,
+                            isSystemImage: true
+                        ) {
+                           
                         }
                         
-                    }
-                    .frame(width: 280, height: 45, alignment: .center)
-                    .disabled(authViewModel.isLoading)
-                }
-                
-                // MARK: Anonymous
-                if(authViewModel.authState == .signedOut){
-                    Button {
-                        Task {
-                            isSigningIn = true
-                            await authViewModel.signInAnonymously()
-                            dismiss()
-                            isSigningIn = false
+                        LoginButtonView(
+                            title: UIStrings.continueWithGoogle.localizedKey,
+                            iconName: Constants.google,
+                            isSystemImage: false
+                        ) {
+                            Task {
+                                await authViewModel
+                                    .signInWithGoogle()
+                                dismiss()
+                            }
                         }
-                    } label: {
-                        Text(UIStrings.skip.localizedKey)
-                            .font(.body.bold())
-                            .frame(width: 280, height: 45, alignment: .center)
-                            .foregroundStyle(.bbWhite)
-                            .font(.poppinsFontRegular)
+                        
+                        LoginButtonView(
+                            title: UIStrings.continueWithEmail.localizedKey,
+                            iconName: Constants.emailIcon,
+                            isSystemImage: true
+                        ) {
+                            
+                        }
+                        
+                        if(authViewModel.authState == .signedOut) {
+                            LoginButtonView(
+                                title: UIStrings.continueAnonymously.localizedKey,
+                                iconName: Constants.signedOutIcon,
+                                isSystemImage: true
+                            ) {
+                                Task {
+                                    await authViewModel.signInAnonymously()
+                                    dismiss()
+                                }
+                            }
+                        }
                     }
-                    .disabled(authViewModel.isLoading)
                 }
-                
-                
-                
-            }
-            .padding()
+            .padding(30)
             .frame(maxWidth: .infinity, maxHeight: .infinity)
             .background(Color(.bbGreenDark))
-            
         }
     }
 }

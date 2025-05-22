@@ -7,9 +7,10 @@
 
 import SwiftUI
 
-struct AuthButtonView: View {
+struct LoginButtonView: View {
     let title: LocalizedStringKey
     let iconName: String
+    let isSystemImage: Bool
     let action: () -> Void
     
     var body: some View {
@@ -17,12 +18,19 @@ struct AuthButtonView: View {
             action()
         } label : {
             HStack {
-                Image(systemName: iconName)
-                    .resizable()
-                    .scaledToFit()
-                    .frame(width: 20, height: 20)
+                Group {
+                    if isSystemImage {
+                        Image(systemName: iconName)
+                            .resizable()
+                            .scaledToFit()
+                    } else {
+                        Image(iconName)
+                            .resizable()
+                            .scaledToFit()
+                    }
+                }
+                .frame(width: 20, height: 20)
                 
-             
                 Text(title)
                     .font(.headline)
                     .padding(.leading, 8)
