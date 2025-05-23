@@ -72,12 +72,15 @@ enum UIStrings: String {
     case create = "create"
     case delete = "delete"
     case deleteProjectError = "delete_project_error"
+    case email = "email"
     case descriptionOptional = "description_optional"
     case genericErrorMessage = "generic_error_message"
     case irreversibleAction = "irreversible_action"
+    case login = "login"
     case noActiveProjects = "no_active_projects"
     case noCompletedTasks = "no_completed_tasks"
     case noResultsFound = "no_results_found"
+    case password = "password"
     case projects = "projects"
     case projectName = "project_name"
     case remove = "remove"
@@ -161,7 +164,7 @@ extension Text {
 
 extension Font {
     static let poppinsFontBold = Font.custom("Poppins-Bold", size: 35)
-    static let poppinsFontRegular = Font.custom("Poppins-Regular", size: 25)
+    static let poppinsFontRegular = Font.custom("Poppins-Regular", size: 20)
 }
 
 

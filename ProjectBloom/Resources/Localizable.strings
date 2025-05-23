@@ -13,11 +13,14 @@
 "delete" = "Delete";
 "delete_project_error" = "Error Deleting Project";
 "description_optional" = "Description Optional";
+"email" = "Email";
 "generic_error_message" = "Something went wrong please try again";
 "irreversible_action" = "This action can't be undone";
+"login" = "Login";
 "no_active_projects" = "No Active Projects";
 "no_completed_tasks" = "No Completed Tasks";
 "no_results_found" = "No Results Found";
+"password" = "Password";
 "projects" = "Projects";
 "project_name" = "Project Name";
 "remove" = "Remove";

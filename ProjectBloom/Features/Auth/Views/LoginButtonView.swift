@@ -8,10 +8,12 @@
 import SwiftUI
 
 struct LoginButtonView: View {
+    
     let title: LocalizedStringKey
     let iconName: String
     let isSystemImage: Bool
     let action: () -> Void
+    
     
     var body: some View {
         Button {
@@ -41,6 +43,7 @@ struct LoginButtonView: View {
             .padding()
             .background(.thinMaterial)
             .clipShape(.rect(cornerRadius: 10))
+            
         }
     }
 }

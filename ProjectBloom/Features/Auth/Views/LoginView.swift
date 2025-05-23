@@ -7,37 +7,32 @@
 
 import SwiftUI
 import AuthenticationServices
-import GoogleSignInSwift
-import GoogleSignIn
 
 struct LoginView: View {
     @Environment(AuthViewModel.self) var authViewModel
     @Environment(\.dismiss) var dismiss
+    @State var showEmailLogin = false
     
     var body: some View {
         NavigationStack {
-                VStack(spacing: 16) {
-                    Spacer()
-                    
-                    Text(UIStrings.appName.localizedKey)
-                        .foregroundStyle(Color(.bbWhite))
-                        .font(.poppinsFontBold)
-                        .padding()
-                    
-                    Spacer()
-                    
-                    if authViewModel.isLoading {
-                        Spacer()
-                        ProgressView()
-                            .progressViewStyle(CircularProgressViewStyle(tint: .white))
-                    } else {
+                ScrollView {
+                    LazyVStack(spacing: 16) {
+                        
+                        Text(UIStrings.appName.localizedKey)
+                            .foregroundStyle(Color(.bbWhite))
+                            .font(.poppinsFontBold)
+                            .padding(.top, 100)
+                            .padding(.bottom, 100)
+                        
                         LoginButtonView(
                             title: UIStrings.continueWithApple.localizedKey,
                             iconName: Constants.appleLogo,
                             isSystemImage: true
                         ) {
-                           
+                            
                         }
+                        .disabled(authViewModel.isLoading)
+                        
                         
                         LoginButtonView(
                             title: UIStrings.continueWithGoogle.localizedKey,
@@ -50,16 +45,19 @@ struct LoginView: View {
                                 dismiss()
                             }
                         }
+                        .disabled(authViewModel.isLoading)
+                        
                         
                         LoginButtonView(
                             title: UIStrings.continueWithEmail.localizedKey,
                             iconName: Constants.emailIcon,
                             isSystemImage: true
                         ) {
-                            
+                            showEmailLogin.toggle()
                         }
+                        .disabled(authViewModel.isLoading)
                         
-                        if(authViewModel.authState == .signedOut) {
+                        if authViewModel.authState == .signedOut {
                             LoginButtonView(
                                 title: UIStrings.continueAnonymously.localizedKey,
                                 iconName: Constants.signedOutIcon,
@@ -71,11 +69,20 @@ struct LoginView: View {
                                 }
                             }
                         }
+                        
+                        if showEmailLogin {
+                            Spacer()
+                            EmailPasswordView()
+                        }
+                        
+                        
+                        
                     }
                 }
             .padding(30)
             .frame(maxWidth: .infinity, maxHeight: .infinity)
             .background(Color(.bbGreenDark))
+            .scrollIndicators(.hidden)
         }
     }
 }
