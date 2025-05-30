@@ -21,6 +21,7 @@
 "no_completed_tasks" = "No Completed Tasks";
 "no_results_found" = "No Results Found";
 "password" = "Password";
+"password_confirmation" = "Confirm Password";
 "projects" = "Projects";
 "project_name" = "Project Name";
 "register" = "Register";

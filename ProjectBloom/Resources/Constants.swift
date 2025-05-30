@@ -57,6 +57,17 @@ struct Constants {
         return taskOwnerID == currentUserID
     }
     
+    // MARK: Email Login Functions
+    static func isValidEmail(for email: String) -> Bool {
+        let emailFormat =
+        "^[A-Z0-9a-z._%+-]+@(?:[A-Z0-9a-z-]+\\.)+[A-Za-z]{2,64}$"
+        let emailPredicate = NSPredicate(format: "SELF MATCHES %@", emailFormat)
+        return emailPredicate.evaluate(with: email)
+    }
+    
+    static func isPasswordLongEnough(for password: String) ->Bool {
+        password.count >= 8
+    }
 }
 
 enum UIStrings: String {
@@ -81,6 +92,7 @@ enum UIStrings: String {
     case noCompletedTasks = "no_completed_tasks"
     case noResultsFound = "no_results_found"
     case password = "password"
+    case passwordConfirmation = "password_confirmation"
     case projects = "projects"
     case projectName = "project_name"
     case register = "register"

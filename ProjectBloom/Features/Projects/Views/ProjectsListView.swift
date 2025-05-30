@@ -64,8 +64,7 @@ struct ProjectsListView: View {
                                 Text(greeting) +
                                 Text(Punctuation.comma.localizedKey) +
                                 Text(Punctuation.space.localizedKey) +
-                                Text(Constants.getFirstName(from: authViewModel.userDetails?.userName ??
-                                                            authViewModel.user?.displayName))
+                                Text(Constants.getFirstName(from: authViewModel.userDetails?.userName ?? authViewModel.user?.displayName))
                             }
                             .font(.title3)
                             .listRowSeparator(.hidden)
