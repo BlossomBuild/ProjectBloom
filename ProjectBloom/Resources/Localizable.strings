@@ -48,3 +48,11 @@
 "space" = " ";
 "question_mark" = "?";
 
+// MARK: Registration Strings
+"valid_email" = "Valid Email";
+"password_length" = "Password at least 8 characters";
+"letter_requirement" = "Includes a letter";
+"number_requirement" = "Includes a number";
+"special_character_requirement" = "Includes a special character";
+"password_match" = "Passwords Match";
+

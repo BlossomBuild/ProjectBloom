@@ -26,6 +26,7 @@ struct Constants {
     static var magnifyingGlassIcon = "magnifyingglass"
     static var removeUserIcon = "minus.circle"
     static var google = "google"
+    static var bulletPointIcon = "circle.fill"
     
     //MARK: Constant Functions
     static func getGreeting() -> String {
@@ -147,6 +148,28 @@ extension GreetingStrings {
         NSLocalizedString(self.rawValue, comment: "")
     }
 }
+
+enum RegistrationRequirementsStrings: String {
+    case validEmail = "valid_email"
+    case passwordLength = "password_length"
+    case letterRequirement = "letter_requirement"
+    case numberRequirement = "number_requirement"
+    case specialCharacterRequirement = "special_character_requirement"
+    case passwordMatch = "password_match"
+}
+
+extension RegistrationRequirementsStrings {
+    var localizedKey: LocalizedStringKey {
+        LocalizedStringKey(self.rawValue)
+    }
+    
+    var string: String {
+        NSLocalizedString(self.rawValue, comment: "")
+    }
+}
+
+
+
 
 enum DefaultTaskStrings: String {
     case userHasNoTasksAssigned = "User has no tasks assigned"

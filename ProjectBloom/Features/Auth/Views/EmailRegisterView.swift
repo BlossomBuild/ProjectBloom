@@ -44,47 +44,50 @@ struct EmailRegisterView: View {
         containsSpecialCharacter
     }
     
+    var isAbleToRegister: Bool {
+        isPasswordStrong && isEmailValid && passwordsMatch
+    }
+    
+    
     var body: some View {
-        VStack (spacing: 16) {
+        VStack (spacing: 20) {
+            
             Spacer()
             
             TextField(UIStrings.email.localizedKey, text: $email)
                 .textInputAutocapitalization(.never)
+                .textContentType(.password)
                 .foregroundStyle(.white)
                 .padding()
                 .background(.thinMaterial)
                 .clipShape(.rect(cornerRadius: 10))
             
             SecureField(UIStrings.password.localizedKey, text: $password)
+                .textContentType(.password)
                 .foregroundStyle(.white)
                 .padding()
                 .background(.thinMaterial)
                 .clipShape(.rect(cornerRadius: 10))
             
             SecureField(UIStrings.passwordConfirmation.localizedKey, text: $passwordConfirmation)
+                .textContentType(.password)
                 .foregroundStyle(.white)
                 .padding()
                 .background(.thinMaterial)
                 .clipShape(.rect(cornerRadius: 10))
+                
             
             
             
-            VStack(alignment: .leading, spacing: 10) {
-                Text("• Valid email")
-                    .font(.subheadline.bold())
-                    .foregroundStyle(isEmailValid ? .bbWhite : .red)
-                Text("• Password At least 8 characters")
-                    .foregroundStyle(isPasswordLongEnough ? .bbWhite : .red)
-                Text("• Includes a letter")
-                    .foregroundStyle(containsLetter ? .bbWhite : .red)
-                Text("• Includes a number")
-                    .foregroundStyle(containsNumber ? .bbWhite : .red)
-                Text("• Includes a special character")
-                    .foregroundStyle(containsSpecialCharacter ? .bbWhite : .red)
-                Text("• Passwords Match")
-                    .foregroundStyle(passwordsMatch ? .bbWhite : .red)
+            VStack(alignment: .leading, spacing: 5) {
+                RegistrationRequirements(title: RegistrationRequirementsStrings.validEmail.localizedKey, criteria: isEmailValid)
+                RegistrationRequirements(title: RegistrationRequirementsStrings.passwordLength.localizedKey, criteria: isPasswordLongEnough)
+                RegistrationRequirements(title: RegistrationRequirementsStrings.letterRequirement.localizedKey, criteria: containsLetter)
+                RegistrationRequirements(title: RegistrationRequirementsStrings.numberRequirement.localizedKey, criteria: containsNumber)
+                RegistrationRequirements(title: RegistrationRequirementsStrings.specialCharacterRequirement.localizedKey, criteria: containsSpecialCharacter)
+                RegistrationRequirements(title: RegistrationRequirementsStrings.passwordMatch.localizedKey, criteria: passwordsMatch)
             }
-            
+        
             Spacer()
             
             Button {
@@ -95,13 +98,34 @@ struct EmailRegisterView: View {
                     .frame(maxWidth: .infinity)
                     .padding()
                     .foregroundStyle(.bbWhite)
-                    .background(email.isEmpty || password.isEmpty || !isEmailValid ? .gray : .bbGreen)
+                    .background(isAbleToRegister ? .bbGreen : .gray)
                     .clipShape(.rect(cornerRadius: 20))
-                    .disabled(email.isEmpty || password.isEmpty || isEmailValid)
+                    .disabled(!isAbleToRegister)
             }
         }
         .padding(30)
         .frame(maxWidth: .infinity, maxHeight: .infinity)
-        .background(Color(.bbGreenDark))
+        .background(Color(.black))
     }
 }
+
+
+struct RegistrationRequirements: View {
+    let title: LocalizedStringKey
+    var criteria: Bool
+    
+    var body: some View {
+        HStack {
+            Image(systemName: Constants.bulletPointIcon)
+                .resizable()
+                .frame(width: 6, height: 6)
+            
+            Text(title)
+        }
+        .font(.subheadline)
+        .bold()
+        .foregroundStyle(.bbWhite)
+        .strikethrough(criteria, color: .bbWhite)
+    }
+}
+
