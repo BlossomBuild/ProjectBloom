@@ -27,6 +27,8 @@ struct Constants {
     static var removeUserIcon = "minus.circle"
     static var google = "google"
     static var bulletPointIcon = "circle.fill"
+    static var showPasswordIcon = "eye.fill"
+    static var hidePasswordIcon = "eye.slash.fill"
     
     //MARK: Constant Functions
     static func getGreeting() -> String {
@@ -89,6 +91,7 @@ enum UIStrings: String {
     case genericErrorMessage = "generic_error_message"
     case irreversibleAction = "irreversible_action"
     case login = "login"
+    case name = "name"
     case noActiveProjects = "no_active_projects"
     case noCompletedTasks = "no_completed_tasks"
     case noResultsFound = "no_results_found"
@@ -150,6 +153,7 @@ extension GreetingStrings {
 }
 
 enum RegistrationRequirementsStrings: String {
+    case validName = "valid_name"
     case validEmail = "valid_email"
     case passwordLength = "password_length"
     case letterRequirement = "letter_requirement"

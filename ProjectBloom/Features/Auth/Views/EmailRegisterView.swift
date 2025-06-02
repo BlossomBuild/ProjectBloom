@@ -8,11 +8,18 @@
 import SwiftUI
 
 struct EmailRegisterView: View {
+    @State private var name = ""
     @State private var email = ""
     @State private var password = ""
     @State private var passwordConfirmation = ""
+    @State private var isPasswordVisible : Bool = false
+    @State private var isConfirmPasswordVisible : Bool = false
     @State private var errorMessage : String?
     
+    
+    var isNameEmpty : Bool {
+        name.isEmpty
+    }
     var isEmailValid: Bool {
         Constants.isValidEmail(for: email)
     }
@@ -45,7 +52,7 @@ struct EmailRegisterView: View {
     }
     
     var isAbleToRegister: Bool {
-        isPasswordStrong && isEmailValid && passwordsMatch
+        isPasswordStrong && isEmailValid && passwordsMatch && !isNameEmpty
     }
     
     
@@ -53,6 +60,13 @@ struct EmailRegisterView: View {
         VStack (spacing: 20) {
             
             Spacer()
+            
+            TextField(UIStrings.name.localizedKey, text: $name)
+                .textContentType(.password)
+                .foregroundStyle(.white)
+                .padding()
+                .background(.thinMaterial)
+                .clipShape(.rect(cornerRadius: 10))
             
             TextField(UIStrings.email.localizedKey, text: $email)
                 .textInputAutocapitalization(.never)
@@ -62,24 +76,13 @@ struct EmailRegisterView: View {
                 .background(.thinMaterial)
                 .clipShape(.rect(cornerRadius: 10))
             
-            SecureField(UIStrings.password.localizedKey, text: $password)
-                .textContentType(.password)
-                .foregroundStyle(.white)
-                .padding()
-                .background(.thinMaterial)
-                .clipShape(.rect(cornerRadius: 10))
-            
-            SecureField(UIStrings.passwordConfirmation.localizedKey, text: $passwordConfirmation)
-                .textContentType(.password)
-                .foregroundStyle(.white)
-                .padding()
-                .background(.thinMaterial)
-                .clipShape(.rect(cornerRadius: 10))
-                
+            SecureInputField(text: $password, isVisible: $isPasswordVisible, placeholder: UIStrings.password.localizedKey)
             
             
+            SecureInputField(text: $passwordConfirmation, isVisible: $isConfirmPasswordVisible, placeholder: UIStrings.passwordConfirmation.localizedKey)
             
             VStack(alignment: .leading, spacing: 5) {
+                RegistrationRequirements(title: RegistrationRequirementsStrings.validName.localizedKey, criteria: !isNameEmpty)
                 RegistrationRequirements(title: RegistrationRequirementsStrings.validEmail.localizedKey, criteria: isEmailValid)
                 RegistrationRequirements(title: RegistrationRequirementsStrings.passwordLength.localizedKey, criteria: isPasswordLongEnough)
                 RegistrationRequirements(title: RegistrationRequirementsStrings.letterRequirement.localizedKey, criteria: containsLetter)
@@ -126,6 +129,42 @@ struct RegistrationRequirements: View {
         .bold()
         .foregroundStyle(.bbWhite)
         .strikethrough(criteria, color: .bbWhite)
+    }
+}
+
+struct SecureInputField: View {
+    @Binding var text: String
+    @Binding var isVisible: Bool
+    var placeholder: LocalizedStringKey
+
+
+    var body: some View {
+        ZStack {
+            if isVisible {
+                TextField(placeholder, text: $text)
+                    .textContentType(.password)
+                    .foregroundStyle(.white)
+            } else {
+                SecureField(placeholder, text: $text)
+                    .textContentType(.password)
+                    .foregroundStyle(.white)
+            }
+        }
+        .padding()
+        .background(.thinMaterial)
+        .clipShape(.rect(cornerRadius: 10))
+        .overlay {
+            HStack {
+                Spacer()
+                Button {
+                    isVisible.toggle()
+                } label: {
+                    Image(systemName: isVisible ? Constants.hidePasswordIcon : Constants.showPasswordIcon)
+                        .foregroundStyle(.gray)
+                }
+                .padding(.trailing, 12)
+            }
+        }
     }
 }
 

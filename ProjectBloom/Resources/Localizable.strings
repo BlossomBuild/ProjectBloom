@@ -17,6 +17,7 @@
 "generic_error_message" = "Something went wrong please try again";
 "irreversible_action" = "This action can't be undone";
 "login" = "Login";
+"name" = "Name";
 "no_active_projects" = "No Active Projects";
 "no_completed_tasks" = "No Completed Tasks";
 "no_results_found" = "No Results Found";
@@ -49,6 +50,7 @@
 "question_mark" = "?";
 
 // MARK: Registration Strings
+"valid_name" = "Name Entered";
 "valid_email" = "Valid Email";
 "password_length" = "Password at least 8 characters";
 "letter_requirement" = "Includes a letter";
