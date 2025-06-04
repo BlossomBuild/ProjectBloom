@@ -8,6 +8,7 @@
 import SwiftUI
 
 struct EmailRegisterView: View {
+    @Environment(AuthViewModel.self) var authViewModel
     @State private var name = ""
     @State private var email = ""
     @State private var password = ""
@@ -94,7 +95,9 @@ struct EmailRegisterView: View {
             Spacer()
             
             Button {
-                
+                Task {
+                    authViewModel.registerUser(email: email, password: password, userName: name)
+                }
             } label: {
                 Text( UIStrings.register.localizedKey)
                     .font(.headline)

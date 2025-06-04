@@ -75,7 +75,6 @@ class AuthViewModel {
         }
     }
     
-   
     // MARK: Signout
     func signOut() {
         do {
@@ -130,5 +129,27 @@ class AuthViewModel {
         }
         
         isLoading = false
+    }
+    
+    // Email/Password Flow
+    func registerUser(email: String, password: String, userName: String) {
+        isLoading = true
+        errorMessage = nil
+        
+        Task { [weak self] in
+            guard let self = self else {return}
+         
+            do {
+                let result = try await AuthManager.shared.createEmailAccount(email: email, password: password, userName: userName)
+                self.user = result.user
+                self.authState = .signedIn
+                self.loadUserDetails(userID: result.user.uid)
+                
+            } catch {
+                self.errorMessage = error.localizedDescription
+            }
+        }
+        
+        self.isLoading = false
     }
 }

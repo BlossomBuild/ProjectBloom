@@ -97,7 +97,6 @@ class AuthManager {
             print("Firebase Auth Error: link(with:) failed, \(error)")
             throw error
         }
-        
     }
     
     
@@ -172,7 +171,7 @@ class AuthManager {
         }
     }
     
-    // MARK: -Save User to Firestore
+    // MARK: - Save User to Firestore
     private func saveUserToFireStore(user: User, shouldUpdate: Bool = false) async throws {
         let userRef = database
             .collection(FirebasePaths.userDetails.rawValue)
@@ -198,6 +197,23 @@ class AuthManager {
         } catch {
             print("Error saving user to Firestore: \(error)")
             throw error
+        }
+    }
+    
+    // MARK: - Email Registeration
+    func createEmailAccount(email: String, password: String, userName: String) async throws -> AuthDataResult {
+        return try await withCheckedThrowingContinuation { continuation in
+            auth.createUser(withEmail: email, password: password){ result, error in
+                if let error = error {
+                    print("Registration failed: \(error.localizedDescription)")
+                    continuation.resume(throwing: error)
+                }
+                
+                if let result = result {
+                    print("Registration Sucess")
+                    continuation.resume(returning: result)
+                }
+            }
         }
     }
     
