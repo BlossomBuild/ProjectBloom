@@ -106,8 +106,9 @@ struct EmailRegisterView: View {
                     .foregroundStyle(.bbWhite)
                     .background(isAbleToRegister ? .bbGreen : .gray)
                     .clipShape(.rect(cornerRadius: 20))
-                    .disabled(!isAbleToRegister)
             }
+            .disabled(!isAbleToRegister)
+
         }
         .padding(30)
         .frame(maxWidth: .infinity, maxHeight: .infinity)
