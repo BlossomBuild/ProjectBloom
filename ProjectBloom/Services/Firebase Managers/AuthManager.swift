@@ -110,14 +110,15 @@ class AuthManager {
         }
     }
     
-    private func updateDisplayName(for user: User) async {
+    
+    private func updateDisplayName(for user: User, userName: String? = nil) async {
         
         if let currentDisplayName = user.displayName, !currentDisplayName.isEmpty,
            currentDisplayName.starts(with: "Guest-") == false{
             return // The user already has a name, so no need to override.
         }
         
-        let displayName = user.providerData.first?.displayName
+        let displayName = user.providerData.first?.displayName ?? userName
         let changeRequest = user.createProfileChangeRequest()
         changeRequest.displayName = displayName
         
@@ -211,7 +212,17 @@ class AuthManager {
                 
                 if let result = result {
                     print("Registration Sucess")
-                    continuation.resume(returning: result)
+                    
+                    Task {
+                        await self.updateDisplayName(for: result.user, userName: userName)
+                        
+                        do {
+                            try await self.saveUserToFireStore(user: result.user)
+                            continuation.resume(returning: result)
+                        } catch {
+                            continuation.resume(throwing: error)
+                        }
+                    }
                 }
             }
         }

@@ -148,8 +148,9 @@ class AuthViewModel {
             } catch {
                 self.errorMessage = error.localizedDescription
             }
+            self.isLoading = false
         }
         
-        self.isLoading = false
+    
     }
 }

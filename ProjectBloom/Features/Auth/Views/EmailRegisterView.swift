@@ -112,6 +112,17 @@ struct EmailRegisterView: View {
         .padding(30)
         .frame(maxWidth: .infinity, maxHeight: .infinity)
         .background(Color(.black))
+        .overlay {
+            if authViewModel.isLoading {
+                ZStack {
+                    Color.black.opacity(0.4).ignoresSafeArea()
+                    ProgressView()
+                        .progressViewStyle(CircularProgressViewStyle())
+                        .tint(.white)
+                        .scaleEffect(1.5)
+                }
+            }
+        }
     }
 }
 
