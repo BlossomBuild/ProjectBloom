@@ -131,7 +131,7 @@ class AuthViewModel {
         isLoading = false
     }
     
-    // Email/Password Flow
+    // MARK: Email/Password Flow
     func registerUser(email: String, password: String, userName: String) {
         isLoading = true
         errorMessage = nil
@@ -150,7 +150,5 @@ class AuthViewModel {
             }
             self.isLoading = false
         }
-        
-    
     }
 }

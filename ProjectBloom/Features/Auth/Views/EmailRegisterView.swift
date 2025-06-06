@@ -94,6 +94,13 @@ struct EmailRegisterView: View {
         
             Spacer()
             
+            
+            if let errorMessage = authViewModel.errorMessage {
+                Text(errorMessage)
+                    .foregroundStyle(.red)
+            }
+        
+            
             Button {
                 Task {
                     authViewModel.registerUser(email: email, password: password, userName: name)
