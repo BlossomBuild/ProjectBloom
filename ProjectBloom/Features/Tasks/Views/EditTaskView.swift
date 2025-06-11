@@ -67,6 +67,18 @@ struct EditTaskView: View {
             Spacer()
             
             HStack {
+                if canEditTask && projectTask.isActiveTask {
+                    Button {
+                        unassignTask()
+                        dismiss()
+                    } label: {
+                        Image(systemName: Constants.unassignTask)
+                            .foregroundStyle(.red)
+                            .font(.system(size: 35))
+                    }
+                }
+                
+                
                 Spacer()
                 
                 if canEditTask {
@@ -124,6 +136,15 @@ struct EditTaskView: View {
             try await DatabaseManager.shared.completeTask(
                 projectId: project.id.description,
                 projectTask: updatedProjectTask
+            )
+        }
+    }
+    
+    func unassignTask() {
+        Task {
+            try await DatabaseManager.shared.unassignTask(
+                projectId: project.id.description,
+                projectTask: projectTask
             )
         }
     }

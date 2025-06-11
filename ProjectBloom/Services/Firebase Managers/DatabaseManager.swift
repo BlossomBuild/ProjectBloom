@@ -157,6 +157,22 @@ class DatabaseManager {
         }
     }
     
+    func unassignTask(projectId: String, projectTask: ProjectTask) async throws {
+        let taskRef = database.collection(FirebasePaths.projects.rawValue)
+            .document(projectId)
+            .collection(FirebasePaths.projectTasks.rawValue)
+            .document(projectTask.id.description)
+        
+        
+        var defaultTask = projectTask
+        
+        defaultTask.description = nil
+        defaultTask.isActiveTask = false
+        defaultTask.title = DefaultTaskStrings.defaultTaskTitle.rawValue
+        
+        try taskRef.setData(from: defaultTask)
+    }
+    
     func completeTask(projectId: String, projectTask: ProjectTask) async throws {
         
         if(projectTask.isCompleted != nil) {

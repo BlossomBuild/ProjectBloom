@@ -23,6 +23,7 @@ struct Constants {
     static var addUser = "person.badge.plus"
     static var magnifyingGlassIcon = "magnifyingglass"
     static var removeUserIcon = "minus.circle"
+    static var unassignTask = "xmark.circle.fill"
     
     //MARK: Constant Functions
     static func getGreeting() -> String {

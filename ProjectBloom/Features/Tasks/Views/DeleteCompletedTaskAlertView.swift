@@ -34,8 +34,10 @@ struct DeleteCompletedTaskAlertView: View {
     
     private func deleteCompletedTask() {
         Task {
-            try await DatabaseManager.shared.deleteCompletedTask(projectId: projectId,
-                                                                 projectTask: completedTaskToDelete)
+            try await DatabaseManager.shared.deleteCompletedTask(
+                projectId: projectId,
+                projectTask: completedTaskToDelete
+            )
         }
     }
 }
