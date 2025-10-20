@@ -15,6 +15,7 @@ struct LoginView: View {
         NavigationStack {
             VStack {
                 Spacer()
+                
                 Text("Project Bloom")
                     .foregroundStyle(.bbWhite)
                     .font(.poppinsFontBold)
@@ -46,7 +47,6 @@ struct LoginView: View {
                         }
                     }
                     .disabled(authViewModel.isLoading)
-
                 }
                 
                 Text(authViewModel.errorMessage ?? "")
