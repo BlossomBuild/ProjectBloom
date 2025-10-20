@@ -20,8 +20,6 @@ class GoogleSignInManager {
             do {
                 try await GIDSignIn.sharedInstance.restorePreviousSignIn()
                 return try await GIDSignIn.sharedInstance.currentUser?.refreshTokensIfNeeded()
-                
-                
             } catch {
                 return try await googleSignInFlow()
             }

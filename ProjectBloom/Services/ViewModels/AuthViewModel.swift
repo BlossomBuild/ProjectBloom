@@ -11,6 +11,7 @@ import GoogleSignIn
 
 @Observable
 class AuthViewModel {
+    
     enum AuthState{
         case anonymous
         case signedIn
@@ -107,14 +108,11 @@ class AuthViewModel {
     
     //MARK: Google Sign In
     func signInWithGoogle() async {
-        isLoading = true
         errorMessage = nil
         
         do {
-            
             guard let googleUser = try await GoogleSignInManager.shared.signInWithGoogle() else {
                      errorMessage = "Google sign-in failed"
-                     isLoading = false
                      return
                  }
             
@@ -128,7 +126,5 @@ class AuthViewModel {
             print("Google sign-in failed: \(error)")
             self.errorMessage = "Google sign-in failed"
         }
-        
-        isLoading = false
     }
 }

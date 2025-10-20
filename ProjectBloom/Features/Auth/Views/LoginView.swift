@@ -16,35 +16,29 @@ struct LoginView: View {
     
     var body: some View {
         NavigationStack {
-            VStack(spacing: 16) {                
+            VStack {
+                Spacer()
                 Text("Project Bloom")
                     .foregroundStyle(.bbWhite)
                     .font(.poppinsFontBold)
                     .padding()
                 
-                LoginButtonView(title: "Continue With Apple", iconName: "Apple Logo", isSystemImage: true) {
+                Spacer()
+                
+                LoginButtonView(title: "Continue With Apple", systemIcon: "apple.logo") {
                     
                 }
-                .disabled(authViewModel.isLoading)
                 
-                
-                
-                LoginButtonView(title: "Continue With Google", iconName: "google", isSystemImage: false) {
-                    
+                LoginButtonView(title: "Continue With Google", assetIcon: "google") {
                     Task {
-                        await authViewModel
-                            .signInWithGoogle()
-                        dismiss()
+                        await authViewModel.signInWithGoogle()
                     }
-                    
                 }
-                .disabled(authViewModel.isLoading)
                 
                 if authViewModel.authState == .signedOut {
                     LoginButtonView(
                         title: "Continue Anonymously",
-                        iconName: Constants.signedOutIcon,
-                        isSystemImage: true
+                        systemIcon: Constants.signedOutIcon
                     ) {
                         Task {
                             await authViewModel.signInAnonymously()
@@ -56,11 +50,6 @@ struct LoginView: View {
             .padding()
             .frame(maxWidth: .infinity, maxHeight: .infinity)
             .background(Color(.bbGreenDark))
-            .overlay {
-                if authViewModel.isLoading {
-                    ProgressView()
-                }
-            }
         }
     }
 }
@@ -69,9 +58,16 @@ import SwiftUI
 
 struct LoginButtonView: View {
     let title: String
-    let iconName: String
-    let isSystemImage: Bool
+    let systemIcon: String?
+    let assetIcon: String?
     let action: () -> Void
+    
+    init(title: String, systemIcon: String? = nil, assetIcon: String? = nil, action: @escaping () -> Void) {
+        self.title = title
+        self.systemIcon = systemIcon
+        self.assetIcon = assetIcon
+        self.action = action
+    }
     
     var body: some View {
         Button {
@@ -79,12 +75,14 @@ struct LoginButtonView: View {
         } label : {
             HStack {
                 Group {
-                    if isSystemImage {
-                        Image(systemName: iconName)
+                    if let systemIcon = systemIcon {
+                        Image(systemName: systemIcon)
                             .resizable()
                             .scaledToFit()
-                    } else {
-                        Image(iconName)
+                    }
+                    
+                    if let assetIcon = assetIcon {
+                        Image(assetIcon)
                             .resizable()
                             .scaledToFit()
                     }
@@ -96,12 +94,12 @@ struct LoginButtonView: View {
                     .padding(.leading, 8)
                 
                 Spacer()
+                
             }
-            .foregroundStyle(.white)
+            .foregroundStyle(.bbWhite)
             .padding()
             .background(.thinMaterial)
             .clipShape(.rect(cornerRadius: 10))
-            
         }
     }
 }
