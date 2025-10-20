@@ -13,15 +13,14 @@ import GoogleSignIn
 struct LoginView: View {
     @Environment(AuthViewModel.self) var authViewModel
     @Environment(\.dismiss) var dismiss
-    @State private var isSigningIn: Bool = false
     
     var body: some View {
         NavigationStack {
             VStack(spacing: 16) {
                 Spacer()
                 
-                Text(UIStrings.appName.localizedKey)
-                    .foregroundStyle(Color(.bbWhite))
+                Text("Project Bloom")
+                    .foregroundStyle(.bbWhite)
                     .font(.poppinsFontBold)
                     .padding()
                 
@@ -29,35 +28,29 @@ struct LoginView: View {
                 
                 
                 //MARK: GOOGLE SIGN IN
-                if isSigningIn {
-                    ProgressView()
-                        .progressViewStyle(CircularProgressViewStyle(tint: .white))
-                        .padding().background(Color(.bbGreenDark))
-                } else {
-                    
-                    GoogleSignInButton {
-                        Task {
-                            isSigningIn = true
-                            await authViewModel
-                                .signInWithGoogle()
-                            dismiss()
-                            isSigningIn = false
-                        }
+                
+                
+                GoogleSignInButton {
+                    Task {
+                        
+                        await authViewModel
+                            .signInWithGoogle()
+                        dismiss()
                         
                     }
-                    .frame(width: 280, height: 45, alignment: .center)
-                    .disabled(authViewModel.isLoading)
                     
                 }
+                .frame(width: 280, height: 45, alignment: .center)
+                .disabled(authViewModel.isLoading)
+                
+                
                 
                 // MARK: Anonymous
                 if(authViewModel.authState == .signedOut){
                     Button {
                         Task {
-                            isSigningIn = true
                             await authViewModel.signInAnonymously()
                             dismiss()
-                            isSigningIn = false
                         }
                     } label: {
                         Text(UIStrings.skip.localizedKey)
@@ -75,7 +68,53 @@ struct LoginView: View {
             .padding()
             .frame(maxWidth: .infinity, maxHeight: .infinity)
             .background(Color(.bbGreenDark))
+            .overlay {
+                if authViewModel.isLoading {
+                    ProgressView()
+                }
+            }
+        }
+    }
+}
+
+import SwiftUI
+
+struct LoginButtonView: View {
+    let title: String
+    let iconName: String
+    let isSystemImage: Bool
+    let action: () -> Void
+    
+    var body: some View {
+        Button {
+            action()
+        } label : {
+            HStack {
+                Group {
+                    if isSystemImage {
+                        Image(systemName: iconName)
+                            .resizable()
+                            .scaledToFit()
+                    } else {
+                        Image(iconName)
+                            .resizable()
+                            .scaledToFit()
+                    }
+                }
+                .frame(width: 20, height: 20)
+                
+                Text(title)
+                    .font(.headline)
+                    .padding(.leading, 8)
+                
+                Spacer()
+            }
+            .foregroundStyle(.white)
+            .padding()
+            .background(.thinMaterial)
+            .clipShape(.rect(cornerRadius: 10))
             
         }
     }
 }
+
