@@ -16,54 +16,42 @@ struct LoginView: View {
     
     var body: some View {
         NavigationStack {
-            VStack(spacing: 16) {
-                Spacer()
-                
+            VStack(spacing: 16) {                
                 Text("Project Bloom")
                     .foregroundStyle(.bbWhite)
                     .font(.poppinsFontBold)
                     .padding()
                 
-                Spacer()
-                
-                
-                //MARK: GOOGLE SIGN IN
-                
-                
-                GoogleSignInButton {
-                    Task {
-                        
-                        await authViewModel
-                            .signInWithGoogle()
-                        dismiss()
-                        
-                    }
+                LoginButtonView(title: "Continue With Apple", iconName: "Apple Logo", isSystemImage: true) {
                     
                 }
-                .frame(width: 280, height: 45, alignment: .center)
                 .disabled(authViewModel.isLoading)
                 
                 
                 
-                // MARK: Anonymous
-                if(authViewModel.authState == .signedOut){
-                    Button {
+                LoginButtonView(title: "Continue With Google", iconName: "google", isSystemImage: false) {
+                    
+                    Task {
+                        await authViewModel
+                            .signInWithGoogle()
+                        dismiss()
+                    }
+                    
+                }
+                .disabled(authViewModel.isLoading)
+                
+                if authViewModel.authState == .signedOut {
+                    LoginButtonView(
+                        title: "Continue Anonymously",
+                        iconName: Constants.signedOutIcon,
+                        isSystemImage: true
+                    ) {
                         Task {
                             await authViewModel.signInAnonymously()
                             dismiss()
                         }
-                    } label: {
-                        Text(UIStrings.skip.localizedKey)
-                            .font(.body.bold())
-                            .frame(width: 280, height: 45, alignment: .center)
-                            .foregroundStyle(.bbWhite)
-                            .font(.poppinsFontRegular)
                     }
-                    .disabled(authViewModel.isLoading)
                 }
-                
-                
-                
             }
             .padding()
             .frame(maxWidth: .infinity, maxHeight: .infinity)
