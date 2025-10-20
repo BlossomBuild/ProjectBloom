@@ -6,9 +6,6 @@
 //
 
 import SwiftUI
-import AuthenticationServices
-import GoogleSignInSwift
-import GoogleSignIn
 
 struct LoginView: View {
     @Environment(AuthViewModel.self) var authViewModel
@@ -28,12 +25,15 @@ struct LoginView: View {
                 LoginButtonView(title: "Continue With Apple", systemIcon: "apple.logo") {
                     
                 }
+                .disabled(authViewModel.isLoading)
                 
                 LoginButtonView(title: "Continue With Google", assetIcon: "google") {
                     Task {
                         await authViewModel.signInWithGoogle()
                     }
                 }
+                .disabled(authViewModel.isLoading)
+
                 
                 if authViewModel.authState == .signedOut {
                     LoginButtonView(
@@ -45,11 +45,22 @@ struct LoginView: View {
                             dismiss()
                         }
                     }
+                    .disabled(authViewModel.isLoading)
+
                 }
+                
+                Text(authViewModel.errorMessage ?? "")
+                    .padding()
+                
             }
             .padding()
             .frame(maxWidth: .infinity, maxHeight: .infinity)
             .background(Color(.bbGreenDark))
+            .overlay {
+                if authViewModel.isLoading {
+                    ProgressView()
+                }
+            }
         }
     }
 }

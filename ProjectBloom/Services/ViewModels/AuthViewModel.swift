@@ -109,22 +109,25 @@ class AuthViewModel {
     //MARK: Google Sign In
     func signInWithGoogle() async {
         errorMessage = nil
-        
+        isLoading = true
         do {
             guard let googleUser = try await GoogleSignInManager.shared.signInWithGoogle() else {
-                     errorMessage = "Google sign-in failed"
-                     return
-                 }
+                errorMessage = "Error, please try again"
+                isLoading = false
+                return
+            }
             
             let result = try await AuthManager.shared.signInWithGoogle(user: googleUser)
             
             self.user = result.user
             self.authState = .signedIn
+            isLoading = false
             print("Signed in with Google as: \(result.user.uid)")
             
         } catch {
+            isLoading = false
+            self.errorMessage = error.localizedDescription
             print("Google sign-in failed: \(error)")
-            self.errorMessage = "Google sign-in failed"
         }
     }
 }
