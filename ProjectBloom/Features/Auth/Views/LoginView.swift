@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct LoginView: View {
-    @Environment(AuthManager.self) var authViewModel
+    @Environment(AuthManager.self) var authManager
     @Environment(\.dismiss) var dismiss
     
     var body: some View {
@@ -29,40 +29,40 @@ struct LoginView: View {
                 ) {
                     
                 }
-                .disabled(authViewModel.isLoading)
+                .disabled(authManager.isLoading)
                 
                 LoginButtonView(
                     title: "Continue With Google",
                     assetIcon: "google"
                 ) {
                     Task {
-                        await authViewModel.signInWithGoogle()
+                        await authManager.signInWithGoogle()
                     }
                 }
-                .disabled(authViewModel.isLoading)
+                .disabled(authManager.isLoading)
 
                 
-                if authViewModel.authState == .signedOut {
+                if authManager.authState == .signedOut {
                     LoginButtonView(
                         title: "Continue Anonymously",
                         systemIcon: "person.crop.circle.badge.questionmark"
                     ) {
                         Task {
-                            await authViewModel.signInAnonymously()
+                            await authManager.signInAnonymously()
                             dismiss()
                         }
                     }
-                    .disabled(authViewModel.isLoading)
+                    .disabled(authManager.isLoading)
                 }
                 
-                Text(authViewModel.errorMessage ?? "")
+                Text(authManager.errorMessage ?? "")
                     .frame(height: 50)
             }
             .padding()
             .frame(maxWidth: .infinity, maxHeight: .infinity)
             .background(Color(.bbGreen))
             .overlay {
-                if authViewModel.isLoading {
+                if authManager.isLoading {
                     ProgressView()
                 }
             }
