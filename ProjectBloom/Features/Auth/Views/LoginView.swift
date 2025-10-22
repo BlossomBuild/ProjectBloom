@@ -37,10 +37,8 @@ struct LoginView: View {
 
                 
                 if authViewModel.authState == .signedOut {
-                    LoginButtonView(
-                        title: "Continue Anonymously",
-                        systemIcon: Constants.signedOutIcon
-                    ) {
+                    LoginButtonView(title: "Continue Anonymously",
+                                    systemIcon: "person.crop.circle.badge.questionmark") {
                         Task {
                             await authViewModel.signInAnonymously()
                             dismiss()
@@ -51,7 +49,6 @@ struct LoginView: View {
                 
                 Text(authViewModel.errorMessage ?? "")
                     .padding()
-                
             }
             .padding()
             .frame(maxWidth: .infinity, maxHeight: .infinity)
