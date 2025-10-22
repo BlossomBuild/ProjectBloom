@@ -31,7 +31,7 @@ struct ProjectBloomApp: App {
         
         let appearance = UINavigationBarAppearance()
         appearance.configureWithOpaqueBackground()
-        appearance.backgroundColor = UIColor.bbGreenDark
+        appearance.backgroundColor = UIColor.bbGreen
         appearance.largeTitleTextAttributes = [.foregroundColor: UIColor.bbWhite]
         appearance.titleTextAttributes = [.foregroundColor: UIColor.bbWhite]
         

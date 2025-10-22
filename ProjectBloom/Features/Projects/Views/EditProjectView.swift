@@ -45,7 +45,7 @@ struct EditProjectView: View {
                 
             } label: {
                 Text(updateProject ? UIStrings.rename.localizedKey : UIStrings.create.localizedKey)
-                    .ghostButton(borderColor: projectName.isEmpty ? .gray : .bbGreenDark)
+                    .ghostButton(borderColor: projectName.isEmpty ? .gray : .bbGreen)
             }
             .disabled(projectName.isEmpty || isLoading)
             

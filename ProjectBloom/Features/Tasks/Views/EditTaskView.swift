@@ -55,7 +55,7 @@ struct EditTaskView: View {
             CharacterCounterView(currentCount: taskName.count, maxLimit: 40)
             
             Rectangle()
-                .foregroundStyle(.bbGreenDark)
+                .foregroundStyle(.bbGreen)
                 .frame(height: 2)
             
             TextField(projectTask.description
@@ -90,7 +90,7 @@ struct EditTaskView: View {
                     } label: {
                         Image(systemName: projectTask.isActiveTask || (projectTask.isCompleted != nil) ? Constants.pencilIcon : Constants.arrowUpIcon)
                             .font(.system(size: 35))
-                            .foregroundStyle(taskName.isEmpty ? .gray : .bbGreenDark)
+                            .foregroundStyle(taskName.isEmpty ? .gray : .bbGreen)
                     }
                 }
                 
@@ -101,7 +101,7 @@ struct EditTaskView: View {
                     } label: {
                         Image(systemName: Constants.checkMarkIcon)
                             .font(.system(size: 35))
-                            .foregroundStyle(taskName.isEmpty ? .gray : .bbGreenDark)
+                            .foregroundStyle(taskName.isEmpty ? .gray : .bbGreen)
                         
                     }
                 }

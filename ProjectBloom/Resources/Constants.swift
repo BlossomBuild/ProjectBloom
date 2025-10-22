@@ -144,7 +144,7 @@ extension Text {
     func ghostButton(borderColor: Color) -> some View {
         self
             .frame(width: 100, height: 50)
-            .foregroundStyle(.buttonText)
+            .foregroundStyle(.bbWhite)
             .bold()
             .background(alignment: .center) {
                 RoundedRectangle(cornerRadius: 20, style: .continuous)

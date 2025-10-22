@@ -48,11 +48,11 @@ struct LoginView: View {
                 }
                 
                 Text(authViewModel.errorMessage ?? "")
-                    .padding()
+                    .frame(height: 50)
             }
             .padding()
             .frame(maxWidth: .infinity, maxHeight: .infinity)
-            .background(Color(.bbGreenDark))
+            .background(Color(.bbGreen))
             .overlay {
                 if authViewModel.isLoading {
                     ProgressView()
