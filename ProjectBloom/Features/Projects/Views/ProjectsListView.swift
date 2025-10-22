@@ -9,7 +9,7 @@ import SwiftUI
 
 struct ProjectsListView: View {
     @Environment(DatabaseViewModel.self) var databaseViewModel
-    @Environment(AuthViewModel.self) var authViewModel
+    @Environment(AuthManager.self) var authViewModel
     
     @State private var greeting: String = Constants.getGreeting()
     @State private var showDeleteAlert: Bool = false

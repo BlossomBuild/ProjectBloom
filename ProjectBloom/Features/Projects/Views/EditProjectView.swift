@@ -10,7 +10,7 @@ import SwiftUI
 struct EditProjectView: View {
     @State private var projectName = ""
     @State private var isLoading = false
-    @Environment(AuthViewModel.self) var authViewModel
+    @Environment(AuthManager.self) var authViewModel
     @Environment(\.dismiss) var dismiss
     var updateProject: Bool
     var project: Project?

@@ -9,7 +9,7 @@ import SwiftUI
 
 struct EditTaskView: View {
     @Environment(\.dismiss) var dismiss
-    @Environment(AuthViewModel.self) var authViewModel
+    @Environment(AuthManager.self) var authViewModel
     
     
     var project: Project

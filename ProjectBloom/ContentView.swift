@@ -9,7 +9,7 @@ import SwiftUI
 import FirebaseAuth
 
 struct ContentView: View {
-    @Environment(AuthViewModel.self) var authViewModel
+    @Environment(AuthManager.self) var authViewModel
     @Environment(DatabaseViewModel.self) var databaseViewModel
     
     var body: some View {

@@ -1,5 +1,5 @@
 //
-//  AuthViewModel.swift
+//  AuthManager.swift
 //  ProjectBloom
 //
 //  Created by Carlos Valentin on 2/19/25.
@@ -10,7 +10,7 @@ import FirebaseAuth
 import GoogleSignIn
 
 @Observable
-class AuthViewModel {
+class AuthManager {
     
     enum AuthState{
         case anonymous

@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct AccountView: View {
-    @Environment(AuthViewModel.self) var authViewModel
+    @Environment(AuthManager.self) var authViewModel
     @Environment(\.dismiss) var dismiss
     @State private var isSigningOut: Bool = false
     

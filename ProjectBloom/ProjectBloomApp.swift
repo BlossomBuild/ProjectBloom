@@ -21,12 +21,12 @@ class AppDelegate: NSObject, UIApplicationDelegate {
 @main
 struct ProjectBloomApp: App {
     @UIApplicationDelegateAdaptor(AppDelegate.self) var delegate
-    @State var authViewModel: AuthViewModel
+    @State var authManger: AuthManager
     @State var databaseViewModel: DatabaseViewModel
     
     init() {
         FirebaseApp.configure()
-        self.authViewModel = AuthViewModel()
+        self.authManger = AuthManager()
         self.databaseViewModel = DatabaseViewModel()
         
         let appearance = UINavigationBarAppearance()
@@ -43,7 +43,7 @@ struct ProjectBloomApp: App {
     var body: some Scene {
         WindowGroup {
             ContentView()
-                .environment(authViewModel)
+                .environment(authManger)
                 .environment(databaseViewModel)
                 .preferredColorScheme(.dark)
         }

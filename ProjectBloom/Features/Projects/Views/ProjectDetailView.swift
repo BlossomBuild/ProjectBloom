@@ -10,7 +10,7 @@ import SwiftUI
 struct ProjectDetailView: View {
     
     @Environment(DatabaseViewModel.self) var databaseViewModel
-    @Environment(AuthViewModel.self) var authViewModel
+    @Environment(AuthManager.self) var authViewModel
     @State private var showUserSearchScreen = false
     
     var project: Project
