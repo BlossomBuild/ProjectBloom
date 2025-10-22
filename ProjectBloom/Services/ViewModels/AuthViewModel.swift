@@ -69,7 +69,7 @@ class AuthViewModel {
         Task { [weak self] in
             guard let self = self else { return }
             do {
-                self.userDetails  = try await AuthManager.shared.fetchUserDetails(userID: userID)
+                self.userDetails  = try await AuthService.shared.fetchUserDetails(userID: userID)
             } catch {
                 print("Failed to fetch user details: \(error)")
             }
@@ -80,7 +80,7 @@ class AuthViewModel {
     // MARK: Signout
     func signOut() {
         do {
-            try AuthManager.shared.signOut()
+            try AuthService.shared.signOut()
             self.user = nil
             self.authState = .signedOut
         } catch {
@@ -95,7 +95,7 @@ class AuthViewModel {
         isLoading = true
         errorMessage = nil
         do {
-            let result = try await AuthManager.shared.signInAnonymously()
+            let result = try await AuthService.shared.signInAnonymously()
             self.user = result.user
             self.authState = .anonymous
             print("Signed in anonymously as: \(result.user.uid)")
@@ -116,7 +116,7 @@ class AuthViewModel {
                 return
             }
             
-            let result = try await AuthManager.shared.signInWithGoogle(user: googleUser)
+            let result = try await AuthService.shared.signInWithGoogle(user: googleUser)
             
             user = result.user
             authState = .signedIn

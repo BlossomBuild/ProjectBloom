@@ -11,11 +11,11 @@ import FirebaseCore
 import GoogleSignIn
 import FirebaseFirestore
 
-class AuthManager {
-    static let shared = AuthManager()
+class AuthService {
+    static let shared = AuthService()
     
     private let auth = Auth.auth()
-    let database = Firestore.firestore()
+    private let database = Firestore.firestore()
     
     private let authLinkErrors: [AuthErrorCode] = [
         .emailAlreadyInUse,
