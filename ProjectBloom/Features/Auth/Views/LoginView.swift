@@ -23,12 +23,18 @@ struct LoginView: View {
                 
                 Spacer()
                 
-                LoginButtonView(title: "Continue With Apple", systemIcon: "apple.logo") {
+                LoginButtonView(
+                    title: "Continue With Apple",
+                    systemIcon: "apple.logo"
+                ) {
                     
                 }
                 .disabled(authViewModel.isLoading)
                 
-                LoginButtonView(title: "Continue With Google", assetIcon: "google") {
+                LoginButtonView(
+                    title: "Continue With Google",
+                    assetIcon: "google"
+                ) {
                     Task {
                         await authViewModel.signInWithGoogle()
                     }
@@ -37,8 +43,10 @@ struct LoginView: View {
 
                 
                 if authViewModel.authState == .signedOut {
-                    LoginButtonView(title: "Continue Anonymously",
-                                    systemIcon: "person.crop.circle.badge.questionmark") {
+                    LoginButtonView(
+                        title: "Continue Anonymously",
+                        systemIcon: "person.crop.circle.badge.questionmark"
+                    ) {
                         Task {
                             await authViewModel.signInAnonymously()
                             dismiss()
