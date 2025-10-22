@@ -84,8 +84,7 @@ class AuthManager {
             self.user = nil
             self.authState = .signedOut
         } catch {
-            print("Error signing out: \(error)")
-            self.errorMessage = "Failed to sign out"
+            self.errorMessage = error.localizedDescription
         }
     }
     

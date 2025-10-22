@@ -203,12 +203,11 @@ class AuthService {
     
     // MARK: - Sign out
     func signOut() throws {
-        
         if let user = auth.currentUser {
             do {
                 signOUtFromProviders(user)
                 try auth.signOut()
-                print("User signed out")
+                print("User signed out successfully")
             } catch {
                 print("Error signing out: \(error)")
                 throw error
