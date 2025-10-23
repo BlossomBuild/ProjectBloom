@@ -8,39 +8,47 @@
 import SwiftUI
 
 struct AccountView: View {
-    @Environment(AuthManager.self) var authViewModel
+    @Environment(AuthManager.self) var authManger
     @Environment(\.dismiss) var dismiss
-    @State private var isSigningOut: Bool = false
-    
     
     var body: some View {
         VStack {
+            switch authManger.authState {
+            case .signedIn:
+                AccountDetailView()
+            case .signedOut:
+                ProgressView()
+            case .anonymous:
+                LoginView()
+            }
+        }
+    }
+}
+
+private struct AccountDetailView: View {
+    @Environment(AuthManager.self) var authManger
+
+    var body: some View {
+        VStack {
             Spacer()
-            
-            if isSigningOut {
-                ProgressView(UIStrings.signingOut.localizedKey)
-                    .progressViewStyle(CircularProgressViewStyle())
-                    .padding()
-                
-                
-            } else {
-                Text(authViewModel.user?.displayName ?? UIStrings.userName.string)
-                    .font(.title2)
-                
-                Text(authViewModel.user?.email ?? UIStrings.userEmail.string)
+            if let displayName = authManger.user?.displayName {
+                Text(displayName)
                     .font(.title2)
             }
-
+            
+            if let email = authManger.user?.email {
+                Text(email)
+                    .font(.title2)
+            }
             Spacer()
+            
             Button {
                 Task {
-                    isSigningOut = true
-                    authViewModel.signOut()
-                    dismiss()
+                    authManger.signOut()
                 }
             } label: {
                 Text(UIStrings.signOut.localizedKey)
-                    .ghostButton(borderColor: .red)
+                    .defaultButton()
             }
         }
     }

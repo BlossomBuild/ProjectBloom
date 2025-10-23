@@ -203,19 +203,19 @@ class AuthService {
     
     // MARK: - Sign out
     func signOut() throws {
-        if let user = auth.currentUser {
-            do {
-                signOUtFromProviders(user)
-                try auth.signOut()
-                print("User signed out successfully")
-            } catch {
-                print("Error signing out: \(error)")
-                throw error
-            }
+        guard let user = auth.currentUser else { return }
+        
+        do {
+            signOutFromProviders(user)
+            try auth.signOut()
+            print("User signed out successfully")
+        } catch {
+            print("Error signing out: \(error)")
+            throw error
         }
     }
     
-    private func signOUtFromProviders( _ user: User) {
+    private func signOutFromProviders(_ user: User) {
         let providers = user.providerData.map { $0.providerID }.joined(separator: ", ")
         
         if providers.contains("google.com") {

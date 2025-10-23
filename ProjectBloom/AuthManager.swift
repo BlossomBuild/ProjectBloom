@@ -11,7 +11,6 @@ import GoogleSignIn
 
 @Observable
 class AuthManager {
-    
     enum AuthState{
         case anonymous
         case signedIn
@@ -76,18 +75,17 @@ class AuthManager {
         }
     }
     
-   
     // MARK: Signout
     func signOut() {
         do {
             try AuthService.shared.signOut()
-            self.user = nil
-            self.authState = .signedOut
+            user = nil
+            userDetails = nil
+            authState = .signedOut
         } catch {
             self.errorMessage = error.localizedDescription
         }
     }
-    
     
     // MARK: Anon Sign In
     func signInAnonymously() async {

@@ -6,20 +6,21 @@
 //
 
 import SwiftUI
-import FirebaseAuth
 
 struct ContentView: View {
-    @Environment(AuthManager.self) var authViewModel
-    @Environment(DatabaseViewModel.self) var databaseViewModel
+    @Environment(AuthManager.self) var authManager
     
     var body: some View {
-        VStack {
-            if authViewModel.authState != .signedOut {
-                HomeView()
-           
-            } else {
+        NavigationStack() {
+            switch authManager.authState {
+            
+            case.signedOut:
                 LoginView()
+                
+            default:
+                AuthenticatedHomeView()
             }
         }
+        .tint(.bbWhite)
     }
 }

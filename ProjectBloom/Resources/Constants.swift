@@ -141,15 +141,14 @@ enum FirebasePaths: String {
 }
 
 extension Text {
-    func ghostButton(borderColor: Color) -> some View {
+    func defaultButton() -> some View {
         self
-            .frame(width: 100, height: 50)
+            .font(.headline)
+            .frame(maxWidth: .infinity, maxHeight: 50)
+            .background(.thinMaterial)
             .foregroundStyle(.bbWhite)
-            .bold()
-            .background(alignment: .center) {
-                RoundedRectangle(cornerRadius: 20, style: .continuous)
-                    .stroke(borderColor,lineWidth: 5)
-            }
+            .clipShape(.rect(cornerRadius: 10))
+            .padding()
     }
 }
 

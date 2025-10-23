@@ -8,9 +8,14 @@
 import SwiftUI
 
 struct AuthenticatedHomeView: View {
-    let isAnonymous: Bool
     @State private var showAccountScreen = false
     @State private var showCreateProjectScreen = false
+    
+    @Environment(AuthManager.self) var authManger
+
+    var isAnonymous: Bool {
+        authManger.user?.isAnonymous ?? true
+    }
     
     var body: some View {
         ProjectsListView()
@@ -24,7 +29,6 @@ struct AuthenticatedHomeView: View {
                     }
                 }
                 
-                
                 ToolbarItem(placement: .topBarTrailing) {
                     Button {
                         showCreateProjectScreen.toggle()
@@ -33,19 +37,9 @@ struct AuthenticatedHomeView: View {
                             .tint(.bbWhite)
                     }
                 }
-                
             }
-        
             .sheet(isPresented: $showAccountScreen) {
-                Group {
-                    if isAnonymous {
-                        LoginView()
-                    } else {
-                        AccountView()
-                            .presentationDetents([.fraction(0.50)])
-                    }
-                }
-                
+                AccountView()
             }
             .sheet(isPresented: $showCreateProjectScreen) {
                 EditProjectView(updateProject: false)
