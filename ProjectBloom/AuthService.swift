@@ -31,14 +31,15 @@ class AuthService {
         
         do {
             let document = try await userRef.getDocument()
-            if let data = document.data() {
-                let userDetails = try Firestore.Decoder().decode(UserDetails.self, from: data)
-                print("Fetched user details: \(userDetails)")
-                return userDetails
-            } else {
-                print("No user details found for ID: \(userID)")
+            
+            guard let data = document.data() else {
                 return nil
             }
+            
+            let userDetails = try Firestore.Decoder().decode(UserDetails.self, from: data)
+            print("Fetched user details: \(userDetails)")
+            return userDetails
+            
         } catch {
             print("Error fetching user details: \(error)")
             throw error
