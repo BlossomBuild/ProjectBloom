@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-struct AuthenticatedHomeView: View {
+struct HomeView: View {
     @State private var showAccountScreen = false
     @State private var showCreateProjectScreen = false
     

@@ -18,7 +18,7 @@ struct ContentView: View {
                 LoginView()
                 
             default:
-                AuthenticatedHomeView()
+                HomeView()
             }
         }
         .tint(.bbWhite)
