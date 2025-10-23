@@ -120,12 +120,9 @@ class AuthManager {
             user = result.user
             authState = .signedIn
             isLoading = false
-            print("Signed in with Google as: \(result.user.uid)")
-            
         } catch {
             isLoading = false
             errorMessage = error.localizedDescription
-            print("Google sign-in failed: \(error)")
         }
         
         if errorMessage != nil {
