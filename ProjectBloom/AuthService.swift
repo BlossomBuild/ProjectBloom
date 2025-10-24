@@ -149,21 +149,17 @@ class AuthService {
         )
         
         do {
-            let result = try await authenticateUser(credentials: credential)
-            
-            print("Signed in with Google: \(result?.user.uid ?? "Unkown User")")
-            
-            if let user = result?.user {
-                try await saveUserToFireStore(user: user)
-            }
-            
-            guard let result = result else {
+            guard let result = try await authenticateUser(credentials: credential) else {
                 throw NSError(
                     domain: "AuthManager",
                     code: 1,
                     userInfo: [NSLocalizedDescriptionKey: "Failed to authenticate user"]
                 )
             }
+            
+            try await saveUserToFireStore(user: result.user)
+            
+            print("Signed in with Google: \(result.user.uid)")
             
             return result
             
