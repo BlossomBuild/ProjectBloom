@@ -9,8 +9,7 @@ import SwiftUI
 
 struct EditTaskView: View {
     @Environment(\.dismiss) var dismiss
-    @Environment(AuthManager.self) var authViewModel
-    
+    @Environment(AuthManager.self) var authManager
     
     var project: Project
     var projectTask: ProjectTask
@@ -20,14 +19,14 @@ struct EditTaskView: View {
     var canEditTask: Bool {
         !projectTask.isActiveTask || Constants.isProjectLeader(
             leaderID: project.projectLeaderID,
-            currentUserID: authViewModel.userDetails?.id ?? ""
+            currentUserID: authManager.userDetails?.id ?? ""
         )
     }
     
     var canCompleteTask: Bool {
         projectTask.isActiveTask && Constants.taskOwner(
             taskOwnerID: projectTask.assignedToID,
-            currentUserID: authViewModel.userDetails?.id ?? ""
+            currentUserID: authManager.userDetails?.id ?? ""
         )
     }
     
@@ -43,10 +42,8 @@ struct EditTaskView: View {
     var body: some View {
         VStack {
             TextField(projectTask.title, text: $taskName, axis: .vertical)
-                .textFieldStyle(PlainTextFieldStyle())
-                .padding(10)
-                .frame(minHeight: 30)
-                .onChange(of: taskName) { oldValue, newValue in
+                .padding()
+                .onChange(of: taskName) { _, newValue in
                     if newValue.count > 40 {
                         taskName = String(newValue.prefix(40))
                     }
@@ -61,9 +58,8 @@ struct EditTaskView: View {
             TextField(projectTask.description
                       ?? UIStrings.descriptionOptional.string,
                       text: $taskDescription , axis: .vertical)
-            .textFieldStyle(PlainTextFieldStyle())
             .padding()
-            .frame(minHeight: 50)
+            
             Spacer()
             
             HStack {
@@ -113,7 +109,6 @@ struct EditTaskView: View {
     
     func assignTask () {
         Task {
-            //TODO: Add a catch block for feedback if the operation fails
             try await DatabaseManager.shared.assignTask(
                 projectId: project.id.description,
                 projectTask: projectTask,
@@ -149,3 +144,5 @@ struct EditTaskView: View {
         }
     }
 }
+
+

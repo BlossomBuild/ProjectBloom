@@ -8,9 +8,8 @@
 import SwiftUI
 
 struct UserTasksView: View {
-    @Environment(AuthManager.self) var authViewModel
+    @Environment(AuthManager.self) var authManager
     
-    @State private var showEditTaskSheet: Bool = false
     @State private var showRemoveUserAlert: Bool = false
     @State private var taskToEdit: ProjectTask?
     @State private var userToRemove: UserDetails?
@@ -23,10 +22,10 @@ struct UserTasksView: View {
     var shouldShowRemoveIcon: Bool {
         let isLeader = Constants.isProjectLeader(
             leaderID: project.projectLeaderID,
-            currentUserID: authViewModel.userDetails?.id ?? ""
+            currentUserID: authManager.userDetails?.id ?? ""
         )
         
-        let isNotViewingSelf = userDetails.id != authViewModel.userDetails?.id
+        let isNotViewingSelf = userDetails.id != authManager.userDetails?.id
         
         return isLeader && isNotViewingSelf
     }
@@ -50,7 +49,6 @@ struct UserTasksView: View {
                 
                 List(projectTasks){ projectTask in
                     Button {
-                        showEditTaskSheet.toggle()
                         taskToEdit = projectTask
                     } label: {
                         Text(projectTask.title)
@@ -60,8 +58,7 @@ struct UserTasksView: View {
                 .clipShape(.rect(cornerRadius: 10))
                 .sheet(item: $taskToEdit) { task in
                     EditTaskView(project: project, projectTask: task)
-                        .presentationDetents([.fraction(0.30)])
-                    
+                        .presentationDetents([.fraction(0.50)])
                 }
                 
                 if let userDetails = userToRemove {
