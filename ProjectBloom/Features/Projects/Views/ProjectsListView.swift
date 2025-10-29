@@ -121,6 +121,7 @@ struct ProjectsListView: View {
                 }
             }
         }
+        
         .task {
             guard let user = authViewModel.user else {
                 return

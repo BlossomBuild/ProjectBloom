@@ -17,16 +17,6 @@ struct ProjectBloomApp: App {
         FirebaseApp.configure()
         self.authManger = AuthManager()
         self.databaseViewModel = DatabaseViewModel()
-        
-        let appearance = UINavigationBarAppearance()
-        appearance.configureWithOpaqueBackground()
-        appearance.backgroundColor = UIColor.bbGreen
-        appearance.largeTitleTextAttributes = [.foregroundColor: UIColor.bbWhite]
-        appearance.titleTextAttributes = [.foregroundColor: UIColor.bbWhite]
-        
-        UINavigationBar.appearance().scrollEdgeAppearance = appearance
-        UINavigationBar.appearance().standardAppearance = appearance
-        UINavigationBar.appearance().compactAppearance = appearance
     }
     
     var body: some Scene {
@@ -34,7 +24,6 @@ struct ProjectBloomApp: App {
             ContentView()
                 .environment(authManger)
                 .environment(databaseViewModel)
-                .preferredColorScheme(.dark)
         }
     }
 }

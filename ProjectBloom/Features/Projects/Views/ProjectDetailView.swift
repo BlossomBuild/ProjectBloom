@@ -62,6 +62,8 @@ struct ProjectDetailView: View {
         }
         .navigationTitle(project.name)
         .navigationBarTitleDisplayMode(.inline)
+        .toolbarBackground(.bbGreen, for: .navigationBar)
+        .toolbarBackground(.visible, for: .navigationBar)
         .sheet(isPresented: $showUserSearchScreen, content: {
             UserSearchScreen(currenProject: project)
         })

@@ -46,5 +46,7 @@ struct HomeView: View {
                     .presentationDetents([.fraction(0.25)])
             }
             .navigationTitle(UIStrings.projects.localizedKey)
+            .toolbarBackground(.bbGreen, for: .navigationBar)
+            .toolbarBackground(.visible, for: .navigationBar)
     }
 }
